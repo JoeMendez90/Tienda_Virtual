@@ -6,6 +6,8 @@ usuarios perfil
          comentarios
       usuario, multiplat? lim?
       
+      que pasa si tengo alguien logueado y compro 
+      
 lista of conecciones actuales
 
     carro del mismo id pasa a ese
@@ -21,7 +23,7 @@ carro id
                       imagen
    
    
- Carros compra id?
+ Carros compra id random code funcion copiado al portapapeles
  
         cantidad productos
         productos     cantidad  precio parcial
@@ -37,4 +39,10 @@ carro opiniones
     comentario con el id del producto
 
 carro fav igual
+
+
+
+
+
+
 
