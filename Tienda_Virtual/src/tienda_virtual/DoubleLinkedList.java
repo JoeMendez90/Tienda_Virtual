@@ -25,7 +25,7 @@ public class DoubleLinkedList<T>{
         node2.next = null;
         node2.prev = tail;
         if (IsEmpty()){
-            this.tail = node2:
+            this.tail = node2;
             this.head = tail;
         } else {
             this.tail.next = node2;
@@ -84,7 +84,7 @@ public class DoubleLinkedList<T>{
             this.head = null;
             this.tail = this.head;
         } else if (head.key == key){
-            head = kead.next;
+            head = head.next;
         } else {
             DoubleNode anterior = head;
             DoubleNode p = head.next;

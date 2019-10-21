@@ -9,7 +9,7 @@ public class DoubleNode<T> {
     public DoubleNode(T key){
         this.key = key;
         next = null;
-        prev = null:
+        prev = null;
     }
     public DoubleNode(T key, DoubleNode next, DoubleNode prev){
         this.key = key;

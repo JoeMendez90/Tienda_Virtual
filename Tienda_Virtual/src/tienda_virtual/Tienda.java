@@ -58,7 +58,7 @@ public class Tienda{
         for (int i = 0; i < prod.getSize() ; i++){
             System.out.println(Integer.toString(i) + "\t\t"+ prod.get(i).getNombre() + "\t\t"+String.valueOf(prod.get(i).getValor()));
         }
-        System.out.print("¿Quiere añadir algo al carrito? (s/n)")
+        System.out.print("¿Quiere añadir algo al carrito? (s/n)");
         String resp = s.next();
         if (resp.equalsIgnoreCase("s")) addCarrito();
         if (resp.equalsIgnoreCase("n")) System.out.println("Buscar otro producto -- 1 \t Ir al menú principal -- 2");
@@ -84,13 +84,13 @@ public class Tienda{
         for (int i = 0; i<resultados.getSize();i++){
             System.out.println(Integer.toString(i)+"\t\t"+resultados.get(i).getNombre()+"\t\t"+String.valueOf(resultados.get(i).getValor()));
         }
-        System.out.print("¿Quiere añadir algo al carrito? (s/n)")
+        System.out.print("¿Quiere añadir algo al carrito? (s/n)");
         String resp = s.next();
         if (resp.equalsIgnoreCase("s")) addCarrito();
         if (resp.equalsIgnoreCase("n")) System.out.println("Buscar otro producto -- 1 \t Ir al menú principal -- 2");
         int n = s.nextInt();
         if (n==1) buscarProducto();
-        if (n==2) maiMenu();
+        if (n==2) mainMenu();
     }
     public void buscarValor(){
         System.out.println("¿Que buscas?");
@@ -109,13 +109,13 @@ public class Tienda{
         for (int i = 0; i<resultados.getSize();i++){
             System.out.println(Integer.toString(i)+"\t\t"+resultados.get(i).getNombre()+"\t\t"+String.valueOf(resultados.get(i).getValor()));
         }
-        System.out.print("¿Quiere añadir algo al carrito? (s/n)")
+        System.out.print("¿Quiere añadir algo al carrito? (s/n)");
         String resp = s.next();
         if (resp.equalsIgnoreCase("s")) addCarrito();
         if (resp.equalsIgnoreCase("n")) System.out.println("Buscar otro producto -- 1 \t Ir al menú principal -- 2");
         int n = s.nextInt();
         if (n==1) buscarProducto();
-        if (n==2) maiMenu();
+        if (n==2) mainMenu();
     }
     public void addCarrito(){
         System.out.print("Ingrese el nombre del producto a añadir");
