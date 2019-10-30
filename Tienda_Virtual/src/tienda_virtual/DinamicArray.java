@@ -1,22 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package tienda_virtual;
 
-public class PDinamicArray {
-    int size;
+import java.lang.reflect.Array;
+
+/**
+ *
+ * @author fanat
+ * @param <T>
+ */
+public class DinamicArray<T>  {
+     int size;
     int cap;
-    Producto[] arr;
+    T[] arr;
     
     
-    public PDinamicArray(){
+    public DinamicArray(Class<T[]> Ts,T a){
         cap = 3;
-        arr = new Producto[cap];
+        arr = Ts.cast(Array.newInstance(Ts.getComponentType(), cap));  
+        
         size = 0;
     }
-    public void add(Producto o){
+    public void add(T o){
         if(size < cap){
             arr[size] = o;
             size++;
         } else if (size >= cap && cap <= 100000){
-            Producto[] arr2 = new Producto[cap];
+           
+            T[] arr2 = arr;  
+            //arr2 = arr.getClass().cast(Array.newInstance(this.arr.getClass().getComponentType(), cap));
             for (int i = 0; i< cap; i++){
                 arr2[i] = arr[i];
            }
@@ -53,7 +68,4 @@ public class PDinamicArray {
             arr[i] = null;
         }
     }
-    
-    
-    
 }

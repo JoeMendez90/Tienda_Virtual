@@ -1,7 +1,5 @@
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.*;
+package tienda_virtual;
+
 import java.util.*;
 
 public class Tienda{

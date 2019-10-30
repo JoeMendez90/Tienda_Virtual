@@ -1,20 +1,21 @@
+package tienda_virtual;
+
 public class Stack<T> {
-    T key;
-    DoubleLinkedList<T> listBase = new DoubleLinkedList<>();
+    public int length;
+    public SinglyLinkedList<T> listBase = new SinglyLinkedList<>();
     
     public void Push(T key){
-        listBase.PushBack(key);
+        listBase.PushFront(key);
+        length++;
     }
     public void Pop(){
-        listBase.PopBack();
+        listBase.popFront();
+        length--;
     }
     public boolean isEmpty(){
-        return listBase.IsEmpty();
+        return listBase.isEmpty();
     }
-    public T Peek(){
-        return listBase.getBack();
-    }
-    public void DisplayStack(){
-        listBase.DisplayList();
+    public Node<T> Peek(){
+        return listBase.TopFront();
     }
 }

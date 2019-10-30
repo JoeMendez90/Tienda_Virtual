@@ -1,3 +1,5 @@
+package tienda_virtual;
+
 import java.io.*;
 import javax.swing.JOptionPane;
 public class Archivo {
