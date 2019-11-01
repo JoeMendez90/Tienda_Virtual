@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -39,4 +40,21 @@ public class Node<T> {
     }
     
     
+}
+=======
+public class Node<T> {
+    T key;
+    Node next;
+    
+    public Node(){    
+    
+    }
+    public Node(T key){
+        this.key = key;
+        next = null;
+    }
+    public Node(T key, Node next){
+        this.key = key;
+        this.next = next;
+    }
 }
