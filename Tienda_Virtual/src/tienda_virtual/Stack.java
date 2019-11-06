@@ -18,4 +18,8 @@ public class Stack<T> {
     public Node<T> Peek(){
         return listBase.TopFront();
     }
+    
+    public void DisplayStack(){
+        listBase.DisplayList();
+    }
 }

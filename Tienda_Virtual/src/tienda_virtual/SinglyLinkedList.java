@@ -10,12 +10,12 @@ package tienda_virtual;
  * @author fanat
  */
 public class SinglyLinkedList<T> {
-    private Node<T> head=null;
-    private Node<T> tail=null;
+    public  Node<T> head=null;
+    public  Node<T> tail=null;
     
     public void PushFront(T key){
         Node<T> node = new Node<>(key);
-        node.setNext(head);
+        node.next=head;
         head=node;
         if(tail == null){
             tail = head;
@@ -36,7 +36,7 @@ public class SinglyLinkedList<T> {
             return;
         }
         
-        head=head.getNext();
+        head=head.next;
         if(head==null){
             tail=null;
         }
@@ -44,11 +44,11 @@ public class SinglyLinkedList<T> {
     
     public void pushBack(T key){
         Node<T> node = new Node<>(key);
-        node.setNext(null);
+        node.next =null;
         if(tail==null){
             head=tail=node;
         }else{
-            tail.setNext(node);
+            tail.next =(node);
             tail=node;
         }
     }
@@ -70,10 +70,10 @@ public class SinglyLinkedList<T> {
             head=tail=null;
         }else{
             Node<T> p = head;
-            while(p.getNext().getNext()!= null){
-                p=p.getNext();
+            while(p.next.next != null){
+                p=p.next;
             }
-            p.setNext(null);
+            p.next=(null);
             tail=p;
         }
     }
@@ -86,7 +86,7 @@ public class SinglyLinkedList<T> {
         Node<T> p=head;
         
         while(p!=null){
-            if(p.getKey()==key){
+            if(p.key.equals(key)){
                 return true;
             }
         }
@@ -100,22 +100,22 @@ public class SinglyLinkedList<T> {
             return;
         }
         
-        if(head.getKey()==key){
-            head=head.getNext();
+        if(head.key.equals(key)){
+            head=head.next;
         }
         
         Node<T> p=head;
         
-        while(p.getNext()!=tail&&p.getNext().getKey()!=key){
-            p=p.getNext();
+        while(p.next!=tail&&p.next.key!=key){
+            p=p.next;
         }
         
-        if(p.getNext().getKey()==key){
-            if(p.getNext()==tail){
+        if(p.next.key==key){
+            if(p.next==tail){
                 tail=p;
-                p.setNext(null);
+                p.next = (null);
             }else{
-                p.setNext(p.getNext().getNext());
+                p.next = (p.next.next);
             }
         }
         
@@ -129,8 +129,8 @@ public class SinglyLinkedList<T> {
     
     public void addAfter(Node<T> node, T key){
         Node<T> node2 = new Node<>(key);
-        node2.setNext(node.getNext());
-        node.setNext(node2);
+        node2.next = (node.next);
+        node.next = (node2);
         if(tail==node){
            tail=node2;
         }
@@ -138,15 +138,15 @@ public class SinglyLinkedList<T> {
     
     public void addBefore(Node<T> node, T key){
         Node<T> node2 = new Node<>(key);
-        node2.setNext(node);
+        node2.next = (node);
         if(head==node){
             head=node2;
         }
         
         Node<T> p =head;
         
-        while(p.getNext()!=tail && p.getNext()!=node){
-            p=p.getNext();
+        while(p.next!=tail && p.next!=node){
+            p=p.next;
         }
        
         
@@ -158,5 +158,25 @@ public class SinglyLinkedList<T> {
 
     public Node<T> getTail() {
         return tail;
+    }
+    
+    public void DisplayList(){
+        if (isEmpty()){
+            System.out.println("      ,,,,,,,,,,,,,,,,,");
+            System.out.println("     / Oye!!!         |");
+            System.out.println("(\\_/)\\Aqui no hay nada|");
+            System.out.println("(^w^) '''''''''''''''''");
+            System.out.println("(W W)3");
+            return;
+        }
+        Node<T> a = head;
+        while (a != null){
+            if (a.next != null){
+                System.out.print(a.key + " --> ");
+            } else{
+                System.out.println(a.key);
+            }
+            a = a.next;
+        }
     }
 }
