@@ -5,21 +5,15 @@
  */
 package tienda_virtual;
 
-/**
- *
- * @author fanat
- */
-public class Node<T> {
-    public T key;
-    public Node<T> next;
+public class Generica<T> {
+    public T object;
 
-    public Node(T key, Node<T> next) {
-        this.key = key;
-        this.next = next;
+    public Generica() {
     }
 
-    public Node(T key) {
-        this.key = key;
+    public Generica(T object) {
+        this.object = object;
     }
+    
     
 }
