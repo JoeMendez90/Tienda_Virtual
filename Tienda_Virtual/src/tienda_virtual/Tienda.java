@@ -133,7 +133,7 @@ public class Tienda{
         
         Stack<Producto> replica = user.carrito;
         while(!replica.isEmpty()){
-            System.out.println(replica.Peek().getNombre()+"\t"+String.valueOf(replica.Peek().getValor()) );
+            System.out.println(replica.Peek().key.getNombre()+"\t"+String.valueOf(replica.Peek().key.getValor()) );
             replica.Pop();
         }
         user.carrito.DisplayStack();
