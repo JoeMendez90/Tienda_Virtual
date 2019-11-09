@@ -1,48 +1,84 @@
-
-public class UDinamicArray {
-    int size;
-    int cap;
-    Usuario[] arr;
+public class UDinamicArray{ 
+    int tam = 0;
+    int cap = 2;
+    int i = 0;
+    Usuario[] arr = new Usuario[cap];
     
-    
-    public UDinamicArray(){
-        cap = 3;
-        arr = new Usuario[cap];
-        size = 0;
-    }
-    public void add(Usuario o){
-        if(size < cap){
-            arr[size] = o;
-            size++;
-        } else if (size == cap && cap <= 100000){
-            Usuario[] arr2 = new Usuario[cap];
-            for (int i = 0; i< cap; i++){
-                arr2[i] = arr[i];
-           }
-            cap *= 2;
-            arr = new Usuario[cap];
-            for (int i = 0; i<size;i++){
-                arr[i] = arr2[i];
+    public void addBack(Usuario a){
+        if (tam >= cap){
+            Usuario[] aux = new Usuario[cap];
+            for (int j = 0; j<cap;j++){
+                aux[j] = arr[j];
             }
-        } else if (size == cap && cap >= 10000){
-            Usuario[] arr2 = new Usuario[cap];
-            for (int i = 0; i< cap; i++){
-                arr2[i] = arr[i];
-           }
-            cap += 30;
+            if (cap <10000000) cap *= 2;
+            if (cap >= 10000000) cap+=10000000;
             arr = new Usuario[cap];
-            for (int i = 0; i<size;i++){
-                arr[i] = arr2[i];
+            for (int j = 0; j<tam; j++){
+                arr[j] = aux[j];
             }
         }
+        arr[i] = a;
+        tam++;
+        i++;
     }
-    public int getSize(){
-        return this.size;
+    public void addFront(Usuario a){
+        tam++;
+        if (tam >= cap){
+            Usuario[] aux = new Usuario[cap];
+            for (int j = 0; j<cap;j++){
+                aux[j] = arr[j];
+            }
+            if (cap <10000000) cap *= 2;
+            if (cap >= 10000000) cap+=10000000;
+            arr = new Usuario[cap];
+            for (int j = 0; j<tam;j++){
+                arr[j] = aux[j];
+            }
+        }
+        for (int j = tam-1; j >= 0; j--){
+            arr[j+1] = arr[j];
+        }
+        arr[0] = a;
+        i++;
     }
-    public Usuario get(int i){
-        return arr[i];
+    public Usuario get(int index){
+        return arr[index];
+    }
+    public int size(){
+        return tam;
     }
     public boolean isEmpty(){
-        return size == 0;
+        return tam==0;
     }
+    public void delete(int index){
+        if (isEmpty()){
+            return;
+        } else {
+            Usuario[] respaldo = new Usuario[cap];
+            int j = 0;
+            while (j < tam){
+                if (j==index) break;
+                respaldo[j] = arr[j];
+                j++;
+            }
+            j++;
+            while (j<tam){
+                respaldo[j] = arr[j];
+                j++;
+            }
+            arr = respaldo;
+            for (int k = index+1; k<tam;k++){
+                arr[k-1] = arr[k];
+            }
+            tam--;
+            i--;
+        }
+    }
+    public void imprime(){
+        for(int j = 0; j<tam;j++){
+            System.out.print(arr[j].username +" ");
+        }
+        System.out.println();
+    }
+    
 }

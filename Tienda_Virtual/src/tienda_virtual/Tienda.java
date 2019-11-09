@@ -8,6 +8,7 @@ public class Tienda{
     PDinamicArray prod;
     Archivo m;
     Usuario user;
+    StringDinamicArray codeDirectory = new StringDinamicArray();
     Scanner s;
     
     public Tienda(){
@@ -41,7 +42,7 @@ public class Tienda{
         prod = new PDinamicArray();
         for (int i = 0; i<n; i++){
             Producto ucto = new Producto(Integer.toString(i), i*100);
-            prod.add(ucto);
+            prod.addBack(ucto);
         }
     }
     public void buscarProducto(){
@@ -55,7 +56,7 @@ public class Tienda{
     }
     public void verTodos(){
         System.out.println("Index   |   Name    |   Value   ");
-        for (int i = 0; i < prod.getSize() ; i++){
+        for (int i = 0; i < prod.size() ; i++){
             System.out.println(Integer.toString(i) + "\t\t"+ prod.get(i).getNombre() + "\t\t"+String.valueOf(prod.get(i).getValor()));
         }
         System.out.print("¿Quiere añadir algo al carrito? (s/n)");
@@ -71,17 +72,17 @@ public class Tienda{
         String str = s.next();
         int count = 0;
         PDinamicArray resultados = new PDinamicArray();
-        for (int i = 0; i <prod.getSize(); i++){
+        for (int i = 0; i <prod.size(); i++){
             String n = prod.get(i).getNombre();
             int res = n.indexOf(str);
             if (res != -1){
-                resultados.add(prod.get(i));
+                resultados.addFront(prod.get(i));
                 count++;
             }
         }
         System.out.println("Se encontraron "+Integer.toString(count)+" resultados de búsqueda");
         System.out.println("Index   |   Name    |   Value   ");
-        for (int i = 0; i<resultados.getSize();i++){
+        for (int i = 0; i<resultados.size();i++){
             System.out.println(Integer.toString(i)+"\t\t"+resultados.get(i).getNombre()+"\t\t"+String.valueOf(resultados.get(i).getValor()));
         }
         System.out.print("¿Quiere añadir algo al carrito? (s/n)");
@@ -97,16 +98,16 @@ public class Tienda{
         double lukas = s.nextDouble();
         int count = 0;
         PDinamicArray resultados = new PDinamicArray();
-        for (int i = 0; i < prod.getSize(); i++){
+        for (int i = 0; i < prod.size(); i++){
             double cost = prod.get(i).getValor();
             if (lukas == cost){
-                resultados.add(prod.get(i));
+                resultados.addBack(prod.get(i));
                 count++;
             }
         }
         System.out.println("Se encontraron "+Integer.toString(count)+" resultados de búsqueda");
         System.out.println("Index   |   Name    |   Value   ");
-        for (int i = 0; i<resultados.getSize();i++){
+        for (int i = 0; i<resultados.size();i++){
             System.out.println(Integer.toString(i)+"\t\t"+resultados.get(i).getNombre()+"\t\t"+String.valueOf(resultados.get(i).getValor()));
         }
         System.out.print("¿Quiere añadir algo al carrito? (s/n)");
@@ -117,10 +118,12 @@ public class Tienda{
         if (n==1) buscarProducto();
         if (n==2) mainMenu();
     }
+    
     public void addCarrito(){
+        /*
         System.out.print("Ingrese el nombre del producto a añadir");
         String p = s.next();
-        for (int i = 0; i<prod.getSize();i++){
+        for (int i = 0; i<prod.size();i++){
             if (p.equalsIgnoreCase(prod.get(i).getNombre())){
                 user.aCarrito(prod.get(i));
             }
@@ -130,9 +133,10 @@ public class Tienda{
         if (n==1) miCarrito();
         if (n==2) buscarProducto();
         if (n==3) mainMenu();
+        */
     }
     public void miCarrito(){
-        
+        /*
         Stack<Producto> replica = user.carrito;
         while(!replica.isEmpty()){
             System.out.println(replica.Peek().getNombre()+"\t"+String.valueOf(replica.Peek().getValor()) );
@@ -143,6 +147,7 @@ public class Tienda{
         int n = s.nextInt();
         if (n==1) buscarProducto();
         if (n==2) mainMenu();
+        */
     }
     public void mainMenu(){
         System.out.println("Buscar Producto -- 1");
@@ -152,6 +157,45 @@ public class Tienda{
         if (n==1) buscarProducto();
         if (n==2) miCarrito();
         if (n==0) System.exit(0);
+    }
+    public String makeKey(){
+        char[] e = new char[10];
+        for (int i = 0; i<10;i++){
+            e[i] = (char)((int)(Math.random()*156 + 1));
+        }
+        String t = new String(e);
+        return t;
+    }
+    public void vender(String n, double value){
+        Producto objeto = new Producto(n, value);
+        String k = makeKey();
+        while (codeDirectory.exist(k)){
+            k = makeKey();
+        }
+        objeto.setId(k);
+        prod.addBack(objeto);
+        codeDirectory.addBack(k);
+        user.productos.enQueue(objeto);
+    }
+    public Carrito sintetizar(String codigo, String carname){
+        int n = (int)(codigo.length()/5);
+        String[] separar = new String[n];
+        int x = 5;
+        Carrito car = new Carrito(carname);
+        for (int i = 0; i<n ;i++){
+            separar[i] = codigo.substring(i*5, (i+1)*5);
+        }
+        int c = 0;
+        for(int i = 0; i<n; i++){
+            for (int j = 0; j<prod.size();j++){
+                if(prod.get(j).getId().equals(separar[i])){
+                    car.agregar(prod.get(j));
+                    c++;
+                }
+            }
+        }
+        
+        return car;
     }
 }
                                                                                                                                            
