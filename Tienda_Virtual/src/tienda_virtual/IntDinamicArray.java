@@ -1,18 +1,18 @@
-public class PDinamicArray {
+public class IntDinamicArray {
     int tam = 0;
     int cap = 2;
     int i = 0;
-    Producto[] arr = new Producto[cap];
+    int[] arr = new int[cap];
     
-    public void addBack(Producto a){
+    public void addBack(int a){
         if (tam >= cap){
-            Producto[] aux = new Producto[cap];
+            int[] aux = new int[cap];
             for (int j = 0; j<cap;j++){
                 aux[j] = arr[j];
             }
             if (cap <10000000) cap *= 2;
             if (cap >= 10000000) cap+=10000000;
-            arr = new Producto[cap];
+            arr = new int[cap];
             for (int j = 0; j<tam; j++){
                 arr[j] = aux[j];
             }
@@ -21,16 +21,16 @@ public class PDinamicArray {
         tam++;
         i++;
     }
-    public void addFront(Producto a){
+    public void addFront(int a){
         tam++;
         if (tam >= cap){
-            Producto[] aux = new Producto[cap];
+            int[] aux = new int[cap];
             for (int j = 0; j<cap;j++){
                 aux[j] = arr[j];
             }
             if (cap <10000000) cap *= 2;
             if (cap >= 10000000) cap+=10000000;
-            arr = new Producto[cap];
+            arr = new int[cap];
             for (int j = 0; j<tam;j++){
                 arr[j] = aux[j];
             }
@@ -41,7 +41,7 @@ public class PDinamicArray {
         arr[0] = a;
         i++;
     }
-    public Producto get(int index){
+    public int get(int index){
         return arr[index];
     }
     public int size(){
@@ -51,32 +51,28 @@ public class PDinamicArray {
         return tam==0;
     }
     public void delete(int index){
-        if (isEmpty()){
-            return;
-        } else{
-            Producto[] respaldo = new Producto[cap];
-            int j = 0;
-            while (j < tam){
-                if (j==index) break;
-                respaldo[j] = arr[j];
-                j++;
-            }
+        int[] respaldo = new int[cap];
+        int j = 0;
+        while (j < tam){
+            if (j==index) break;
+            respaldo[j] = arr[j];
             j++;
-            while (j<tam){
-                respaldo[j] = arr[j];
-                j++;
-            }
-            arr = respaldo;
-            for (int k = index+1; k<tam;k++){
-                arr[k-1] = arr[k];
-            }
-            tam--;
-            i--;
         }
+        j++;
+        while (j<tam){
+            respaldo[j] = arr[j];
+            j++;
+        }
+        arr = respaldo;
+        for (int k = index+1; k<tam;k++){
+            arr[k-1] = arr[k];
+        }
+        tam--;
+        i--;
     }
     public void imprime(){
         for(int j = 0; j<tam;j++){
-            System.out.print(arr[j].getNombre() +" ");
+            System.out.print(arr[j]+" ");
         }
         System.out.println();
     }

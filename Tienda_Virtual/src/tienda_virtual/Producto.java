@@ -1,4 +1,5 @@
 public class Producto {
+    private String id;
     private String nombre;
     private String desc;
     private double valor;
@@ -13,6 +14,11 @@ public class Producto {
         this(nombre, valor);
         setDesc(desc);
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
@@ -26,6 +32,11 @@ public class Producto {
         this.seller = seller;
     }
     //Getters:
+
+    public String getId() {
+        return id;
+    }
+   
     public String getNombre(){
         return this.nombre;
     }

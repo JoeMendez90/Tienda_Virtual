@@ -3,16 +3,16 @@ public class Stack<T> {
     DoubleLinkedList<T> listBase = new DoubleLinkedList<>();
     
     public void Push(T key){
-        listBase.PushBack(key);
+        listBase.PushFront(key);
     }
     public void Pop(){
-        listBase.PopBack();
+        listBase.PopFront();
     }
     public boolean isEmpty(){
         return listBase.IsEmpty();
     }
     public T Peek(){
-        return listBase.getBack();
+        return listBase.getFront();
     }
     public void DisplayStack(){
         listBase.DisplayList();

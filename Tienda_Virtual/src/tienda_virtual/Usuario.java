@@ -3,20 +3,22 @@ public class Usuario {
     String password;
     String desc;
     Queue<Producto> productos;
-    Stack<Producto> carrito;
+    Carrito carrito;
+    LinkedList<Carrito> garage;
+    
     
     public Usuario(String username, String password){
         setUsername(username);
         setPassword(password);
         this.desc = "";
         productos = new Queue<Producto>();
-        carrito = new Stack<Producto>();
+        garage = new LinkedList<Carrito>();
     }
     public Usuario(String username, String password, String desc){
         this(username, password);
         setDesc(desc);
         productos = new Queue<Producto>();
-        carrito = new Stack<Producto>();
+        garage = new LinkedList<Carrito>();
     }
     // Setters y Getters
     public String getUsername() {
@@ -51,12 +53,13 @@ public class Usuario {
         p.setSeller(this.username);
         productos.enQueue(p);
     }
-    public void aCarrito(Producto p){
-        carrito.Push(p);
-    }
+    
     //Cambia la descripción de un producto en su lista
     public void cambiarDesc(Producto p){
         p.setDesc(desc);
     }
-    
+    public void nuevo_carrito(String name){
+        Carrito car = new Carrito(name);
+        garage.PushFront(car);
+    }
 }
