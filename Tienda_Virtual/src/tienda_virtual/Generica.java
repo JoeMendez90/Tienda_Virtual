@@ -5,17 +5,15 @@
  */
 package tienda_virtual;
 
-/**
- *
- * @author fanat
- */
-public class Tienda_Virtual {
+public class Generica<T> {
+    public T object;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public Generica() {
     }
+
+    public Generica(T object) {
+        this.object = object;
+    }
+    
     
 }

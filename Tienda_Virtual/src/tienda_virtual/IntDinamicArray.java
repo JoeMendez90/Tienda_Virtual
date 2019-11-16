@@ -1,3 +1,5 @@
+package tienda_virtual;
+
 public class IntDinamicArray {
     int tam = 0;
     int cap = 2;

@@ -1,3 +1,5 @@
+package tienda_virtual;
+
 public class PDinamicArray {
     int tam = 0;
     int cap = 2;
@@ -80,4 +82,7 @@ public class PDinamicArray {
         }
         System.out.println();
     }
+    
+    
+    
 }

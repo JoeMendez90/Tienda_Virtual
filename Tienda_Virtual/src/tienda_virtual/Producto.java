@@ -1,3 +1,5 @@
+package tienda_virtual;
+
 public class Producto {
     private String id;
     private String nombre;
@@ -6,13 +8,13 @@ public class Producto {
     private String seller;
     
     public Producto(String nombre, double valor){
-        setNombre(nombre);
-        setValor(valor);
+        this.nombre = nombre;
+        this.valor = valor;
         this.seller="";
     }
     public Producto(String nombre, double valor, String desc){
         this(nombre, valor);
-        setDesc(desc);
+        this.desc=desc;
     }
 
     public void setId(String id) {
@@ -49,5 +51,15 @@ public class Producto {
     public String getSeller(){
         return this.seller;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    
     
 }

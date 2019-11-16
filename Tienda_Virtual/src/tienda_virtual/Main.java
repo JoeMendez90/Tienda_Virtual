@@ -1,3 +1,5 @@
+package tienda_virtual;
+
 import java.util.Scanner;
 import javax.swing.JFrame;
 import java.io.*;

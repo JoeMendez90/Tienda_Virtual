@@ -1,8 +1,11 @@
-public class UDinamicArray{ 
-    int tam = 0;
-    int cap = 2;
-    int i = 0;
+package tienda_virtual;
+
+
+public class UDinamicArray {
+    int size;
+    int cap;
     Usuario[] arr = new Usuario[cap];
+
     
     public void addBack(Usuario a){
         if (tam >= cap){

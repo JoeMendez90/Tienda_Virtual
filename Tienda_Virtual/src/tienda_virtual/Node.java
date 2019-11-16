@@ -1,16 +1,17 @@
+package tienda_virtual;
+
 public class Node<T> {
-    T key;
-    Node next;
-    
-    public Node(){    
-    
-    }
-    public Node(T key){
-        this.key = key;
-        next = null;
-    }
-    public Node(T key, Node next){
+    public T key;
+    public Node<T> next;
+
+    public Node(T key, Node<T> next) {
         this.key = key;
         this.next = next;
     }
+
+    public Node(T key) {
+        this.key = key;
+    }
+    
 }
+

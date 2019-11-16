@@ -1,3 +1,5 @@
+package tienda_virtual;
+
 public class Queue<T> {
     T key;
     DoubleLinkedList<T> listBase = new DoubleLinkedList<>();
