@@ -6,11 +6,13 @@ public class Stack<T> {
     
     public void Push(T key){
         listBase.PushFront(key);
+
         length++;
     }
     public void Pop(){
         listBase.popFront();
         length--;
+
     }
     public boolean isEmpty(){
         return listBase.isEmpty();

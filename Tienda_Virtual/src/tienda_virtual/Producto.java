@@ -16,6 +16,11 @@ public class Producto {
         this(nombre, valor);
         this.desc=desc;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
@@ -29,6 +34,11 @@ public class Producto {
         this.seller = seller;
     }
     //Getters:
+
+    public String getId() {
+        return id;
+    }
+   
     public String getNombre(){
         return this.nombre;
     }
