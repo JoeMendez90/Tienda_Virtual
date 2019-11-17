@@ -1,5 +1,7 @@
 package tienda_virtual;
 
+import Tienda.Principal;
+import java.awt.EventQueue;
 import java.util.Scanner;
 import javax.swing.JFrame;
 import java.io.*;
@@ -7,19 +9,20 @@ import java.io.*;
 public class Main {
 
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-       // Tienda tienda = new Tienda();
-       Archivo ar = new Archivo();
-       System.out.println("holis");
-       String tex = ar.Copy("C:\\Diego\\Programación\\TiendaVirtual\\TiendaVirtual\\Tienda_Virtual\\Tienda_Virtual\\src\\tienda_virtual\\Prueba.txt");
-       System.out.println(tex);
-       System.out.println();
-       System.out.println(ar.Verificar(tex, "DIEGO", "BULLAHELLO"));
-       System.out.println(ar.Verificar(tex, "BULLAHELLO", "w w"));
-        
-        scan.close();
-        
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    int ex = 10000;
+                    Tienda tienda = new Tienda(ex);
+                    Principal frame = new Principal(tienda, ex);
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+
     
 }
  

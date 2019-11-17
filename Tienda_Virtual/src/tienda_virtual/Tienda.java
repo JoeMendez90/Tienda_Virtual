@@ -3,45 +3,24 @@ package tienda_virtual;
 import java.util.*;
 
 public class Tienda{
-    PDinamicArray prod;
-    Archivo m;
-    Usuario user;
-    StringDinamicArray codeDirectory = new StringDinamicArray();
-    Scanner s;
+    public String TiendName;
+    public DinamicArray<Producto> prod;
+    public DinamicArray<Usuario> users; 
+    public Usuario actualUser;
     
-    public Tienda(){
-        s = new Scanner(System.in);
-        m = new Archivo();
-        login();
-        genLista();
-        mainMenu();
-        s.close();
+    public Tienda(int ex){
+        TiendName = "ValhasTim";
+        prod = LectoUpdater.initProd(ex);
+        users = LectoUpdater.initUser(ex,prod);
+        actualUser = new Usuario();
     }
-    public void login(){
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Se iniciará sesión una vez creada su cuenta");
-        System.out.println("Crear Cuenta ---- 1");
-        int n = s.nextInt();
-        switch(n){
-            case 1:
-                System.out.print("Username: ");
-                String name = s.next();
-                System.out.print("Password: ");
-                String clave = s.next();
-                m.Escribir("UserData.txt", name + "\t" + clave + "\n");
-                user = new Usuario(name, clave);
-                break;
+    
+    public DinamicArray<Producto> genLista(int cantGen, int indexIn){
+        DinamicArray<Producto> prod1 = new DinamicArray<>();
+        for (int i = 0; i<cantGen; i++){
+            prod1.addBack(this.prod.get(indexIn+i));
         }
-    }
-    public void genLista(){
-        System.out.print(user.getUsername()+", ingresa la cantidad de productos a mostrar?: ");
-        int n = s.nextInt();
-        System.out.println("Desplegando " + Integer.toString(n) + " productos");
-        prod = new PDinamicArray();
-        for (int i = 0; i<n; i++){
-            Producto ucto = new Producto(Integer.toString(i), i*100);
-            prod.addBack(ucto);
-        }
+        return prod1;
     }
     public void buscarProducto(){
         System.out.println("elija el método de búsqueda: ");
@@ -155,7 +134,7 @@ public class Tienda{
         if (n==1) buscarProducto();
         if (n==2) miCarrito();
         if (n==0) System.exit(0);
-    }
+    }/*
     public String makeKey(){
         char[] e = new char[10];
         for (int i = 0; i<10;i++){
@@ -163,17 +142,20 @@ public class Tienda{
         }
         String t = new String(e);
         return t;
+    }*/ 
+    public boolean  vender(String nombre){
+        DinamicArray<Producto> pablito = actualUser.productos.DisplayQueue();
+        for (int i = 0; i < pablito.tam; i++) {
+            if(pablito.get(i).getNombre().equals(nombre)){
+                return false;
+            }
+        }return true;
     }
-    public void vender(String n, double value){
-        Producto objeto = new Producto(n, value);
-        String k = makeKey();
-        while (codeDirectory.exist(k)){
-            k = makeKey();
-        }
-        objeto.setId(k);
+    public void  vender(String nombre, double value){
+        Producto objeto = new Producto(nombre, value, actualUser.username);
         prod.addBack(objeto);
-        codeDirectory.addBack(k);
-        user.productos.enQueue(objeto);
+        actualUser.productos.enQueue(objeto);
+        LectoUpdater.anadirProducto(objeto, actualUser);
     }
     public Carrito sintetizar(String codigo, String carname){
         int n = (int)(codigo.length()/5);

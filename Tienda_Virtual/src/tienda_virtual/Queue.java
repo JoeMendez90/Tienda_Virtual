@@ -1,22 +1,38 @@
 package tienda_virtual;
 
 public class Queue<T> {
-    T key;
-    DoubleLinkedList<T> listBase = new DoubleLinkedList<>();
+    public T key;
+    private SinglyLinkedList<T> listBase = new SinglyLinkedList<>();
+    public int length;
+
+    public Queue() {
+        length=0;
+    }
     
     public void enQueue(T key){
-        listBase.PushFront(key);
+        listBase.pushBack(key);
+        length++;
     }
     public void deQueue(){
-        listBase.PopBack();
+        listBase.popFront();
+        length--;
     }
     public boolean isEmpty(){
-        return listBase.IsEmpty();
+        return listBase.isEmpty();
     }
     public T Peek(){
-        return listBase.getBack();
+        return listBase.TopFront().key;
     }
-    public void DisplayQueue(){
-        listBase.DisplayList();
+    public DinamicArray<T> DisplayQueue(){
+        T t;
+        DinamicArray<T> lista = new DinamicArray<>();
+        int j = length;
+        for (int i = 0; i < j; i++) {
+            t= Peek();
+            lista.addBack(t);
+            deQueue();
+            enQueue(t);
+        }
+        return lista;
     }
 }

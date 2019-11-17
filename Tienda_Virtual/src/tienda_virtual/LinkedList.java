@@ -1,3 +1,5 @@
+package tienda_virtual;
+
 public class LinkedList<T>{
     Node<T> head = null;
     Node<T> tail = null;
