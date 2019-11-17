@@ -28,6 +28,13 @@ public class Register extends JFrame {
 			public void run() {
 				try {
                                     
+                                    String ahh= "#sadfas#asdfasf";
+                                    String[] as= ahh.split("#");
+                                    for (String a : as) {
+                                        System.out.println("#"+a+" ");
+                                    }
+                                    
+                                    
 					Register frame = new Register();
 					frame.setVisible(true);
 				} catch (Exception e) {

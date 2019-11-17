@@ -1,10 +1,26 @@
 package tienda_virtual;
 
+/**
+ * La Clase carrito representa a los carros de compra de la tienda,
+ * se pueden tener vacios/nobuscados o iniciados/llenos
+ * en la version actual su Id es la union de todos los id de los Productos,
+ * para una busqueda rapida de su contenido
+ * 
+ * @author Team
+ */
+
 public class Carrito {
     private SinglyLinkedList<Producto> carrito ;
     private String carId;
     private boolean searched;
     private int length;
+    
+    /**
+     * el iniciador de un carro vacio, es el que se genera por defecto
+     * su id esta vacio, su carrito/listadeobjetos se inicia
+     * su tamaño es 0, y ya fue buscado, dado que su id y su contenido son el mismo
+     */
+    
 
     public Carrito() {
         carId= "";
@@ -13,6 +29,12 @@ public class Carrito {
         searched=true;
     }
     
+    /**
+     * el iniciador con string guarda el id dado, el carrito no lo inicia, por que solo es referencia
+     * su longitud igualmente es 0 y no ha sido buscado, dado que no tiene los productos enlistados en su id.
+     * @param id 
+     */
+    
     public Carrito(String id){
         carId =id;
         carrito = null;
@@ -20,67 +42,109 @@ public class Carrito {
         searched=false;
     }
 
+    /**
+     * 
+     * @return id del carro
+     */
+    
     public String getCarId() {
         return carId;
     }
+    
+    /**
+     * 
+     * @return lista de objetos en el carro
+     */
+    
 
     public SinglyLinkedList<Producto> getCarrito() {
         return carrito;
     }
+    
+    /**
+     * cambiar el id del carro
+     * @param carId nuevo id del carro
+     */
 
     public void setCarId(String carId) {
-        this.carId = carId;
+        if(!this.carId.equals(carId)){
+            this.carId = carId;
+            searched = false;
+        }
     }
     
+    /**
+     * agrega un producto al carro si este no existe previamente
+     * @param key producto a agregar
+     */
+    
     public void agregar(Producto key){
-        carrito.PushFront(key);
-        carId= carId+key.getId();
-        length++;
+        if(!carrito.Find(key)){
+            carrito.PushFront(key);
+            carId= carId+key.getId();
+            length++;
+        }
     }
+    
+    /**
+     * elimina un producto del carro que posea el id dado
+     * @param key id a eliminar
+     */
+    
     public void sacar(String key){
-        Node<Producto> i = carrito.head;
-        while(!i.equals(carrito.tail)){
-            if (!i.key.getId().equals(key)){
-                carrito.Erase(i.key);
-                break;
-            }                
-            i = i.next;
-        }
-        length--;
-    }
-   public void sacar(Producto key){
-        carrito.Erase(key);
-        carId = carId.substring(carId.indexOf(key.getId())+key.getId().length(),carId.length());
-        length--;
-    }
-    public void verCarrito(){
-        Node<Producto> i = carrito.head;
-        while (i != carrito.tail){
-            System.out.println(i.key.getId() + " " + i.key.getNombre() + " " + i.key.getValor());
-            i = i.next;
+        if(length>0){
+            Node<Producto> i = carrito.head;
+            String newId="";
+            while(!i.equals(carrito.tail)){
+                if (!i.key.getId().equals(key)){
+                    carrito.Erase(i.key);
+                    newId+=i.key.getId();
+                    break;
+                }
+                i = i.next;
+            }
+            carId=newId;
+            length--;
         }
     }
-    public String generar(){
-        Node<Producto> i = carrito.head;
-        String s = "";
-        while (i != carrito.tail){
-            s = s+i.key.getId();
-            i = i.next;
+    
+    /**
+     * elimina un producto dado del carro
+     * @param key producto a eliminar
+     */
+    
+    public void sacar(Producto key){
+        if(length>0){
+            carrito.Erase(key);
+            carId = carId.substring(carId.indexOf(key.getId())+key.getId().length(),carId.length());
+            length--;
         }
-        return s;
-    }
+        
+    }    
   
+    /**
+     * consigue la cantidad actual de productos dentro del carro
+     * @return productos en el carro
+     */
+    
     public int getLength() {
         return length;
     }
     
+    /**
+     * si el carro no fue buscado busca los productos dentro del id para añadirlos al carro
+     * @param tienda lugar donde se guardan todos los productos
+     */
+    
     public void search(Tienda tienda){
         if(!searched){
+            length=0;
             String[] palabras = carId.split("#");
-            for (String palabra : palabras) {
+            for (int i=1; i<palabras.length;i++) {
                 for (int j = 0; j< tienda.prod.tam; j++) {
-                    if (tienda.prod.get(j).getId().equals("#" + palabra)) {
+                    if (tienda.prod.get(j).getId().equals("#" + palabras[i])) {
                         carrito.pushBack(tienda.prod.get(j));
+                        length++;
                         break;
                     }
                 }
@@ -88,6 +152,11 @@ public class Carrito {
             searched=true;
         }
     }
+    
+    /**
+     *  el cid y sus productos concuerdan?
+     * @return buscado?
+     */
 
     public boolean isSearched() {
         return searched;

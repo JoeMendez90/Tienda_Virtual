@@ -29,6 +29,7 @@ import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
+import java.util.regex.Pattern;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,6 +38,7 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.border.Border;
 import tienda_virtual.DinamicArray;
 import tienda_virtual.Producto;
+import tienda_virtual.ReturnAction;
 import tienda_virtual.Stack;
 import tienda_virtual.Tienda;
 import tienda_virtual.Usuario;
@@ -48,17 +50,19 @@ public class Principal extends JFrame {
     private JPanel contentPane;
     private CardLayout centerLayout;
     private JPanel BarajaCentral;
+    private JScrollPane searchScroll;
+    private CenterPane central;
     private DinamicArray<JPanel> centerPane;
     private JTextField txtSearch;
 
     public Tienda tienda;
-    public Stack<String> actionsPrev;
+    public ReturnAction actionsPrev;
     public int cant=100;
     
     public Principal(Tienda tienda, int CantPrub) {
         this.CantPrub= CantPrub;
         this.tienda=tienda;	
-        actionsPrev= new Stack<>();
+        actionsPrev= new ReturnAction();
         createFrame();    
     }
 
@@ -81,21 +85,108 @@ public class Principal extends JFrame {
         
         centerLayout = new CardLayout();
         BarajaCentral = new JPanel(centerLayout);
+        BarajaCentral.setBounds(5, 110, 1265, 538);/*
+        BarajaCentral.setBackground(Color.red);
         centerPane =  new DinamicArray<>();
         centerPane.addBack(new JPanel()); // lista de productos(busqueda)
+            centerPane.get(0).setBackground(Color.BLUE);
+            searchScroll = new JScrollPane();
+            
+        centerPane.get(0).add(searchScroll);
         centerPane.addBack(new JPanel()); // Cuenta/productos
         centerPane.addBack(new JPanel()); // carrito
-        BarajaCentral.add(centerPane.get(0),"Busqueda");
+        BarajaCentral.add(centerPane.get(0),"Busqueda");       
         BarajaCentral.add(centerPane.get(1),"Cuenta");
-        BarajaCentral.add(centerPane.get(2),"Carrito");
-        BuscarProductos();
+        BarajaCentral.add(centerPane.get(2),"Carrito");*/
+        //BuscarProductos();
+        central = new centerSearch(tienda, "",actionsPrev);
+        BarajaCentral=central.getCenterPane();
         contentPane.add(BarajaCentral);
         
         setLocationRelativeTo(null);
     }
     
+    public void CreateUp(){
+        JPanel up= new JPanel();
+        up.setBounds(5,5,1265,100);
+        up.setBackground(Color.decode("#212121"));
+        up.setLayout(null);
+
+            txtSearch = new JTextField("");
+            txtSearch.setBounds(325, 25, 535, 50);
+            txtSearch.setToolTipText("");
+            txtSearch.setFont(createFont(txtSearch, 20));
+            up.add(txtSearch);
+            txtSearch.setColumns(10);
+
+            JLabel label = new JLabel();
+            label.setIcon(createIcon("/Images/LogotipoBlanc.png", 300, 100));
+            label.setBounds(0, 5, 300, 100);
+            up.add(label);
+
+            JButton btnExit = new JButton();
+            btnExit.setBackground(Color.LIGHT_GRAY);
+            btnExit.setIcon(createIcon("/Images/Captura2.png",80,80));
+            btnExit.setBorder(new EmptyBorder(20, 20, 20, 20));
+            btnExit.setBounds(950, 10, 100, 80);
+
+            btnExit.addActionListener((ActionEvent e) -> {
+                returnAction();
+            });
+
+            up.add(btnExit);
+
+            JButton btnSearch = new JButton("");
+            btnSearch.setIcon(createIcon("/Images/Search.png",50,40));
+            btnSearch.setBounds(870, 25, 50, 50);
+            up.add(btnSearch);
+
+            btnSearch.addActionListener((ActionEvent e) -> {/*
+                if(tienda.actualUser.getUsername()!=null)               falta
+                    System.out.println(tienda.actualUser.getUsername());*/
+            });
+
+            JButton btnRegister = new JButton("");
+            btnRegister.setIcon(createIcon("/Images/Register2.png"));
+            btnRegister.setBounds(1069, 10, 74, 81);
+            btnRegister.addActionListener((ActionEvent e) -> {
+                Loggin login = new Loggin(this, true);
+                login.setVisible(true);
+//                central = new CenterPane(tienda, "",actionsPrev);
+                BarajaCentral=central.getCenterPane();
+            });
+
+            up.add(btnRegister);                                                     
+
+            JButton btnCrt = new JButton("");
+            btnCrt.setIcon(createIcon("/Images/carrito2.png"));
+            btnCrt.setSelectedIcon(createIcon("/Images/carrito2.png"));
+            btnCrt.setBounds(1153, 10, 74, 81);
+            up.add(btnCrt);
+
+            btnCrt.addActionListener((ActionEvent e) -> {
+                central = new centerSearch(tienda, "",actionsPrev);
+                BarajaCentral=central.getCenterPane();
+                ShowCar();
+            });
+        contentPane.add(up);
+        
+    }
     
-    public void MostrarProductos(DinamicArray<Producto> productos){
+    private void BuscarProductos() {
+        centerPane.get(0).setLayout(null);
+        centerPane.get(0).setBackground(Color.decode("#424242"));
+        centerPane.get(0).setBounds(5, 110, 1265, 565);
+        String search=txtSearch.getText();
+        DinamicArray<Producto> resultados = tienda.Buscar(search);
+        MostrarProductos(resultados);
+        centerLayout.show(BarajaCentral, "Busqueda");
+        
+        
+    }
+    
+    
+    private void MostrarProductos(DinamicArray<Producto> productos){
 		
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -238,78 +329,17 @@ public class Principal extends JFrame {
 		panel_3.add(label_19, gbc_label_19);*/
     }
         
-    public void CreateUp(){
-        JPanel up= new JPanel();
-        up.setBounds(5,5,1265,100);
-        up.setBackground(Color.decode("#212121"));
-        up.setLayout(null);
-
-            txtSearch = new JTextField("");
-            txtSearch.setBounds(325, 25, 535, 50);
-            txtSearch.setToolTipText("");
-            txtSearch.setFont(createFont(txtSearch, 20));
-            up.add(txtSearch);
-            txtSearch.setColumns(10);
-
-            JLabel label = new JLabel();
-            label.setIcon(createIcon("/Images/LogotipoBlanc.png", 300, 100));
-            label.setBounds(0, 5, 300, 100);
-            up.add(label);
-
-            JButton btnExit = new JButton();
-            btnExit.setBackground(Color.LIGHT_GRAY);
-            btnExit.setIcon(createIcon("/Images/Captura2.png",80,80));
-            btnExit.setBorder(new EmptyBorder(20, 20, 20, 20));
-            btnExit.setBounds(950, 10, 100, 80);
-
-            btnExit.addActionListener((ActionEvent e) -> {
-                returnAction();
-            });
-
-            up.add(btnExit);
-
-            JButton btnSearch = new JButton("");
-            btnSearch.setIcon(createIcon("/Images/Search.png",50,40));
-            btnSearch.setBounds(870, 25, 50, 50);
-            up.add(btnSearch);
-
-            btnSearch.addActionListener((ActionEvent e) -> {/*
-                if(tienda.actualUser.getUsername()!=null)               falta
-                    System.out.println(tienda.actualUser.getUsername());*/
-            });
-
-            JButton btnRegister = new JButton("");
-            btnRegister.setIcon(createIcon("/Images/Register2.png"));
-            btnRegister.setBounds(1069, 10, 74, 81);
-            btnRegister.addActionListener((ActionEvent e) -> {
-                Loggin login = new Loggin(this, true);
-                login.setVisible(true);
-            });
-
-            up.add(btnRegister);                                                     
-
-            JButton btnCrt = new JButton("");
-            btnCrt.setIcon(createIcon("/Images/carrito2.png"));
-            btnCrt.setSelectedIcon(createIcon("/Images/carrito2.png"));
-            btnCrt.setBounds(1153, 10, 74, 81);
-            up.add(btnCrt);
-
-            btnCrt.addActionListener((ActionEvent e) -> {
-                ShowCar();
-            });
-        contentPane.add(up);
-        
-    }
+    
     
     private ImageIcon createIcon(String icon, int x,int y){
         return new ImageIcon(new ImageIcon(Principal.class.getResource(icon)).getImage().getScaledInstance(x, y, Image.SCALE_SMOOTH));
     }
     
-    private ImageIcon createIcon(String icon){
+    public static ImageIcon createIcon(String icon){
         return new ImageIcon(Principal.class.getResource(icon));
     }
     
-    private Font createFont(Component component,int as){
+    private static Font createFont(Component component,int as){
         return new Font(component.getFont().getFontName(), component.getFont().getStyle(), component.getFont().getSize()+as);
     }
 
@@ -430,18 +460,34 @@ public class Principal extends JFrame {
     }
 
     private void returnAction() {
-        
-        if(actionsPrev.isEmpty()){
-            dispose();
-            return;
-        }
-        switch( actionsPrev.Peek().key){
+        String doAction=actionsPrev.Action();
+        String[] subActions = doAction.split(Pattern.quote("|"));
+        String hey;
+        switch(subActions[0]){
+            case "out":
+                dispose();
+            break;
+            case "Search":
+                central = new centerSearch(tienda, subActions[1], actionsPrev);
+                hey ="";
+                for (int i = 2; i < subActions.length; i++) {
+                     hey= hey+subActions[i]+"|";
+                }
+                if(subActions.length>2){
+                    central.Actions(hey);
+                }
+            case "Center":
+                hey ="";
+                for (int i = 2; i < subActions.length; i++) {
+                     hey= hey+subActions[i]+"|";
+                }
+                central.Actions(hey);
+            break;
             
+                
             
-        
         }
         
-        actionsPrev.Pop();
     }
 
     private void ShowCar() {
@@ -451,17 +497,7 @@ public class Principal extends JFrame {
         
     }
 
-    private void BuscarProductos() {
-        centerPane.get(0).setLayout(null);
-        centerPane.get(0).setBackground(Color.decode("#424242"));
-        centerPane.get(0).setBounds(5, 110, 1265, 565);
-        String search=txtSearch.getText();
-        DinamicArray<Producto> resultados = tienda.Buscar(search);
-        MostrarProductos(resultados);
-        centerLayout.show(BarajaCentral, "Busqueda");
-        
-        
-    }
+    
 
     
 }

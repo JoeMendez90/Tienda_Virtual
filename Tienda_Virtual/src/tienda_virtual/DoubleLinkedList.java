@@ -1,12 +1,29 @@
 package tienda_virtual;
 
+/**
+ * La clase de una lista doblemente encadenada
+ * @author Team
+ * @param <T> objeto generico del la lista
+ */
 
 public class DoubleLinkedList<T>{
     DoubleNode<T> head = null;
     DoubleNode<T> tail = null;
+    
+    /**
+     * 
+     * @return esta vacio?
+     */
+    
     public boolean IsEmpty(){
         return this.head == null;
     }
+    
+    /**
+     * agrega en la cabeza de la lista un objeto
+     * @param key objeto a agregar
+     */
+    
     public void PushFront(T key){
         DoubleNode<T> node2 = new DoubleNode<>(key);
         if (IsEmpty()){
@@ -22,6 +39,12 @@ public class DoubleLinkedList<T>{
             this.tail = this.head;
         }
     }
+    
+    /**
+     * agrega en la cola de la lista un objeto
+     * @param key objeto a agregar
+     */
+    
     public void PushBack(T key){
         DoubleNode<T> node2 = new DoubleNode<>(key);
         node2.next = null;
@@ -35,6 +58,11 @@ public class DoubleLinkedList<T>{
             this.tail = node2;
         }
     }
+    
+    /**
+     * elimina la ultima cosa de la lista
+     */
+    
     public void PopBack(){
         if (IsEmpty()){
             System.out.println("      ,,,,,,,,,,,,,,,,,");
@@ -53,6 +81,11 @@ public class DoubleLinkedList<T>{
             this.tail.next = null;
         }
     }
+    
+    /**
+     * elimina la primera cosa de la lista
+     */
+    
     public void PopFront(){
         if (IsEmpty()){
             System.out.println("      ,,,,,,,,,,,,,,,,,");
@@ -72,6 +105,12 @@ public class DoubleLinkedList<T>{
             this.head.prev = null;
         }
     }
+    
+    /**
+     * elimina un objeto en especifico
+     * @param key objeto a eliminar
+     */
+    
     public void Pop(T key){
         if (IsEmpty()){
             System.out.println("      ,,,,,,,,,,,,,,,,,");
@@ -83,8 +122,10 @@ public class DoubleLinkedList<T>{
             return;
         }
         if (this.head == this.tail){
-            this.head = null;
-            this.tail = this.head;
+            if(head.key.equals(key)){
+                this.head = null;
+                this.tail = this.head;
+            }
         } else if (head.key == key){
             head = head.next;
         } else {
@@ -102,12 +143,29 @@ public class DoubleLinkedList<T>{
             }
         }
     }
+    
+    /**
+     * de vuelve el la llave eel nodo final
+     * @return llave de la cola
+     */
+    
     public T getBack(){
         return this.tail.key;
     }
+    
+    /**
+     * devuelve el primer elemento
+     * @return llave de la cabeza
+     */
+    
     public T getFront(){
         return this.head.key;
     }
+    
+    /**
+     * muestra en consola toda la lista
+     */
+    
     public void DisplayList(){
         if (IsEmpty()){
             System.out.println("      ,,,,,,,,,,,,,,,,,");
