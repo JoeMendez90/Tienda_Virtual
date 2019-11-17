@@ -19,6 +19,17 @@ public class Usuario {
         this(username);
         this.desc=desc;
     }
+   
+    public Usuario(String username, String desc,LinkedList<Carrito> carritos) {
+        this.username = username;
+        this.desc = desc;
+        this.carrito = null;
+        productos = new Queue<>();
+        this.garage = carritos;
+    }
+    public Usuario(){
+        this("");
+    }
     // Setters y Getters
     public String getUsername() {
         return username;
@@ -45,7 +56,6 @@ public class Usuario {
     }
     public void vender(String nombre, double precio, String desc){
         Producto p = new Producto(nombre, precio, desc);
-        p.setSeller(this.username);
         productos.enQueue(p);
     }
     
@@ -57,4 +67,31 @@ public class Usuario {
         Carrito car = new Carrito(name);
         garage.PushFront(car);
     }
+
+    public Queue<Producto> getProductos() {
+        return productos;
+    }
+
+    public Carrito getCarrito() {
+        return carrito;
+    }
+
+    public LinkedList<Carrito> getGarage() {
+        return garage;
+    }
+
+    public void setProductos(Queue<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public void setCarrito(Carrito carrito) {
+        this.carrito = carrito;
+    }
+
+    public void setGarage(LinkedList<Carrito> garage) {
+        this.garage = garage;
+    }
+    
+    
+    
 }

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Button;
+import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.List;
@@ -14,12 +15,16 @@ import javax.swing.JTextField;
 import java.awt.ScrollPane;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Label;
 import javax.swing.JMenuBar;
 import java.awt.Window.Type;
 import java.awt.Toolkit;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.ImageIcon;
@@ -30,6 +35,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.border.Border;
+import tienda_virtual.DinamicArray;
+import tienda_virtual.Producto;
 import tienda_virtual.Stack;
 import tienda_virtual.Tienda;
 import tienda_virtual.Usuario;
@@ -39,8 +46,11 @@ public class Principal extends JFrame {
     
     private int CantPrub;
     private JPanel contentPane;
-    private JPanel centerPane;
+    private CardLayout centerLayout;
+    private JPanel BarajaCentral;
+    private DinamicArray<JPanel> centerPane;
     private JTextField txtSearch;
+
     public Tienda tienda;
     public Stack<String> actionsPrev;
     public int cant=100;
@@ -68,29 +78,174 @@ public class Principal extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         CreateUp();
-        centerPane = new JPanel();
-        centerPane.setBounds(5, 170, 1265, 475);
-        centerPane.setBackground(Color.decode("#424242"));
         
-        //centerPane.setLayout(new);
-        for (int i = 0; i < 10; i++) {
-            centerPane.add(new JLabel("heyafdsdsdsdsdsdsdsds"));
-        }
+        centerLayout = new CardLayout();
+        BarajaCentral = new JPanel(centerLayout);
+        centerPane =  new DinamicArray<>();
+        centerPane.addBack(new JPanel()); // lista de productos(busqueda)
+        centerPane.addBack(new JPanel()); // Cuenta/productos
+        centerPane.addBack(new JPanel()); // carrito
+        BarajaCentral.add(centerPane.get(0),"Busqueda");
+        BarajaCentral.add(centerPane.get(1),"Cuenta");
+        BarajaCentral.add(centerPane.get(2),"Carrito");
+        BuscarProductos();
+        contentPane.add(BarajaCentral);
         
-        JScrollPane scroll = new JScrollPane();
-        contentPane.add(/*new JScrollPane(*/centerPane/*)*/);
-        //productsList();
         setLocationRelativeTo(null);
+    }
+    
+    
+    public void MostrarProductos(DinamicArray<Producto> productos){
+		
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(0, 0, 875, 446);
+                scrollPane_1.setBackground(Color.decode("#424242"));
+		//centerPane.add(scrollPane_1);
+		
+		JPanel panel_3 = new JPanel();
+		scrollPane_1.setViewportView(panel_3);
+		//panel_3.setLayout(null);
+                panel_3.setBackground(Color.decode("#424242"));
+		/*GridBagLayout gbl_panel_3 = new GridBagLayout();
+		gbl_panel_3.columnWidths = new int[]{0, 0, 53, 0, 48, 0, 0, 0};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 26, 0, 73, 0, 0, 0, 0, 0};
+		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_3.setLayout(gbl_panel_3);*/
+                JPanel j = new JPanel();
+                j.setSize(1000, 500);
+                j.setBackground(Color.red);
+		
+                
+                JButton button = new JButton();
+                button.add(j);
+                panel_3.add(button);
+                
+		JLabel label_7 = new JLabel("");
+		label_7.setIcon(new ImageIcon(Cuenta.class.getResource("/Images/images.jpg")));
+                label_7.setBounds(500,500,400,400);
+                JLabel label = new JLabel("                 ");
+                label.setSize(300,200);
+                j.add(label);
+		/*GridBagConstraints gbc_label_7 = new GridBagConstraints();
+		gbc_label_7.insets = new Insets(0, 0, 5, 5);
+		gbc_label_7.gridx = 1;
+		gbc_label_7.gridy = 1;*/
+		j.add(label_7/*, gbc_label_7*/);
+		
+		JLabel label_8 = new JLabel("");
+		label_8.setIcon(new ImageIcon(Cuenta.class.getResource("/Images/images.jpg")));
+		/*GridBagConstraints gbc_label_8 = new GridBagConstraints();
+		gbc_label_8.insets = new Insets(0, 0, 5, 5);
+		gbc_label_8.gridx = 3;
+		gbc_label_8.gridy = 1;*/
+		panel_3.add(label_8/*, gbc_label_8*/);
+		
+		JLabel label_12 = new JLabel("");
+		label_12.setIcon(new ImageIcon(Cuenta.class.getResource("/Images/images.jpg")));
+		/*GridBagConstraints gbc_label_12 = new GridBagConstraints();
+		gbc_label_12.insets = new Insets(0, 0, 5, 5);
+		gbc_label_12.gridx = 5;
+		gbc_label_12.gridy = 1;*/
+		panel_3.add(label_12 /*, gbc_label_12*/);
+		
+		JLabel lblNombreDelProducto = new JLabel("Nombre del Producto");
+		/*GridBagConstraints gbc_lblNombreDelProducto = new GridBagConstraints();
+		gbc_lblNombreDelProducto.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNombreDelProducto.gridx = 1;
+		gbc_lblNombreDelProducto.gridy = 2;*/
+		panel_3.add(lblNombreDelProducto/*, gbc_lblNombreDelProducto*/);
+		
+		JLabel label_9 = new JLabel("Nombre del Producto");
+		/*GridBagConstraints gbc_label_9 = new GridBagConstraints();
+		gbc_label_9.insets = new Insets(0, 0, 5, 5);
+		gbc_label_9.gridx = 3;
+		gbc_label_9.gridy = 2;*/
+		panel_3.add(label_9/*, gbc_label_9*/);
+		/*
+		JLabel label_13 = new JLabel("Nombre del Producto");
+		GridBagConstraints gbc_label_13 = new GridBagConstraints();
+		gbc_label_13.insets = new Insets(0, 0, 5, 5);
+		gbc_label_13.gridx = 5;
+		gbc_label_13.gridy = 2;
+		panel_3.add(label_13, gbc_label_13);
+		
+		JLabel lblPrecio = new JLabel("Precio");
+		GridBagConstraints gbc_lblPrecio = new GridBagConstraints();
+		gbc_lblPrecio.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrecio.gridx = 1;
+		gbc_lblPrecio.gridy = 3;
+		panel_3.add(lblPrecio, gbc_lblPrecio);
+		
+		JLabel label_10 = new JLabel("Precio");
+		GridBagConstraints gbc_label_10 = new GridBagConstraints();
+		gbc_label_10.insets = new Insets(0, 0, 5, 5);
+		gbc_label_10.gridx = 3;
+		gbc_label_10.gridy = 3;
+		panel_3.add(label_10, gbc_label_10);
+		
+		JLabel label_14 = new JLabel("Precio");
+		GridBagConstraints gbc_label_14 = new GridBagConstraints();
+		gbc_label_14.insets = new Insets(0, 0, 5, 5);
+		gbc_label_14.gridx = 5;
+		gbc_label_14.gridy = 3;
+		panel_3.add(label_14, gbc_label_14);
+		
+		JLabel lblDescripccion = new JLabel("Descripcion");
+		GridBagConstraints gbc_lblDescripccion = new GridBagConstraints();
+		gbc_lblDescripccion.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDescripccion.gridx = 1;
+		gbc_lblDescripccion.gridy = 4;
+		panel_3.add(lblDescripccion, gbc_lblDescripccion);
+		
+		JLabel label_11 = new JLabel("Descripcion");
+		GridBagConstraints gbc_label_11 = new GridBagConstraints();
+		gbc_label_11.insets = new Insets(0, 0, 5, 5);
+		gbc_label_11.gridx = 3;
+		gbc_label_11.gridy = 4;
+		panel_3.add(label_11, gbc_label_11);
+		
+		JLabel label_15 = new JLabel("Descripcion");
+		GridBagConstraints gbc_label_15 = new GridBagConstraints();
+		gbc_label_15.insets = new Insets(0, 0, 5, 5);
+		gbc_label_15.gridx = 5;
+		gbc_label_15.gridy = 4;
+		panel_3.add(label_15, gbc_label_15);
+		
+		JLabel label_16 = new JLabel("");
+		label_16.setIcon(new ImageIcon(Cuenta.class.getResource("/Images/images.jpg")));
+		GridBagConstraints gbc_label_16 = new GridBagConstraints();
+		gbc_label_16.insets = new Insets(0, 0, 5, 5);
+		gbc_label_16.gridx = 1;
+		gbc_label_16.gridy = 5;
+		panel_3.add(label_16, gbc_label_16);
+		
+		JLabel label_18 = new JLabel("");
+		label_18.setIcon(new ImageIcon(Cuenta.class.getResource("/Images/images.jpg")));
+		GridBagConstraints gbc_label_18 = new GridBagConstraints();
+		gbc_label_18.insets = new Insets(0, 0, 5, 5);
+		gbc_label_18.gridx = 3;
+		gbc_label_18.gridy = 5;
+		panel_3.add(label_18, gbc_label_18);
+		
+		JLabel label_19 = new JLabel("");
+		label_19.setIcon(new ImageIcon(Cuenta.class.getResource("/Images/images.jpg")));
+		GridBagConstraints gbc_label_19 = new GridBagConstraints();
+		gbc_label_19.insets = new Insets(0, 0, 5, 5);
+		gbc_label_19.gridx = 5;
+		gbc_label_19.gridy = 5;
+		panel_3.add(label_19, gbc_label_19);*/
     }
         
     public void CreateUp(){
         JPanel up= new JPanel();
-        up.setBounds(5,5,1265,160);
+        up.setBounds(5,5,1265,100);
         up.setBackground(Color.decode("#212121"));
         up.setLayout(null);
 
-            txtSearch = new JTextField("search");
-            txtSearch.setBounds(325, 50, 535, 50);
+            txtSearch = new JTextField("");
+            txtSearch.setBounds(325, 25, 535, 50);
             txtSearch.setToolTipText("");
             txtSearch.setFont(createFont(txtSearch, 20));
             up.add(txtSearch);
@@ -98,14 +253,14 @@ public class Principal extends JFrame {
 
             JLabel label = new JLabel();
             label.setIcon(createIcon("/Images/LogotipoBlanc.png", 300, 100));
-            label.setBounds(0, 25, 300, 100);
+            label.setBounds(0, 5, 300, 100);
             up.add(label);
 
             JButton btnExit = new JButton();
             btnExit.setBackground(Color.LIGHT_GRAY);
             btnExit.setIcon(createIcon("/Images/Captura2.png",80,80));
             btnExit.setBorder(new EmptyBorder(20, 20, 20, 20));
-            btnExit.setBounds(950, 38, 100, 80);
+            btnExit.setBounds(950, 10, 100, 80);
 
             btnExit.addActionListener((ActionEvent e) -> {
                 returnAction();
@@ -115,7 +270,7 @@ public class Principal extends JFrame {
 
             JButton btnSearch = new JButton("");
             btnSearch.setIcon(createIcon("/Images/Search.png",50,40));
-            btnSearch.setBounds(870, 50, 50, 50);
+            btnSearch.setBounds(870, 25, 50, 50);
             up.add(btnSearch);
 
             btnSearch.addActionListener((ActionEvent e) -> {/*
@@ -125,7 +280,7 @@ public class Principal extends JFrame {
 
             JButton btnRegister = new JButton("");
             btnRegister.setIcon(createIcon("/Images/Register2.png"));
-            btnRegister.setBounds(1069, 38, 74, 81);
+            btnRegister.setBounds(1069, 10, 74, 81);
             btnRegister.addActionListener((ActionEvent e) -> {
                 Loggin login = new Loggin(this, true);
                 login.setVisible(true);
@@ -136,7 +291,7 @@ public class Principal extends JFrame {
             JButton btnCrt = new JButton("");
             btnCrt.setIcon(createIcon("/Images/carrito2.png"));
             btnCrt.setSelectedIcon(createIcon("/Images/carrito2.png"));
-            btnCrt.setBounds(1153, 38, 74, 81);
+            btnCrt.setBounds(1153, 10, 74, 81);
             up.add(btnCrt);
 
             btnCrt.addActionListener((ActionEvent e) -> {
@@ -293,6 +448,18 @@ public class Principal extends JFrame {
         for (int i = 0; i < 10; i++) {
             System.out.println(tienda.prod.get(i).getId());
         }
+        
+    }
+
+    private void BuscarProductos() {
+        centerPane.get(0).setLayout(null);
+        centerPane.get(0).setBackground(Color.decode("#424242"));
+        centerPane.get(0).setBounds(5, 110, 1265, 565);
+        String search=txtSearch.getText();
+        DinamicArray<Producto> resultados = tienda.Buscar(search);
+        MostrarProductos(resultados);
+        centerLayout.show(BarajaCentral, "Busqueda");
+        
         
     }
 

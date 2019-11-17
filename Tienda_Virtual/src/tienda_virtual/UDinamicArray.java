@@ -4,10 +4,12 @@ package tienda_virtual;
 public class UDinamicArray {
     int size;
     int cap;
+    int tam = 0;
     Usuario[] arr = new Usuario[cap];
 
     
     public void addBack(Usuario a){
+        int i=0;
         if (tam >= cap){
             Usuario[] aux = new Usuario[cap];
             for (int j = 0; j<cap;j++){
@@ -26,6 +28,7 @@ public class UDinamicArray {
     }
     public void addFront(Usuario a){
         tam++;
+        int i=0;
         if (tam >= cap){
             Usuario[] aux = new Usuario[cap];
             for (int j = 0; j<cap;j++){
@@ -74,7 +77,7 @@ public class UDinamicArray {
                 arr[k-1] = arr[k];
             }
             tam--;
-            i--;
+            //i--;
         }
     }
     public void imprime(){

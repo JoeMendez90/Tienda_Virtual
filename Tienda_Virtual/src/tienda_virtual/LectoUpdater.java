@@ -105,7 +105,7 @@ public class LectoUpdater {
         String linea = nombre+"|"+nombre+"|0|";
         String[] dats = linea.split(Pattern.quote("|"));
         Carrito carr = tienda.actualUser.getCarrito();
-        tienda.actualUser = new Usuario(dats[0], dats[1], carr);
+        //tienda.actualUser = new Usuario(dats[0], dats[1], carr);
         for(int i=0; i<Integer.valueOf(dats[2]);i++){
             /*tienda.prod.
             tienda.actualUser.getProductos().enQueue(new Pro);*/
