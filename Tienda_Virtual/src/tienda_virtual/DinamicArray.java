@@ -7,9 +7,9 @@ package tienda_virtual;
  * @param <T>
  */
 public class DinamicArray<T>  {
-    int tam = 0;
-    int cap = 2;
-    int i = 0;
+    public int tam = 0;
+    public int cap = 2;
+    public int i = 0;
     Generica<T>[] arr;
 
     /**

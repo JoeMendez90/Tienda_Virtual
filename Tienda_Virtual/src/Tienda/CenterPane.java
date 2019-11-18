@@ -6,12 +6,9 @@
 package Tienda;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JPanel;
+import static tienda_virtual.LectoUpdater.getTime;
 import tienda_virtual.ReturnAction;
-import tienda_virtual.Stack;
 import tienda_virtual.Tienda;
 
 /**
@@ -24,17 +21,23 @@ public abstract class CenterPane {
     protected String orden;
     protected ReturnAction actionPrev;
 
-    public CenterPane(Tienda tienda, String orden,ReturnAction actionPrev) {
-        this.centerPane = new JPanel();
+    public CenterPane(Tienda tienda, String orden,ReturnAction actionPrev,String action) {
+        long TInicio, TFin;
+        TInicio = System.currentTimeMillis();
         this.tienda = tienda;
         this.orden = orden;
         this.actionPrev = actionPrev;
-        this.centerPane.setBackground(Color.BLUE);
+        System.out.println("ini");
         create();
+        TFin = System.currentTimeMillis();
+        getTime(TFin - TInicio,action);
     }
     
     private void create(){
+        this.centerPane = new JPanel();
         centerPane.setBounds(5, 110, 1265, 538);
+        this.centerPane.setBackground(Color.decode("#424242"));
+        this.centerPane.setLayout(null);
         createButton();
     }
     
@@ -43,7 +46,7 @@ public abstract class CenterPane {
     public abstract void Actions(String set);
     
     protected void StackAction(String action){
-        actionPrev.addAction("Center"+action);
+        actionPrev.addAction("Center|"+action);
         Actions(action);
     }
     public JPanel getCenterPane() {

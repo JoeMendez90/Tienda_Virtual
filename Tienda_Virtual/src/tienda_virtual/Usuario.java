@@ -11,7 +11,7 @@ package tienda_virtual;
 public class Usuario {
     String username;
     String desc;
-    Queue<Producto> productos;
+    Queue<String> productos;
     Carrito carrito;
     LinkedList<Carrito> garage;
     private DinamicArray<Carrito> carritos;
@@ -119,25 +119,13 @@ public class Usuario {
         this.desc = desc;
     }
     
-    //Funciones del usuario:
-    
-    //Pone a la venta un producto añadiéndolo a la lista de productos
-    public void vender(String nombre, double precio){
-        Producto p = new Producto(nombre, precio);
-        productos.enQueue(p);
-    }
-    public void vender(String nombre, double precio, String desc){
-        Producto p = new Producto(nombre, precio, desc);
-        productos.enQueue(p);
-    }
-    
     //Cambia la descripción de un producto en su lista
     public void nuevo_carrito(String name){
         Carrito car = new Carrito(name);
         garage.PushFront(car);
     }
 
-    public Queue<Producto> getProductos() {
+    public Queue<String> getProductos() {
         return productos;
     }
 
@@ -149,7 +137,7 @@ public class Usuario {
         return garage;
     }
 
-    public void setProductos(Queue<Producto> productos) {
+    public void setProductos(Queue<String> productos) {
         this.productos = productos;
     }
 

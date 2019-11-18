@@ -1,6 +1,5 @@
 package Tienda;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,17 +7,22 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JPasswordField;
+import tienda_virtual.LectoUpdater;
 
-public class Register extends JFrame {
+public class Register extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
         private JPasswordField passwordField2;
+        private Principal princ;
 
 	/**
 	 * Launch the application.
@@ -27,13 +31,6 @@ public class Register extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-                                    
-                                    String ahh= "#sadfas#asdfasf";
-                                    String[] as= ahh.split("#");
-                                    for (String a : as) {
-                                        System.out.println("#"+a+" ");
-                                    }
-                                    
                                     
 					Register frame = new Register();
 					frame.setVisible(true);
@@ -47,47 +44,95 @@ public class Register extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Register() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public Register(Principal principal,boolean mode){
+            super(principal,mode);
+            this.princ=principal;
+            CreateDialog();
+        }
+       
+
+	/**
+	 * Create the frame.
+	 */
+	public Register() {		
+            CreateDialog();
+	}
+        private void CreateDialog() {
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 511, 556);
+                setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblVirtualShop = new JLabel("Virtual Shop");
-		lblVirtualShop.setBounds(49, 27, 424, 82);
-		lblVirtualShop.setFont(new Font("Segoe UI Black", Font.PLAIN, 60));
+		JLabel lblVirtualShop = new JLabel();
+		lblVirtualShop.setBounds(100, 10, 424, 82);
+                lblVirtualShop.setIcon(Principal.createIcon("/Images/Logotipo.png", 300, 100));
 		contentPane.add(lblVirtualShop);
 		
+                JLabel lblName = new JLabel("Name");
+		lblName.setBounds(100, 120, 48, 14);
+		contentPane.add(lblName);
+                
 		textField = new JTextField();
-		textField.setBounds(49, 153, 193, 20);
+		textField.setBounds(100, 140, 193, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
-		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(49, 133, 48, 14);
-		contentPane.add(lblName);
-		
-		
+
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(49, 200, 66, 14);
+		lblPassword.setBounds(100, 170, 66, 14);
 		contentPane.add(lblPassword);
                 
                 JLabel lblPassword2 = new JLabel("Repeat Password");
-		lblPassword2.setBounds(49, 300, 150, 14);
+		lblPassword2.setBounds(100, 220, 150, 14);
 		contentPane.add(lblPassword2);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon(Register.class.getResource("/Images/Register2.png")));
-		btnNewButton.setBounds(217, 434, 66, 72);
-		contentPane.add(btnNewButton);
+                JLabel error = new JLabel("");
+		error.setBounds(100, 300, 424, 82);
+		contentPane.add(error);
+                
 		
-		passwordField = new JPasswordField("qw");
-		passwordField.setBounds(49, 250, 193, 20);
-                passwordField2 = new JPasswordField("wqww");
-		passwordField2.setBounds(49, 100, 193, 20);
+		passwordField = new JPasswordField("");
+		passwordField.setBounds(100, 190, 193, 20);
+                passwordField2 = new JPasswordField("");
+		passwordField2.setBounds(100, 250, 193, 20);
 		contentPane.add(passwordField);
                 contentPane.add(passwordField2);
+                
+                JButton btnNewButton = new JButton("Registrarse");
+		btnNewButton.setBounds(100, 350, 100, 40);
+                
+                btnNewButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        
+                        switch(LectoUpdater.CrearCuenta(textField.getText(), passwordField.getText(), passwordField2.getText(), princ.CantPrub)){
+                            case -1:
+                                error.setText("Contraseñas no coinciden");
+                            break;
+                            case 1:
+                                error.setText("usuario Ya existe");
+                            break;
+                            default:
+                                error.setText("");
+                                dispose();
+                            break;
+                        }
+                    }
+                });
+                
+		contentPane.add(btnNewButton);
+                JButton btnNewButton2 = new JButton("Regresar");
+		btnNewButton2.setBounds(100, 450, 100, 40);
+                
+                btnNewButton2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        dispose();
+                    }
+                });
+                
+		contentPane.add(btnNewButton2);
 	}
 }

@@ -11,15 +11,15 @@ public class BigActions {
     private Stack<String> smallActions;
 
     /**
-     * inicia la gran accion con su nombre, inicia el stack y como por defecto el inicial 
-     * es 1 pues esa es su pequeña accion
+     * inicia la gran accion con su nombre, inicia el stack 
      * @param bigAction  nombre de la gran accion
      */
     
     public BigActions(String bigAction) {
         this.bigAction = bigAction;
         smallActions = new Stack<>();
-        smallActions.Push("1");
+        if(bigAction.contains("Search"))
+        smallActions.Push("set|1");
     }
     /**
      * inicia la gran accion con su nombre, inicia el stack y le añade la primera accion

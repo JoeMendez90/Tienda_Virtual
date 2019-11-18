@@ -23,74 +23,38 @@ public class LectoUpdater {
         long TInicio, TFin; 
         TInicio = System.currentTimeMillis();
         
+        System.out.println("confirmame");
+        
         boolean result =false;
         
         FileReader fr = null;
         BufferedReader br;
-        
-         
-         
          try
         {
             fr = new FileReader(new File("src/txt/PWORD"+ex+".txt"));
             br = new BufferedReader(fr);
-            
+            System.out.println("abierto");
             String linea;
+            int i=0;
             while((linea=br.readLine())!=null){
                 String []  palabras = linea.split(Pattern.quote("|"));
                 if(palabras[0].equals(nombre)){
                     if(palabras[1].equals(contrasena)){
                         result=true;
                         Carrito carr= tienda.actualUser.getCarrito();
-                        int a=-1;
-                        for (int i = 0; i < tienda.users.tam; i++) {
-                            
+                        if(tienda.users.get(i).getUsername().equals(nombre)){
+                            tienda.actualUser = tienda.users.get(i);
+                            tienda.actualUser.setCarrito(carr);
+                            break;
                         }
+                        System.out.println("fallamos");
                         
-                        //tienda.actualUser= ;
-                            
                     }
-
-                   // tienda.actualUser.setProductos(product);
-
                 }
+                System.out.println(i);
+                i++;
             }
 
-            /*
-                try{
-                    ar = new File(ruta);
-                    fr = new FileReader(ar);
-                    br = new BufferedReader(fr);
-
-                    while (br.readLine() != null){
-                        text = text + br.readLine();
-                    }
-                } catch (Exception error){
-                    error.printStackTrace();
-                }finally{
-                    try{                    
-                        if(null != fr){   
-                            fr.close();     
-                        }                  
-                    }catch (Exception otro_error){ 
-                        otro_error.printStackTrace();
-                    }
-                }
-                boolean t = false;
-                int ini = 0;
-                int end = 0;
-                String base = "";
-                for (int i = 0; i<texto.length()-a.length();i+=a.length()){
-                    if(texto.substring(i,i+a.length()).equals(a)){
-                        for (int j = i+1; j<texto.length()-b.length();j++){
-                            if (texto.substring(j,j+b.length()).equals(b)){
-                                t = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            */
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -101,19 +65,9 @@ public class LectoUpdater {
               e2.printStackTrace();
            }
         }
-        
-        String linea = nombre+"|"+nombre+"|0|";
-        String[] dats = linea.split(Pattern.quote("|"));
-        Carrito carr = tienda.actualUser.getCarrito();
-        //tienda.actualUser = new Usuario(dats[0], dats[1], carr);
-        for(int i=0; i<Integer.valueOf(dats[2]);i++){
-            /*tienda.prod.
-            tienda.actualUser.getProductos().enQueue(new Pro);*/
-        }
-        //tienda.actualUser.
         TFin = System.currentTimeMillis();
-        getTime(TFin - TInicio,"Crear Cuenta");
-        return true;
+        getTime(TFin - TInicio,"Acceder a Cuenta");
+        return result;
     }
     
     public static void EliminarCuenta(Tienda tienda, int ex){
@@ -240,6 +194,8 @@ public class LectoUpdater {
         long TInicio, TFin; 
         TInicio = System.currentTimeMillis();
         if(!contrasena.equals(contrasena2)){
+            TFin = System.currentTimeMillis();
+            getTime(TFin - TInicio,"Crear Cuenta");
             return -1;
         }
         int var=0;
@@ -270,7 +226,9 @@ public class LectoUpdater {
               System.out.println(e2);
            }
         }
-        if(var!=1){
+        if(var==1){
+            TFin = System.currentTimeMillis();
+            getTime(TFin - TInicio,"Crear Cuenta");
             return var;
         }
         FileWriter fichero1 = null;
@@ -303,7 +261,7 @@ public class LectoUpdater {
         }
         TFin = System.currentTimeMillis();
         getTime(TFin - TInicio,"Crear Cuenta");
-        return 1;
+        return var;
     }
     
     public static DinamicArray<Producto> initProd(int ex){
@@ -317,11 +275,13 @@ public class LectoUpdater {
            Products = new File ("src/txt/Products"+ex+".txt");
            ReadProd= new FileReader (Products);
            BufferedReader ReaderProd = new BufferedReader(ReadProd);
-           
+           int i=0;
            String linea;
            while((linea=ReaderProd.readLine())!=null){
                 String[]  palabras = linea.split(Pattern.quote("|"));
                 prod.addBack(new Producto(palabras[0], palabras[1], palabras[2], Double.valueOf(palabras[3]), palabras[4]));
+                System.out.println(i);
+                i++;
            }
         }
         catch(Exception e){
@@ -357,14 +317,9 @@ public class LectoUpdater {
            while((linea=ReaderUsers.readLine())!=null){
                 String[]  palabras = linea.split(Pattern.quote("|"));
                 users.addBack(new Usuario(palabras[0], palabras[1]));
-                Queue<Producto> prod = new Queue<>();
+                Queue<String> prod = new Queue<>();
                 for (int i = 0; i < Integer.valueOf(palabras[2]); i++) {
-                  for(int j=0 ; j < productos.tam; j++){
-                      if(productos.get(j).getId().equals(palabras[3+i])){
-                          prod.enQueue(productos.get(j));
-                          break;
-                      }
-                  }
+                    prod.enQueue(palabras[3+i]);
                 }
                 users.get(us).setProductos(prod);
                 us++;
@@ -434,21 +389,21 @@ public class LectoUpdater {
         long TInicio, TFin; 
         TInicio = System.currentTimeMillis();
         while(!tienda.actualUser.getProductos().isEmpty()){
-            Producto eliminable = tienda.actualUser.getProductos().Peek();
+            String eliminable = tienda.actualUser.getProductos().Peek();
             tienda.actualUser.getProductos().deQueue();
             sacarTProducto(eliminable, tienda);
-            EliminarProducto(eliminable.getNombre(),ex);
+            EliminarProducto(eliminable,ex);
         }
         TFin = System.currentTimeMillis();
         getTime(TFin - TInicio,"Eliminar Productos");
     }
     
-    private static void sacarTProducto(Producto producto, Tienda tienda){
+    private static void sacarTProducto(String producto, Tienda tienda){
         long TInicio, TFin; 
         TInicio = System.currentTimeMillis();
         int ubicacion=-1;
         for(int i=0; i< tienda.prod.size();i++){
-            if(tienda.prod.get(i).equals(producto)){
+            if(tienda.prod.get(i).getId().equals(producto)){
                 ubicacion=i;
             }
         }
@@ -459,7 +414,7 @@ public class LectoUpdater {
         getTime(TFin - TInicio,"sacar producto de la tienda");
     }
     
-    private static void EliminarProducto(String producto,int ex){
+    private static void EliminarProducto(String Id,int ex){
         long TInicio, TFin; 
         TInicio = System.currentTimeMillis();
         
@@ -474,7 +429,7 @@ public class LectoUpdater {
            String linea;
            while((linea=ReaderProd.readLine())!=null){
                 String []  palabras = linea.split(Pattern.quote("|"));
-                if(!palabras[0].equals(producto)){
+                if(!palabras[0].equals(Id)){
                     Product.enQueue(linea);
                 }
            }

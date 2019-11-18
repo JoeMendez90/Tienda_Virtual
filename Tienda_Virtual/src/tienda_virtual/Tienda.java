@@ -46,10 +46,10 @@ public class Tienda{
         String t = new String(e);
         return t;
     }*/ 
-    public boolean  vender(String nombre){
-        DinamicArray<Producto> pablito = actualUser.productos.DisplayQueue();
+    public boolean  vender(String id){
+        DinamicArray<String> pablito = actualUser.productos.DisplayQueue();
         for (int i = 0; i < pablito.tam; i++) {
-            if(pablito.get(i).getNombre().equals(nombre)){
+            if(pablito.get(i).equals(id)){
                 return false;
             }
         }return true;
@@ -57,7 +57,7 @@ public class Tienda{
     public void  vender(String nombre, double value){
         Producto objeto = new Producto(nombre, value, actualUser.username);
         prod.addBack(objeto);
-        actualUser.productos.enQueue(objeto);
+        actualUser.productos.enQueue(objeto.getId());
         LectoUpdater.anadirProducto(objeto, actualUser);
     }
     public Carrito sintetizar(String codigo, String carname){

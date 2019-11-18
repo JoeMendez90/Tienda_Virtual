@@ -1,6 +1,7 @@
 package Tienda;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -45,39 +46,61 @@ public class Loggin extends JDialog {
             setContentPane(contentPane);
             contentPane.setLayout(null);
 
-            JLabel label = new JLabel("Virtual Shop");
-            label.setBounds(31, 11, 366, 82);
-            label.setFont(new Font("Segoe UI Black", Font.PLAIN, 60));
+            JLabel label = new JLabel();
+            label.setBounds(70, 5, 300,100);
+            label.setIcon(Principal.createIcon("/Images/Logotipo.png",300,100));
             contentPane.add(label);
 
             JLabel lblUsuario = new JLabel("Usuario");
-            lblUsuario.setBounds(189, 104, 46, 14);
+            lblUsuario.setBounds(189, 105, 46, 14);
             contentPane.add(lblUsuario);
 
             textField = new JTextField();
-            textField.setBounds(164, 129, 96, 20);
+            textField.setBounds(164, 125, 96, 20);
             contentPane.add(textField);
             textField.setColumns(10);
 
             JLabel lblPassword = new JLabel("Contrase\u00F1a");
-            lblPassword.setBounds(179, 160, 71, 14);
+            lblPassword.setBounds(179, 150, 71, 14);
             contentPane.add(lblPassword);
 
             passwordField = new JPasswordField();
-            passwordField.setBounds(164, 185, 96, 20);
+            passwordField.setBounds(164, 170, 96, 20);
             contentPane.add(passwordField);
 
             JButton Registro = new JButton("Registrarse");
             
             Registro.setBounds(164, 220, 100, 30);
             
+            Registro.addActionListener((ActionEvent e) -> {
+                Register registro = new Register(princ, true);
+                registro.setVisible(true);
+                if(!princ.tienda.actualUser.getUsername().equals("")){
+                    //central = centerUser();
+                    dispose();
+                }
+                
+            });
+            
+            
             JButton confirma = new JButton("Confirmar");
             
             confirma.setBounds(164, 260, 100, 30);
+            JLabel lblerror = new JLabel("");
+            lblerror.setBounds(100, 190, 300, 14);
+            lblerror.setForeground(Color.red);
             
             confirma.addActionListener((ActionEvent e) -> {
-                //if()
+                System.out.println("confirma");
+                if(LectoUpdater.Acceder(textField.getText(), passwordField.getText(), princ.tienda, princ.CantPrub)){
+                    dispose();
+                }else{
+                    lblerror.setText("usuario o contraseña incorrectos");
+                }
             });
+            
+            
+            contentPane.add(lblerror);
             contentPane.add(Registro);
             contentPane.add(confirma);
             setLocationRelativeTo(null);
