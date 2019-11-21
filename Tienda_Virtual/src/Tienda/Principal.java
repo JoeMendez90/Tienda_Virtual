@@ -29,9 +29,9 @@ public class Principal extends JFrame {
     public int CantPrub;
     private JPanel contentPane;
     private JPanel centerPan;
-    private centerSearch search;
-    private centerCarr carr;
-    private centerProducto product;
+    private CenterPane search;
+    private CenterPane carr;
+    private CenterPane product;
     private CenterPane cuentaP;
     private CenterPane cuenta;
     private JTextField txtSearch;
@@ -87,10 +87,13 @@ public class Principal extends JFrame {
     }
     
     public void aCar(Producto producto){
-        carr.addCar(producto);
+        tienda.actualUser.aCarrito(producto);
+            carr = new centerCarr(this, "", actionsPrev);
+       
     }
     public void dCar(Producto producto){
-        carr.deCar(producto);
+        tienda.actualUser.dCarrito(producto);
+        carr = new centerCarr(this, "", actionsPrev);
     }
     
     public void CreateUp(){
@@ -194,7 +197,7 @@ public class Principal extends JFrame {
         return new ImageIcon(Principal.class.getResource(icon));
     }
     
-    private static Font createFont(Component component,int as){
+    public static Font createFont(Component component,int as){
         return new Font(component.getFont().getFontName(), component.getFont().getStyle(), component.getFont().getSize()+as);
     }
 

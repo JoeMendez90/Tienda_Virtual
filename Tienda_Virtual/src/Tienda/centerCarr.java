@@ -44,7 +44,7 @@ public class centerCarr extends CenterPane{
         div=Carr.tam/50;
         
         String[] numbers = new String[div];
-        for (int i = 1; i < div+1; i++) {
+        for (int i = 1; i < div+2; i++) {
             numbers[i-1]=i+"";
         }
         save=-1;
@@ -88,16 +88,6 @@ public class centerCarr extends CenterPane{
                 
             break;
         }
-    }
-    
-    public void addCar(Producto prod){
-        Carr.addBack(prod);
-        tienda.tienda.actualUser.aCarrito(prod);
-    }
-    
-    public void deCar(Producto prod){
-        Carr.delete(Carr.getIndex(prod));
-        tienda.tienda.actualUser.dCarrito(prod);
     }
     
     public DinamicArray<Producto> search2(){

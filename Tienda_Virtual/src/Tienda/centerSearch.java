@@ -54,6 +54,19 @@ public class centerSearch extends CenterPane{
         scrollPane_1.setBounds(20, 20, 1000, 500);
         scrollPane_1.setBackground(Color.decode("#424242"));
         
+        JLabel busqueda = new JLabel("Search: ");
+        busqueda.setBounds(1050, 200, 200,50);
+        busqueda.setForeground(Color.white);
+        busqueda.setFont(Principal.createFont(busqueda, 20));
+        JLabel busqueda2 = new JLabel(orden);
+        busqueda2.setBounds(1050, 300, 200,50);
+        busqueda2.setForeground(Color.white);
+        busqueda2.setFont(Principal.createFont(busqueda2, 20));
+        
+        centerPane.add(busqueda);
+        centerPane.add(busqueda2);
+        
+        
         box.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -178,10 +191,21 @@ public class centerSearch extends CenterPane{
         
         JCheckBox Prod3 = new JCheckBox("to Car");
         Prod3.setBounds(0,0,100,50);
+        /*DinamicArray<Producto> car = tienda.tienda.actualUser.getCarrito().getCarrito().DisplayList();
+        System.out.println(producto.getNombre());
+        for (int i = 0; i < car.tam; i++) {
+            System.out.print(car.get(i).getNombre()+" | ");
+        }
+        System.out.println(car.exist(producto));
+        if(car.exist(producto)){
+            
+            Prod3.setSelected(true);
+        }*/
         Prod3.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 if(e.equals(Prod3)){
+                    System.out.println(Prod3);
                     if(Prod3.isSelected()){
                         tienda.aCar(producto);
                     }else{
