@@ -96,6 +96,8 @@ public class Loggin extends JDialog {
                     dispose();
                 }else{
                     lblerror.setText("usuario o contraseña incorrectos");
+                    textField.setText("");
+                    passwordField.setText("");
                 }
             });
             

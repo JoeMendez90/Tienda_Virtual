@@ -5,6 +5,8 @@
  */
 package tienda_virtual;
 
+import sun.security.util.Length;
+
 /**
  *
  * @author fanat
@@ -12,6 +14,13 @@ package tienda_virtual;
 public class SinglyLinkedList<T> {
     public  Node<T> head=null;
     public  Node<T> tail=null;
+    public int length;
+
+    public SinglyLinkedList() {
+        length=0;
+    }
+    
+    
     
     public void PushFront(T key){
         Node<T> node = new Node<>(key);
@@ -20,6 +29,7 @@ public class SinglyLinkedList<T> {
         if(tail == null){
             tail = head;
         }
+        length++;
     }
     
     public Node<T> TopFront(){
@@ -40,6 +50,7 @@ public class SinglyLinkedList<T> {
         if(head==null){
             tail=null;
         }
+        length--;
     }
     
     public void pushBack(T key){
@@ -51,6 +62,7 @@ public class SinglyLinkedList<T> {
             tail.next =(node);
             tail=node;
         }
+        length++;
     }
     
     public Node<T> TopBack(){
@@ -76,6 +88,7 @@ public class SinglyLinkedList<T> {
             p.next=(null);
             tail=p;
         }
+        length--;
     }
     
     public boolean Find(T key){
@@ -160,23 +173,13 @@ public class SinglyLinkedList<T> {
         return tail;
     }
     
-    public void DisplayList(){
-        if (isEmpty()){
-            System.out.println("      ,,,,,,,,,,,,,,,,,");
-            System.out.println("     / Oye!!!         |");
-            System.out.println("(\\_/)\\Aqui no hay nada|");
-            System.out.println("(^w^) '''''''''''''''''");
-            System.out.println("(W W)3");
-            return;
-        }
+    public DinamicArray<T> DisplayList(){
+        DinamicArray<T> list = new DinamicArray<>();
         Node<T> a = head;
         while (a != null){
-            if (a.next != null){
-                System.out.print(a.key + " --> ");
-            } else{
-                System.out.println(a.key);
-            }
-            a = a.next;
+            list.addBack(a.key);
         }
+        
+        return list;
     }
 }

@@ -29,7 +29,11 @@ public class Principal extends JFrame {
     public int CantPrub;
     private JPanel contentPane;
     private JPanel centerPan;
-    private CenterPane central;
+    private centerSearch search;
+    private centerCarr carr;
+    private centerProducto product;
+    private CenterPane cuentaP;
+    private CenterPane cuenta;
     private JTextField txtSearch;
 
     public Tienda tienda;
@@ -40,7 +44,26 @@ public class Principal extends JFrame {
         this.CantPrub= CantPrub;
         this.tienda=tienda;	
         actionsPrev= new ReturnAction();
+        init();
         createFrame();    
+    }
+    
+    private  void init(){
+        search= new centerSearch(this, "", actionsPrev);
+        //carr = new centerCarr(this, "", actionsPrev);
+        product = new centerProducto(this, "Product", actionsPrev, null);
+        cuentaP = new centerSearch(this, "", actionsPrev);
+        cuenta = new centerSearch(this, "", actionsPrev);
+        product.getCenterPane().setVisible(false);
+        cuenta.getCenterPane().setVisible(false);
+        search.getCenterPane().setVisible(true);
+        cuentaP.getCenterPane().setVisible(false);
+        contentPane = new JPanel();
+        contentPane.setBackground(Color.decode("#616161"));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        contentPane.add(search.getCenterPane());
     }
 
     private void createFrame(){
@@ -53,18 +76,21 @@ public class Principal extends JFrame {
         setBackground(Color.BLACK);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1280, 680);
-        contentPane = new JPanel();
-        contentPane.setBackground(Color.decode("#616161"));
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
-        CreateUp();
         
-        central = new centerSearch(tienda, "",actionsPrev);
-        centerPan=central.getCenterPane();
-        contentPane.add(centerPan);
+        CreateUp();
+        centerPan = new JPanel();
+        
+        
+        //contentPane.add(centerPan);
         
         setLocationRelativeTo(null);
+    }
+    
+    public void aCar(Producto producto){
+        carr.addCar(producto);
+    }
+    public void dCar(Producto producto){
+        carr.deCar(producto);
     }
     
     public void CreateUp(){
@@ -103,7 +129,7 @@ public class Principal extends JFrame {
             up.add(btnSearch);
 
             btnSearch.addActionListener((ActionEvent e) -> {
-                central = new centerSearch(tienda, txtSearch.getText(), actionsPrev);
+                search(txtSearch.getText());
                 actionsPrev.addAction("Search|"+txtSearch.getText());
                 
             });
@@ -112,11 +138,28 @@ public class Principal extends JFrame {
             btnRegister.setIcon(createIcon("/Images/Register2.png"));
             btnRegister.setBounds(1069, 10, 74, 81);
             btnRegister.addActionListener((ActionEvent e) -> {
-                Loggin login = new Loggin(this, true);
-                login.setVisible(true);
+                if(tienda.actualUser.getUsername().equals("")){
+                    Loggin login = new Loggin(this, true);
+                    login.setVisible(true);
+                }
                 if(!tienda.actualUser.getUsername().equals("")){
-                    //central = centerUser();
-                    System.out.println(tienda.actualUser.getUsername());
+                    boolean ha=cuentaP.getCenterPane().isVisible();
+                    carr.getCenterPane().setVisible(false);
+                    product.getCenterPane().setVisible(false);
+                    search.getCenterPane().setVisible(false);
+                    cuenta.getCenterPane().setVisible(false); 
+                    
+                    search = new centerSearch(this, txtSearch.getText(),actionsPrev);
+                    
+                    
+                    if(!ha){
+                        cuentaP = new centerSearch(this, "this", actionsPrev);
+                        cuentaP.getCenterPane().setVisible(true);
+                        contentPane.add(cuentaP.getCenterPane());
+                    }
+
+                    contentPane.validate();
+                    actionsPrev.addAction("Cuenta|");
                 }
             });
 
@@ -129,9 +172,14 @@ public class Principal extends JFrame {
             up.add(btnCrt);
 
             btnCrt.addActionListener((ActionEvent e) -> {
-                central = new centerSearch(tienda, "",actionsPrev);
-                centerPan=central.getCenterPane();
-                ShowCar();
+                if(!tienda.actualUser.getCarrito().isSearched()){
+                    tienda.actualUser.getCarrito().search(tienda);
+                }
+                if(tienda.actualUser.getCarrito().getCarrito().isEmpty()){
+                    cart();
+                    actionsPrev.addAction("Car|");
+                }
+                
             });
         contentPane.add(up);
         
@@ -159,14 +207,15 @@ public class Principal extends JFrame {
                 dispose();
             break;
             case "Search":
-                central = new centerSearch(tienda, subActions[1], actionsPrev);
+                search(subActions[1]);
                 hey ="";
-                for (int i = 2; i < subActions.length; i++) {
+                System.out.println("saliendocenter");
+                for (int i= 2; i < subActions.length; i++) {
                      hey= hey+subActions[i]+"|";
                 }
-                if(subActions.length>2){
-                    central.Actions(hey);
-                }
+                search.Actions(hey);
+                
+                
             case "Center":
                 hey ="";
                 System.out.println("saliendocenter");
@@ -174,10 +223,28 @@ public class Principal extends JFrame {
                      hey= hey+subActions[i]+"|";
                 }
                 System.out.println(hey);
-                central.Actions(hey);
+                if(carr!=null){
+                    if(carr.getCenterPane().isVisible()){
+                        carr.Actions(hey);
+                    }
+                }
+                if(cuentaP.centerPane.isVisible()){
+                    cuentaP.Actions(hey);
+                }
+                if(product.centerPane.isVisible()){
+                    product.Actions(hey);
+                }
+                if(search.centerPane.isVisible()){
+                    search.Actions(hey);
+                }
+                if(cuenta.centerPane.isVisible()){
+                    cuenta.Actions(hey);
+                }
+                    
             break;
-            
-                
+            case "Car":
+                cart();
+            break;
             
         }
         
@@ -191,6 +258,49 @@ public class Principal extends JFrame {
     }
 
     
+    public void cart(){
+        boolean ha=cuentaP.getCenterPane().isVisible();
+        cuentaP.getCenterPane().setVisible(false);
+        product.getCenterPane().setVisible(false);
+        search.getCenterPane().setVisible(false);
+        cuenta.getCenterPane().setVisible(false); 
 
+        search = new centerSearch(this, txtSearch.getText(),actionsPrev);
+
+
+        if(!ha){
+            carr = new centerCarr(this, "this", actionsPrev);
+            carr.getCenterPane().setVisible(true);
+            contentPane.add(carr.getCenterPane());
+        }
+
+        contentPane.validate();
+    }
+    
+    public void search(String busqueda){
+        boolean ha=search.getCenterPane().isVisible();
+        if(carr!=null){
+            carr.getCenterPane().setVisible(false);
+        }
+        product.getCenterPane().setVisible(false);
+        cuentaP.getCenterPane().setVisible(false);
+        cuenta.getCenterPane().setVisible(false); 
+
+        if(!ha&&!search.orden.equals(busqueda)){
+            search = new centerSearch(this, busqueda,actionsPrev);
+            search.getCenterPane().setVisible(true);
+            contentPane.add(search.getCenterPane());
+        }else if(!ha&&search.orden.equals(busqueda)){
+            search.getCenterPane().setVisible(true);
+            contentPane.add(search.getCenterPane());
+        }else if(ha&&!search.orden.equals(busqueda)){
+            search.getCenterPane().setVisible(false);
+            search = new centerSearch(this, busqueda,actionsPrev);
+            search.getCenterPane().setVisible(true);
+            contentPane.add(search.getCenterPane());
+        }
+
+        contentPane.validate();
+    }
     
 }

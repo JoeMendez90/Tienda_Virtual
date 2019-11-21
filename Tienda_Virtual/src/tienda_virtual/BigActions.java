@@ -4,11 +4,15 @@ package tienda_virtual;
  * La clase BigActions guarda una accion grande (el nombre del panel central normalmente)
  * y un stack de pequeñas acciones. esto sirve para saber retroceder entre partes cuando 
  * cambias entre grandes saber cual fue tu ultimo paso pequeño
+ * tiene un booleano add que funciona como marcador, 
+ * si lo ultimo que se hizo fue adicionar algo es verdadera,y se veulve falsa al sacar algo
+ * 
  * @author fanat
  */
 public class BigActions {
     private String bigAction;
     private Stack<String> smallActions;
+    private boolean add;
 
     /**
      * inicia la gran accion con su nombre, inicia el stack 
@@ -18,8 +22,16 @@ public class BigActions {
     public BigActions(String bigAction) {
         this.bigAction = bigAction;
         smallActions = new Stack<>();
-        if(bigAction.contains("Search"))
-        smallActions.Push("set|1");
+        BigIn();
+        if(bigAction.contains("Search")){
+            smallActions.Push("set|0");
+        }
+        
+    }
+    
+    private void BigIn(){
+        smallActions.Push("0");
+        add=true;
     }
     /**
      * inicia la gran accion con su nombre, inicia el stack y le añade la primera accion
@@ -47,8 +59,27 @@ public class BigActions {
      */
     
     public String getLastAction(){
+        String last;
+        if(!add){
+             last = smallActions.Peek();
+            smallActions.Pop();
+        }else{
+            smallActions.Pop();
+            last = smallActions.Peek();
+            smallActions.Pop();
+            add=false;
+        }
+        
+        return last;
+    }
+    
+    /**
+     * 
+     * @return  ultima accion pequeña sin quitarla de la lista.
+     */
+    
+    public String getLastActionNoPop(){
         String last = smallActions.Peek();
-        smallActions.Pop();
         return last;
     }
     
@@ -59,6 +90,7 @@ public class BigActions {
     
     public void addAction(String hey){
         smallActions.Push(hey);
+        add=true;
     }
     
     /**
@@ -87,6 +119,19 @@ public class BigActions {
      */
     
     public boolean isFirst(){
-        return smallActions.length==1||smallActions.isEmpty();
+        if(add){
+            return smallActions.length<=2||smallActions.isEmpty();
+        }else{
+            return smallActions.length==1||smallActions.isEmpty();
+        }
+    }
+    
+    /**
+     * esta vacia las acciones pequeñas?
+     * @return esta vacio?
+     */
+    
+    public boolean isEmpty(){
+        return smallActions.isEmpty();
     }
 }

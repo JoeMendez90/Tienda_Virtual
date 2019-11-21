@@ -190,7 +190,7 @@ public class LectoUpdater {
         }
     }
     
-    public static int CrearCuenta(String nombre,String contrasena,String contrasena2,int ex){
+    public static int CrearCuenta(String nombre,String contrasena,String contrasena2,Tienda tienda,int ex){
         long TInicio, TFin; 
         TInicio = System.currentTimeMillis();
         if(!contrasena.equals(contrasena2)){
@@ -244,6 +244,8 @@ public class LectoUpdater {
             pw1.println(nombre+"|"+contrasena);
             pw2.println(nombre+"| |0|");
                 
+            tienda.users.addBack(new Usuario(nombre));
+            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -280,7 +282,6 @@ public class LectoUpdater {
            while((linea=ReaderProd.readLine())!=null){
                 String[]  palabras = linea.split(Pattern.quote("|"));
                 prod.addBack(new Producto(palabras[0], palabras[1], palabras[2], Double.valueOf(palabras[3]), palabras[4]));
-                System.out.println(i);
                 i++;
            }
         }
@@ -340,49 +341,6 @@ public class LectoUpdater {
         TFin = System.currentTimeMillis();
         getTime(TFin - TInicio,"Iniciar Usuarios");
         return users;
-    }
-
-    
-    public static void main(String[] args)
-    {
-        /*
-        File oldfile = new File("src/txt/prueba65.txt");
-        File newfile = new File("src/txt/prueba.txt");
-        if (newfile.renameTo(oldfile)) {
-            System.out.println("archivo renombrado");
-        } else {
-            System.out.println("error");
-        }*/
-    
-        /*Queue<String> hey = new Queue<>();
-        hey.enQueue("nombre");
-        hey.enQueue("nombre");
-        boolean set = false;
-        
-        System.out.println("Listo");
-        
-        
-        /*
-        FileWriter fichero = null;
-        PrintWriter pw = null;
-        try
-        {
-            fichero = new FileWriter("src/txt/prueba.txt",true);
-            pw = new PrintWriter(fichero);
-
-            for (int i = 0; i < 10; i++)
-                pw.println("Linea " + i+"0");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-           try {
-           if (null != fichero)
-              fichero.close();
-           } catch (Exception e2) {
-              e2.printStackTrace();
-           }
-        }*/
     }
 
     private static void EliminarProductos(Tienda tienda,int ex) {

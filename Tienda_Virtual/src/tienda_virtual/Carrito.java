@@ -154,7 +154,7 @@ public class Carrito {
     }
     
     /**
-     *  el cid y sus productos concuerdan?
+     *  el id y sus productos concuerdan?
      * @return buscado?
      */
 

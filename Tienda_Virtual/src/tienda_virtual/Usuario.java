@@ -9,12 +9,11 @@ package tienda_virtual;
  */
 
 public class Usuario {
-    String username;
-    String desc;
-    Queue<String> productos;
-    Carrito carrito;
-    LinkedList<Carrito> garage;
-    private DinamicArray<Carrito> carritos;
+    public String username;
+    public String desc;
+    public Queue<String> productos;
+    private  Carrito carrito;
+    private SinglyLinkedList<GuardCarr> garage;
     
     
     /**
@@ -28,7 +27,7 @@ public class Usuario {
         this.desc = " ";
         productos = new Queue<>();
         carrito = new Carrito();
-        garage = new LinkedList<>();
+        garage = new SinglyLinkedList<>();
     }
     
     /**
@@ -64,7 +63,7 @@ public class Usuario {
      * @param carritos lista de carros guardados
      */
    
-    public Usuario(String username, String desc,LinkedList<Carrito> carritos) {
+    public Usuario(String username, String desc,SinglyLinkedList<GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = null;
@@ -80,12 +79,12 @@ public class Usuario {
      * @param carritos 
      */
     
-    public Usuario(String username, String desc, Carrito carrito,DinamicArray<Carrito> carritos) {
+    public Usuario(String username, String desc, Carrito carrito,SinglyLinkedList<GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = carrito;
         productos = new Queue<>();
-        this.carritos = carritos;
+        this.garage = carritos;
     }
     
     /**
@@ -120,9 +119,8 @@ public class Usuario {
     }
     
     //Cambia la descripción de un producto en su lista
-    public void nuevo_carrito(String name){
-        Carrito car = new Carrito(name);
-        garage.PushFront(car);
+    public void nuevo_carrito(Carrito name, String Nombre){
+        garage.PushFront(new GuardCarr(name, Nombre));
     }
 
     public Queue<String> getProductos() {
@@ -133,7 +131,7 @@ public class Usuario {
         return carrito;
     }
 
-    public LinkedList<Carrito> getGarage() {
+    public SinglyLinkedList<GuardCarr> getGarage() {
         return garage;
     }
 
@@ -145,12 +143,16 @@ public class Usuario {
         this.carrito = carrito;
     }
 
-    public void setGarage(LinkedList<Carrito> garage) {
+    public void setGarage(SinglyLinkedList<GuardCarr> garage) {
         this.garage = garage;
     }
     
     public void aCarrito(Producto p){
         carrito.agregar(p);
+    }
+    
+    public void dCarrito(Producto p){
+        carrito.sacar(p);
     }
     //Cambia la descripción de un producto en su lista
     public void cambiarDesc(Producto p,String desc){

@@ -24,16 +24,21 @@ public class Tienda{
     }
     public DinamicArray<Producto> Buscar(String search){
         DinamicArray<Producto> prod1 = new DinamicArray<>();
+        DinamicArray<Producto> prod2 = new DinamicArray<>();
         if(search.equals("")){
             return prod;
         }
-        for(int i=prod.tam-1; i>=0;i--){
+        for(int i=0; i<prod.tam;i++){
             if(prod.get(i).getNombre().contains(search)){
-                prod1.addFront(prod.get(i));
-            }else if(prod.get(i).getSeller().contains(search)){
                 prod1.addBack(prod.get(i));
+            }else if(prod.get(i).getSeller().contains(search)){
+                prod2.addBack(prod.get(i));
             }
         }
+        for (int i = 0; i < prod2.tam; i++) {
+            prod1.addBack(prod2.get(i));
+        }
+        
         return prod1;
     }
     

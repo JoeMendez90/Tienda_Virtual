@@ -2,18 +2,16 @@ package Tienda;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPasswordField;
+import tienda_virtual.Carrito;
 import tienda_virtual.LectoUpdater;
 
 public class Register extends JDialog {
@@ -23,23 +21,6 @@ public class Register extends JDialog {
 	private JPasswordField passwordField;
         private JPasswordField passwordField2;
         private Principal princ;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-                                    
-					Register frame = new Register();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -107,7 +88,7 @@ public class Register extends JDialog {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         
-                        switch(LectoUpdater.CrearCuenta(textField.getText(), passwordField.getText(), passwordField2.getText(), princ.CantPrub)){
+                        switch(LectoUpdater.CrearCuenta(textField.getText(), passwordField.getText(), passwordField2.getText(),princ.tienda, princ.CantPrub)){
                             case -1:
                                 error.setText("Contraseñas no coinciden");
                             break;
@@ -116,9 +97,15 @@ public class Register extends JDialog {
                             break;
                             default:
                                 error.setText("");
+                                Carrito carr = princ.tienda.actualUser.getCarrito();
+                                princ.tienda.actualUser = princ.tienda.users.get(princ.tienda.users.tam-1);                                
+                                princ.tienda.actualUser.setCarrito(carr);
                                 dispose();
                             break;
                         }
+                        textField.setText("");
+                        passwordField.setText("");
+                        passwordField2.setText("");
                     }
                 });
                 

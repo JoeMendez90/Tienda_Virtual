@@ -24,15 +24,6 @@ public class Queue<T> {
         return listBase.TopFront().key;
     }
     public DinamicArray<T> DisplayQueue(){
-        T t;
-        DinamicArray<T> lista = new DinamicArray<>();
-        int j = length;
-        for (int i = 0; i < j; i++) {
-            t= Peek();
-            lista.addBack(t);
-            deQueue();
-            enQueue(t);
-        }
-        return lista;
+        return listBase.DisplayList();
     }
 }

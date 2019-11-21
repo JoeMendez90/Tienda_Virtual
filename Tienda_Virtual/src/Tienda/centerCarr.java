@@ -25,23 +25,23 @@ import tienda_virtual.Tienda;
  *
  * @author fanat
  */
-public class centerSearch extends CenterPane{
-    private DinamicArray<Producto> search;
+public class centerCarr extends CenterPane{
+    private DinamicArray<Producto> Carr;
     private JScrollPane scrollPane_1;
     private JComboBox<String> box;
     private int div;
     private int save;
     
     
-    public centerSearch(Principal tienda, String orden, ReturnAction actionPrev) {
-        super(tienda, orden, actionPrev,"Busqueda nueva");
+    public centerCarr(Principal tienda, String orden, ReturnAction actionPrev) {
+        super(tienda, orden, actionPrev," VisualizarCarro ");
     }
 
     @Override
     protected void createButton() {
         centerPane.setLayout(null);
-        search = tienda.tienda.Buscar(orden);
-        div=search.tam/50;
+        Carr = tienda.tienda.actualUser.getCarrito().getCarrito().DisplayList();
+        div=Carr.tam/50;
         
         String[] numbers = new String[div];
         for (int i = 1; i < div+1; i++) {
@@ -50,9 +50,6 @@ public class centerSearch extends CenterPane{
         save=-1;
         box = new JComboBox<>(numbers);
         box.setBounds(1150, 120, 60, 27);
-        scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(20, 20, 1000, 500);
-        scrollPane_1.setBackground(Color.decode("#424242"));
         
         box.addActionListener(new ActionListener() {
             @Override
@@ -62,9 +59,12 @@ public class centerSearch extends CenterPane{
                 }
             }
         });
+        
         box.setSelectedIndex(0);
         centerPane.add(box);
-        
+        scrollPane_1 = new JScrollPane();
+        scrollPane_1.setBounds(20, 20, 1000, 500);
+        scrollPane_1.setBackground(Color.decode("#424242"));
         centerPane.add(scrollPane_1);
         
               
@@ -77,34 +77,38 @@ public class centerSearch extends CenterPane{
         
         switch(subAction[0]){
             case "set":
+                if(box.getSelectedIndex()!=Integer.valueOf(subAction[1])){
                     System.out.println("acction");
                     save=Integer.valueOf(subAction[1]);
-                    if(box.getSelectedIndex()!=save){
-                        box.setSelectedIndex(Integer.valueOf(subAction[1]));
-                    }
-                    
+                    box.setSelectedIndex(Integer.valueOf(subAction[1]));
                     scrollPane_1.setViewportView(createListSet());
+                }
             break;
             case "select":
                 
             break;
-            case "Search":
-                orden = subAction[1];
-                Reset();
-            break;
-            
         }
+    }
+    
+    public void addCar(Producto prod){
+        Carr.addBack(prod);
+        tienda.tienda.actualUser.aCarrito(prod);
+    }
+    
+    public void deCar(Producto prod){
+        Carr.delete(Carr.getIndex(prod));
+        tienda.tienda.actualUser.dCarrito(prod);
     }
     
     public DinamicArray<Producto> search2(){
         DinamicArray<Producto> search2 = new DinamicArray<>();
         if(box.getSelectedIndex()==div){
-            for (int i = box.getSelectedIndex()*50; i < search.tam; i++) {
-                search2.addBack(search.get(i));
+            for (int i = box.getSelectedIndex()*50; i < Carr.tam; i++) {
+                search2.addBack(Carr.get(i));
             }
         }else{
             for (int i = box.getSelectedIndex()*50; i < box.getSelectedIndex()*50+50; i++) {
-                search2.addBack(search.get(i));
+                search2.addBack(Carr.get(i));
             }
         }
         return search2;
@@ -128,8 +132,6 @@ public class centerSearch extends CenterPane{
         
         return list;
     }
-    
-    
     
     public JPanel createDoubleProd(Producto producto, Producto producto2){
         JPanel pan = new JPanel();
@@ -173,30 +175,11 @@ public class centerSearch extends CenterPane{
             public void actionPerformed(ActionEvent e) {
                 StackAction("select|"+producto.getId());
             }
-            
         });
-        
-        JCheckBox Prod3 = new JCheckBox("to Car");
-        Prod3.setBounds(0,0,100,50);
-        Prod3.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if(e.equals(Prod3)){
-                    if(Prod3.isSelected()){
-                        tienda.aCar(producto);
-                    }else{
-                        tienda.dCar(producto);
-                    }
-                }
-            }
-        });
-        JPanel boxcheck = new JPanel();
-        boxcheck.add(Prod3);
         
         JPanel prod2 = new JPanel();
-        prod2.setLayout(new BoxLayout(prod2, BoxLayout.Y_AXIS));
+        prod2.setLayout(new BoxLayout(label, BoxLayout.Y_AXIS));
         prod2.add(Prod);
-        prod2.add(boxcheck);
         return prod2;
     }
     

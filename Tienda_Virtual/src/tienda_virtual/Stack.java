@@ -55,17 +55,6 @@ public class Stack<T> {
      */
     
     public DinamicArray<T> DisplayStack(){
-        DinamicArray<T> ret = new DinamicArray<>();
-        Stack<T> stac = new Stack<>();
-        while(!isEmpty()){
-            ret.addBack(Peek());
-            stac.Push(Peek());
-            Pop();
-        }        
-        while(!stac.isEmpty()){
-            Push(stac.Peek());
-            stac.Pop();
-        }
-        return ret;
+        return listBase.DisplayList();
     }
 }

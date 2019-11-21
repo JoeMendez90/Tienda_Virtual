@@ -27,20 +27,25 @@ public class ReturnAction {
     
     public String Action(){
         if(Actions.isEmpty()){
+            System.out.println("out1");
             return "out";
         }else if(Actions.length==1){
             if(Actions.Peek().isFirst()){
+                System.out.println("out2");
                 return "out";
             }
             String Action = Actions.Peek().getLastAction();
+            System.out.println("Center|"+Action);
             return "Center|"+Action;
         }
         if(Actions.Peek().isFirst()){
             Actions.Pop();
-            return Actions.Peek().getBigAction()+"|Center|"+Actions.Peek().getLastAction();
+            String out = Actions.Peek().getBigAction()+"|Center|"+Actions.Peek().getLastAction();
+            return out;
             
         }else{
             String Action = Actions.Peek().getLastAction();
+            System.out.println("Center|"+Action);
             return "Center|"+Action;
         }
     }
@@ -57,13 +62,15 @@ public class ReturnAction {
     public void addAction(String action){
         if(action.contains("Center|")){
             String actionSub = action.substring(7);
+            
             if(!Actions.Peek().repeatS(actionSub)){
+                System.out.println(Actions.Peek().getLastActionNoPop()+" "+actionSub);
                 Actions.Peek().addAction(actionSub);
                 System.out.println("subActionAdd");
                 return;
             }
             System.out.println("subActionRepeat");
-        }else if(Actions.Peek().repeatB(action)){
+        }else if(!Actions.Peek().repeatB(action)){
             Actions.Peek().addAction("");
             System.out.println("BigActionIn");
         }else{

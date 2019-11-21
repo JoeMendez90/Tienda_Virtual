@@ -17,11 +17,11 @@ import tienda_virtual.Tienda;
  */
 public abstract class CenterPane {
     protected JPanel centerPane;
-    protected Tienda tienda;
+    protected Principal tienda;
     protected String orden;
     protected ReturnAction actionPrev;
 
-    public CenterPane(Tienda tienda, String orden,ReturnAction actionPrev,String action) {
+    public CenterPane(Principal tienda, String orden,ReturnAction actionPrev,String action) {
         long TInicio, TFin;
         TInicio = System.currentTimeMillis();
         this.tienda = tienda;
@@ -51,5 +51,13 @@ public abstract class CenterPane {
     }
     public JPanel getCenterPane() {
         return centerPane;
+    }
+    
+    protected void Reset(){
+        this.centerPane = new JPanel();
+        centerPane.setBounds(5, 110, 1265, 538);
+        this.centerPane.setBackground(Color.decode("#424242"));
+        this.centerPane.setLayout(null);
+        createButton();
     }
 }

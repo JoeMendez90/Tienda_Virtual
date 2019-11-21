@@ -7,9 +7,14 @@ package tienda_virtual;
  */
 
 public class DoubleLinkedList<T>{
-    DoubleNode<T> head = null;
-    DoubleNode<T> tail = null;
+    private DoubleNode<T> head = null;
+    private DoubleNode<T> tail = null;
+    public int lenght;
     
+    public DoubleLinkedList(){
+	lenght = 0;
+    }
+
     /**
      * 
      * @return esta vacio?
@@ -38,6 +43,7 @@ public class DoubleLinkedList<T>{
         if (this.tail == null){
             this.tail = this.head;
         }
+	lenght++;
     }
     
     /**
@@ -57,6 +63,7 @@ public class DoubleLinkedList<T>{
             node2.prev = this.tail;
             this.tail = node2;
         }
+	lenght++;
     }
     
     /**
@@ -80,6 +87,7 @@ public class DoubleLinkedList<T>{
             this.tail = tail.prev; 
             this.tail.next = null;
         }
+	lenght--;
     }
     
     /**
@@ -104,6 +112,7 @@ public class DoubleLinkedList<T>{
             head.prev.next = null;
             this.head.prev = null;
         }
+	lenght--;
     }
     
     /**
@@ -142,6 +151,7 @@ public class DoubleLinkedList<T>{
                 }
             }
         }
+	lenght--;
     }
     
     /**
