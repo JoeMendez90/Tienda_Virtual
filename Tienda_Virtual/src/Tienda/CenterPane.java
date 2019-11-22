@@ -7,6 +7,7 @@ package Tienda;
 
 import java.awt.Color;
 import javax.swing.JPanel;
+import tienda_virtual.LectoUpdater;
 import static tienda_virtual.LectoUpdater.getTime;
 import tienda_virtual.ReturnAction;
 import tienda_virtual.Tienda;
@@ -30,7 +31,7 @@ public abstract class CenterPane {
         System.out.println("ini");
         create();
         TFin = System.currentTimeMillis();
-        getTime(TFin - TInicio,action);
+        LectoUpdater.getTime(TFin - TInicio,action);
     }
     
     private void create(){

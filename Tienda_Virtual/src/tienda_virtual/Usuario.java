@@ -100,11 +100,16 @@ public class Usuario {
     
     /**
      * get del nombre de usuario
-     * @return 
+     * @return nombre de usuario
      */
     public String getUsername() {
         return username;
     }
+    
+    /**
+     * cambia el nombre de usuario
+     * @param username nuevo nombre de usuario
+     */
 
     public void setUsername(String username) {
         this.username = username;
@@ -118,7 +123,7 @@ public class Usuario {
         this.desc = desc;
     }
     
-    //Cambia la descripción de un producto en su lista
+    
     public void nuevo_carrito(Carrito name, String Nombre){
         garage.PushFront(new GuardCarr(name, Nombre));
     }

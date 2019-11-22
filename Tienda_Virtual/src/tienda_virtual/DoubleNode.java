@@ -8,8 +8,8 @@ package tienda_virtual;
 
 public class DoubleNode<T> {
     public T key;
-    public DoubleNode next;
-    public DoubleNode prev;
+    public DoubleNode<T> next;
+    public DoubleNode<T> prev;
     
     /**
      * constructor vacio para iniciar en null;

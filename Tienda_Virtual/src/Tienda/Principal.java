@@ -6,19 +6,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
-import java.awt.ScrollPane;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Window.Type;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.JButton;
-import javax.swing.JRadioButton;
 import javax.swing.ImageIcon;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import tienda_virtual.DinamicArray;
 import tienda_virtual.Producto;
 import tienda_virtual.ReturnAction;
 import tienda_virtual.Tienda;
@@ -28,7 +24,7 @@ public class Principal extends JFrame {
     
     public int CantPrub;
     private JPanel contentPane;
-    private JPanel centerPan;
+   
     private CenterPane search;
     private CenterPane carr;
     private CenterPane product;
@@ -78,7 +74,6 @@ public class Principal extends JFrame {
         setBounds(100, 100, 1280, 680);
         
         CreateUp();
-        centerPan = new JPanel();
         
         
         //contentPane.add(centerPan);

@@ -7,9 +7,17 @@ package tienda_virtual;
  */
 
 public class DoubleLinkedList<T>{
+    /**
+     * la longitud de la lista
+     */
+    
     private DoubleNode<T> head = null;
     private DoubleNode<T> tail = null;
     public int lenght;
+    
+    /** 
+     * inicia la lista en longitud en 0
+     */
     
     public DoubleLinkedList(){
 	lenght = 0;

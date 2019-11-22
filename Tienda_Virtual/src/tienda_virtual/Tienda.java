@@ -1,7 +1,5 @@
 package tienda_virtual;
 
-import java.util.*;
-
 public class Tienda{
     public String TiendName;
     public DinamicArray<Producto> prod;
