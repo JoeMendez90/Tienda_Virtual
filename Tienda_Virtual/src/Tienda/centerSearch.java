@@ -33,55 +33,59 @@ public class centerSearch extends CenterPane{
     private int save;
     
     
-    public centerSearch(Principal tienda, String orden, ReturnAction actionPrev) {
+    public centerSearch(Tienda tienda, String orden, ReturnAction actionPrev) {
         super(tienda, orden, actionPrev,"Busqueda nueva");
     }
 
     @Override
     protected void createButton() {
         centerPane.setLayout(null);
-        search = tienda.tienda.Buscar(orden);
-        div=search.tam/50;
+        search = tienda.Buscar(orden);
+        if(search.isEmpty()){
+            Error();
+        }else{
+            div=search.tam/50;
         
-        String[] numbers = new String[div];
-        for (int i = 1; i < div+1; i++) {
-            numbers[i-1]=i+"";
-        }
-        save=-1;
-        box = new JComboBox<>(numbers);
-        box.setBounds(1150, 120, 60, 27);
-        scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(20, 20, 1000, 500);
-        scrollPane_1.setBackground(Color.decode("#424242"));
-        
-        JLabel busqueda = new JLabel("Search: ");
-        busqueda.setBounds(1050, 200, 200,50);
-        busqueda.setForeground(Color.white);
-        busqueda.setFont(Principal.createFont(busqueda, 20));
-        JLabel busqueda2 = new JLabel(orden);
-        busqueda2.setBounds(1050, 300, 200,50);
-        busqueda2.setForeground(Color.white);
-        busqueda2.setFont(Principal.createFont(busqueda2, 20));
-        
-        centerPane.add(busqueda);
-        centerPane.add(busqueda2);
-        
-        
-        box.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(save!=box.getSelectedIndex()){
-                    StackAction("set|"+box.getSelectedIndex());
-                }
+            String[] numbers = new String[div+1];
+            for (int i = 1; i < div+2; i++) {
+                numbers[i-1]=i+"";
             }
-        });
-        box.setSelectedIndex(0);
-        centerPane.add(box);
-        
-        centerPane.add(scrollPane_1);
-        
-              
-        scrollPane_1.setViewportView(createListSet());
+            save=-1;
+            box = new JComboBox<>(numbers);
+            box.setBounds(1150, 120, 60, 27);
+            scrollPane_1 = new JScrollPane();
+            scrollPane_1.setBounds(20, 20, 1000, 500);
+            scrollPane_1.setBackground(Color.decode("#424242"));
+
+            JLabel busqueda = new JLabel("Search: ");
+            busqueda.setBounds(1050, 200, 200,50);
+            busqueda.setForeground(Color.white);
+            busqueda.setFont(Principal.createFont(busqueda, 20));
+            JLabel busqueda2 = new JLabel(orden);
+            busqueda2.setBounds(1050, 300, 200,50);
+            busqueda2.setForeground(Color.white);
+            busqueda2.setFont(Principal.createFont(busqueda2, 20));
+
+            centerPane.add(busqueda);
+            centerPane.add(busqueda2);
+
+
+            box.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(save!=box.getSelectedIndex()){
+                        StackAction("set|"+box.getSelectedIndex());
+                    }
+                }
+            });
+            box.setSelectedIndex(0);
+            centerPane.add(box);
+
+            centerPane.add(scrollPane_1);
+
+
+            scrollPane_1.setViewportView(createListSet());
+        }
     }
 
     @Override
@@ -207,9 +211,9 @@ public class centerSearch extends CenterPane{
                 if(e.equals(Prod3)){
                     System.out.println(Prod3);
                     if(Prod3.isSelected()){
-                        tienda.aCar(producto);
+                        tienda.actualUser.aCarrito(producto);
                     }else{
-                        tienda.dCar(producto);
+                        tienda.actualUser.dCarrito(producto);
                     }
                 }
             }
@@ -222,6 +226,18 @@ public class centerSearch extends CenterPane{
         prod2.add(Prod);
         prod2.add(boxcheck);
         return prod2;
+    }
+
+    private void Error() {
+        JLabel error1 = new JLabel("Error Busqueda");
+        JLabel error2 = new JLabel("No Encontrada");
+        System.out.println("error");
+        error1.setFont(Principal.createFont(error1, 100));
+        error1.setBounds(50, 50, 1000, 150);
+        error2.setFont(Principal.createFont(error2, 100));
+        error2.setBounds(50, 150, 1000, 300);
+        centerPane.add(error1);
+        centerPane.add(error2);
     }
     
 }

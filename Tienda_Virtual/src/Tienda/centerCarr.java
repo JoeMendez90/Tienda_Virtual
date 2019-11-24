@@ -33,14 +33,18 @@ public class centerCarr extends CenterPane{
     private int save;
     
     
-    public centerCarr(Principal tienda, String orden, ReturnAction actionPrev) {
+    public centerCarr(Tienda tienda, String orden, ReturnAction actionPrev) {
         super(tienda, orden, actionPrev," VisualizarCarro ");
     }
 
     @Override
     protected void createButton() {
+        Carr = tienda.actualUser.getCarrito().getCarrito();
+        if(Carr.isEmpty()){
+            
+        }
         centerPane.setLayout(null);
-        Carr = tienda.tienda.actualUser.getCarrito().getCarrito().DisplayList();
+        
         div=Carr.tam/50;
         
         String[] numbers = new String[div];

@@ -18,11 +18,11 @@ import tienda_virtual.Tienda;
  */
 public abstract class CenterPane {
     protected JPanel centerPane;
-    protected Principal tienda;
+    protected Tienda tienda;
     protected String orden;
     protected ReturnAction actionPrev;
 
-    public CenterPane(Principal tienda, String orden,ReturnAction actionPrev,String action) {
+    public CenterPane(Tienda tienda, String orden,ReturnAction actionPrev,String action) {
         long TInicio, TFin;
         TInicio = System.currentTimeMillis();
         this.tienda = tienda;

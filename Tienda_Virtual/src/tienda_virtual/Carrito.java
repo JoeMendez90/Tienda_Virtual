@@ -10,7 +10,7 @@ package tienda_virtual;
  */
 
 public class Carrito {
-    private SinglyLinkedList<Producto> carrito ;
+    private DinamicArray<Producto> carrito ;
     private String carId;
     private boolean searched;
     private int length;
@@ -24,7 +24,7 @@ public class Carrito {
 
     public Carrito() {
         carId= "";
-        carrito = new SinglyLinkedList<>();
+        carrito = new DinamicArray<>();
         length=0;
         searched=true;
     }
@@ -57,7 +57,7 @@ public class Carrito {
      */
     
 
-    public SinglyLinkedList<Producto> getCarrito() {
+    public DinamicArray<Producto> getCarrito() {
         return carrito;
     }
     
@@ -79,8 +79,8 @@ public class Carrito {
      */
     
     public void agregar(Producto key){
-        if(!carrito.Find(key)){
-            carrito.PushFront(key);
+        if(!carrito.exist(key)){
+            carrito.addBack(key);
             carId= carId+key.getId();
             length++;
         }
@@ -88,23 +88,15 @@ public class Carrito {
     
     /**
      * elimina un producto del carro que posea el id dado
-     * @param key id a eliminar
+     * @param id id a eliminar
      */
     
-    public void sacar(String key){
-        if(length>0){
-            Node<Producto> i = carrito.head;
-            String newId="";
-            while(!i.equals(carrito.tail)){
-                if (!i.key.getId().equals(key)){
-                    carrito.Erase(i.key);
-                    newId+=i.key.getId();
-                    break;
-                }
-                i = i.next;
+    public void sacar(String id){
+        for (int i = 0; i < carrito.tam; i++) {
+            if(carrito.get(i).getId().equals(id)){
+                carrito.delete(i);
+                break;
             }
-            carId=newId;
-            length--;
         }
     }
     
@@ -114,12 +106,7 @@ public class Carrito {
      */
     
     public void sacar(Producto key){
-        if(length>0){
-            carrito.Erase(key);
-            carId = carId.substring(carId.indexOf(key.getId())+key.getId().length(),carId.length());
-            length--;
-        }
-        
+        carrito.delete(carrito.getIndex(key));
     }    
   
     /**
@@ -143,7 +130,7 @@ public class Carrito {
             for (int i=1; i<palabras.length;i++) {
                 for (int j = 0; j< tienda.prod.tam; j++) {
                     if (tienda.prod.get(j).getId().equals("#" + palabras[i])) {
-                        carrito.pushBack(tienda.prod.get(j));
+                        carrito.addBack(tienda.prod.get(j));
                         length++;
                         break;
                     }
