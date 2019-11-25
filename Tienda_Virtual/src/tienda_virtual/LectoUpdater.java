@@ -317,10 +317,10 @@ public class LectoUpdater {
            String linea;
            while((linea=ReaderUsers.readLine())!=null){
                 String[]  palabras = linea.split(Pattern.quote("|"));
-                users.addBack(new Usuario(palabras[0], palabras[1]));
-                Queue<String> prod = new Queue<>();
-                for (int i = 0; i < Integer.valueOf(palabras[2]); i++) {
-                    prod.enQueue(palabras[3+i]);
+                users.addBack(new Usuario(palabras[0], palabras[1],palabras[2]));
+                DinamicArray<String> prod = new DinamicArray<>();
+                for (int i = 0; i < Integer.valueOf(palabras[3]); i++) {
+                    prod.addBack(palabras[3+i]);
                 }
                 users.get(us).setProductos(prod);
                 us++;
@@ -347,8 +347,8 @@ public class LectoUpdater {
         long TInicio, TFin; 
         TInicio = System.currentTimeMillis();
         while(!tienda.actualUser.getProductos().isEmpty()){
-            String eliminable = tienda.actualUser.getProductos().Peek();
-            tienda.actualUser.getProductos().deQueue();
+            String eliminable = tienda.actualUser.getProductos().get(tienda.actualUser.getProductos().tam-1);
+            tienda.actualUser.getProductos().delete(tienda.actualUser.getProductos().tam-1);
             sacarTProducto(eliminable, tienda);
             EliminarProducto(eliminable,ex);
         }

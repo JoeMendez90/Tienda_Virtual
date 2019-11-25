@@ -11,9 +11,10 @@ package tienda_virtual;
 public class Usuario {
     public String username;
     public String desc;
-    public Queue<String> productos;
+    private String password;
+    public DinamicArray<String> productos;
     private  Carrito carrito;
-    private SinglyLinkedList<GuardCarr> garage;
+    private DinamicArray<GuardCarr> garage;
     
     
     /**
@@ -25,9 +26,9 @@ public class Usuario {
     public Usuario(String username){
         this.username=username;
         this.desc = " ";
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
         carrito = new Carrito();
-        garage = new SinglyLinkedList<>();
+        garage = new DinamicArray<>();
     }
     
     /**
@@ -53,7 +54,7 @@ public class Usuario {
         this.username = username;
         this.desc = desc;
         this.carrito = carrito;
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
     }
    
     /**
@@ -63,11 +64,11 @@ public class Usuario {
      * @param carritos lista de carros guardados
      */
    
-    public Usuario(String username, String desc,SinglyLinkedList<GuardCarr> carritos) {
+    public Usuario(String username, String desc,DinamicArray<GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = null;
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
         this.garage = carritos;
     }
     
@@ -79,11 +80,11 @@ public class Usuario {
      * @param carritos 
      */
     
-    public Usuario(String username, String desc, Carrito carrito,SinglyLinkedList<GuardCarr> carritos) {
+    public Usuario(String username, String desc, Carrito carrito,DinamicArray<GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = carrito;
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
         this.garage = carritos;
     }
     
@@ -93,7 +94,7 @@ public class Usuario {
     
     public Usuario(){
         username= "";
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
         carrito = new Carrito();
     }
     // Setters y Getters
@@ -105,6 +106,14 @@ public class Usuario {
     public String getUsername() {
         return username;
     }
+
+    public Usuario(String username, String desc, String password) {
+        this.username = username;
+        this.desc = desc;
+        this.password = password;
+    }
+    
+    
     
     /**
      * cambia el nombre de usuario
@@ -125,10 +134,10 @@ public class Usuario {
     
     
     public void nuevo_carrito(Carrito name, String Nombre){
-        garage.PushFront(new GuardCarr(name, Nombre));
+        garage.addBack(new GuardCarr(name, Nombre));
     }
 
-    public Queue<String> getProductos() {
+    public DinamicArray<String> getProductos() {
         return productos;
     }
 
@@ -136,11 +145,11 @@ public class Usuario {
         return carrito;
     }
 
-    public SinglyLinkedList<GuardCarr> getGarage() {
+    public DinamicArray<GuardCarr> getGarage() {
         return garage;
     }
 
-    public void setProductos(Queue<String> productos) {
+    public void setProductos(DinamicArray<String> productos) {
         this.productos = productos;
     }
 
@@ -148,7 +157,7 @@ public class Usuario {
         this.carrito = carrito;
     }
 
-    public void setGarage(SinglyLinkedList<GuardCarr> garage) {
+    public void setGarage(DinamicArray<GuardCarr> garage) {
         this.garage = garage;
     }
     
@@ -166,6 +175,10 @@ public class Usuario {
        
     public int cantCarr(){
         return carrito.getLength();
+    }
+    
+    public boolean isPassword(String pass){
+        return pass.equals(password);
     }
     
 }
