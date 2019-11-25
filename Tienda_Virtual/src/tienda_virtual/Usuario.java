@@ -14,7 +14,11 @@ public class Usuario {
     public Queue<String> productos;
     private  Carrito carrito;
     private SinglyLinkedList<GuardCarr> garage;
+    private Heap<Servicio> Servicios;
+    private int servlim;
     
+    // la variable servlim es para que el usuario no se sature de servicios
+    // se sugiere que se pueda editar esto en el perfil
     
     /**
      * Construcor que inicializa el usuario por el recibido, 
@@ -88,6 +92,20 @@ public class Usuario {
     }
     
     /**
+     * Constructor que inicia  el nombre de usuario, la descripcion, carrito, lista de garage y heap de servicios
+     * @param username
+     * @param desc
+     * @param carrito
+     * @param carritos 
+     * @param servicios
+     */
+    
+    public Usuario(String username, String desc, Carrito carrito,SinglyLinkedList<GuardCarr> carritos, Heap<Servicio> servicios) {
+        this(username,desc,carrito,carritos);
+        this.Servicios = servicios;
+    }
+    
+    /**
      * este constructor crea un usuario sin nombre, que sirve como el usuario anonimo por defecto en la tienda
      */
     
@@ -152,6 +170,7 @@ public class Usuario {
         this.garage = garage;
     }
     
+    
     public void aCarrito(Producto p){
         carrito.agregar(p);
     }
@@ -167,5 +186,27 @@ public class Usuario {
     public int cantCarr(){
         return carrito.getLength();
     }
-    
+    /*
+     * Este metodo añade un servicio a la lista de servicios
+     * @param name -- el nombre del servicio
+     * @param valor -- el costo del servicio
+     * @param time -- el tiempo que va a tomar el servicio
+    */
+    public void addService(String name, int valor, int time){
+        if (servlim > Servicios.Size()){
+            Servicio serv = new Servicio(time,valor,name);
+            // prioridad = dias del año menos el tiempo que toma el servicio
+            int p = 365 - time;
+            Servicios.Insert(p, serv);    
+        }
+        
+    }
+
+    public int getServlim() {
+        return servlim;
+    }
+
+    public void setServlim(int servlim) {
+        this.servlim = servlim;
+    }
 }
