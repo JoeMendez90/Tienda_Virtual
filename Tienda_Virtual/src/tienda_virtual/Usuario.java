@@ -11,10 +11,11 @@ package tienda_virtual;
 public class Usuario {
     public String username;
     public String desc;
-    public Queue<String> productos;
+    private String password;
+    public DinamicArray<String> productos;
     private  Carrito carrito;
-    private SinglyLinkedList<GuardCarr> garage;
-    private Heap<Servicio> Servicios;
+    private DinamicArray<GuardCarr> garage;
+    //private Heap<Servicio> Servicios;
     private int servlim;
     
     // la variable servlim es para que el usuario no se sature de servicios
@@ -29,9 +30,9 @@ public class Usuario {
     public Usuario(String username){
         this.username=username;
         this.desc = " ";
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
         carrito = new Carrito();
-        garage = new SinglyLinkedList<>();
+        garage = new DinamicArray<>();
     }
     
     /**
@@ -57,9 +58,22 @@ public class Usuario {
         this.username = username;
         this.desc = desc;
         this.carrito = carrito;
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
     }
-   
+    
+    /**
+     * Constructor base con nombre descrip´cion y usuario
+     * @param username
+     * @param desc
+     * @param password 
+     */
+
+    public Usuario(String username, String desc, String password) {
+        this.username = username;
+        this.desc = desc;
+        this.password = password;
+    }
+    
     /**
      * constructor que sirve para iniciar el usuario, desripcion, y garage 
      * @param username nombre del usuario
@@ -67,11 +81,11 @@ public class Usuario {
      * @param carritos lista de carros guardados
      */
    
-    public Usuario(String username, String desc,SinglyLinkedList<GuardCarr> carritos) {
+    public Usuario(String username, String desc,DinamicArray<GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = null;
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
         this.garage = carritos;
     }
     
@@ -83,11 +97,11 @@ public class Usuario {
      * @param carritos 
      */
     
-    public Usuario(String username, String desc, Carrito carrito,SinglyLinkedList<GuardCarr> carritos) {
+    public Usuario(String username, String desc, Carrito carrito,DinamicArray<GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = carrito;
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
         this.garage = carritos;
     }
     
@@ -100,10 +114,10 @@ public class Usuario {
      * @param servicios
      */
     
-    public Usuario(String username, String desc, Carrito carrito,SinglyLinkedList<GuardCarr> carritos, Heap<Servicio> servicios) {
+    /*public Usuario(String username, String desc, Carrito carrito,SinglyLinkedList<GuardCarr> carritos, Heap<Servicio> servicios) {
         this(username,desc,carrito,carritos);
         this.Servicios = servicios;
-    }
+    }*/
     
     /**
      * este constructor crea un usuario sin nombre, que sirve como el usuario anonimo por defecto en la tienda
@@ -111,7 +125,7 @@ public class Usuario {
     
     public Usuario(){
         username= "";
-        productos = new Queue<>();
+        productos = new DinamicArray<>();
         carrito = new Carrito();
     }
     // Setters y Getters
@@ -143,10 +157,10 @@ public class Usuario {
     
     
     public void nuevo_carrito(Carrito name, String Nombre){
-        garage.PushFront(new GuardCarr(name, Nombre));
+        garage.addBack(new GuardCarr(name, Nombre));
     }
 
-    public Queue<String> getProductos() {
+    public DinamicArray<String> getProductos() {
         return productos;
     }
 
@@ -154,11 +168,11 @@ public class Usuario {
         return carrito;
     }
 
-    public SinglyLinkedList<GuardCarr> getGarage() {
+    public DinamicArray<GuardCarr> getGarage() {
         return garage;
     }
 
-    public void setProductos(Queue<String> productos) {
+    public void setProductos(DinamicArray<String> productos) {
         this.productos = productos;
     }
 
@@ -166,7 +180,7 @@ public class Usuario {
         this.carrito = carrito;
     }
 
-    public void setGarage(SinglyLinkedList<GuardCarr> garage) {
+    public void setGarage(DinamicArray<GuardCarr> garage) {
         this.garage = garage;
     }
     
@@ -192,7 +206,7 @@ public class Usuario {
      * @param valor -- el costo del servicio
      * @param time -- el tiempo que va a tomar el servicio
     */
-    public void addService(String name, int valor, int time){
+    /*public void addService(String name, int valor, int time){
         if (servlim > Servicios.Size()){
             Servicio serv = new Servicio(time,valor,name);
             // prioridad = dias del año menos el tiempo que toma el servicio
@@ -200,7 +214,7 @@ public class Usuario {
             Servicios.Insert(p, serv);    
         }
         
-    }
+    }*/
 
     public int getServlim() {
         return servlim;
@@ -208,5 +222,9 @@ public class Usuario {
 
     public void setServlim(int servlim) {
         this.servlim = servlim;
+    }
+    
+    public boolean itsPassword(String pass){
+        return pass.equals(password);
     }
 }

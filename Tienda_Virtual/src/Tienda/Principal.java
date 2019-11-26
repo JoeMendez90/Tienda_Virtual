@@ -15,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
-import tienda_virtual.Producto;
 import tienda_virtual.ReturnAction;
 import tienda_virtual.Tienda;
 
