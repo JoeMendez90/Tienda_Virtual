@@ -8,7 +8,6 @@ package Tienda;
 import java.awt.Color;
 import javax.swing.JPanel;
 import tienda_virtual.LectoUpdater;
-import static tienda_virtual.LectoUpdater.getTime;
 import tienda_virtual.ReturnAction;
 import tienda_virtual.Tienda;
 

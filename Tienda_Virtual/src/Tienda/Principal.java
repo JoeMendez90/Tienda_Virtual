@@ -118,8 +118,8 @@ public class Principal extends JFrame {
                     login.setVisible(true);
                 }
                 if(!tienda.actualUser.getUsername().equals("")){
-
-                    center = new centerSearch(tienda, "this", actionsPrev);
+                    center.getCenterPane().setVisible(false);
+                    center = new centerCuenta(tienda, "", actionsPrev);
                     center.getCenterPane().setVisible(true);
                     contentPane.add(center.getCenterPane());
 

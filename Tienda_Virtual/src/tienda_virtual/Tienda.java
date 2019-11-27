@@ -49,6 +49,31 @@ public class Tienda{
         String t = new String(e);
         return t;
     }*/ 
+    
+    public boolean Acceder(String nombre,String contrasena){
+        long TInicio, TFin; 
+        TInicio = System.currentTimeMillis();
+        
+        System.out.println("confirmame");
+        
+        boolean result =false;
+        for (int i = 0; i < users.tam; i++) {
+            if(users.get(i).getUsername().equals(nombre)){
+                if(users.get(i).itsPassword(contrasena)){
+                    result=true;
+                    Carrito carr= actualUser.getCarrito();
+                    actualUser = users.get(i);
+                    actualUser.setCarrito(carr);
+                    break;
+                }
+            }
+        }
+
+        TFin = System.currentTimeMillis();
+        LectoUpdater.getTime(TFin - TInicio,"Acceder a Cuenta");
+        return result;
+    }
+    
     public boolean  vender(String id){
         DinamicArray<String> pablito = actualUser.productos;
         for (int i = 0; i < pablito.tam; i++) {

@@ -19,82 +19,20 @@ import java.util.regex.Pattern;
  */
 public class LectoUpdater {
     
-    public static boolean Acceder(String nombre,String contrasena,Tienda tienda,int ex){
-        long TInicio, TFin; 
-        TInicio = System.currentTimeMillis();
-        
-        System.out.println("confirmame");
-        
-        boolean result =false;
-        
-        FileReader fr = null;
-        BufferedReader br;
-         try
-        {
-            fr = new FileReader(new File("src/txt/PWORD"+ex+".txt"));
-            br = new BufferedReader(fr);
-            System.out.println("abierto");
-            String linea;
-            int i=0;
-            while((linea=br.readLine())!=null){
-                String []  palabras = linea.split(Pattern.quote("|"));
-                if(palabras[0].equals(nombre)){
-                    if(palabras[1].equals(contrasena)){
-                        result=true;
-                        Carrito carr= tienda.actualUser.getCarrito();
-                        if(tienda.users.get(i).getUsername().equals(nombre)){
-                            tienda.actualUser = tienda.users.get(i);
-                            tienda.actualUser.setCarrito(carr);
-                            break;
-                        }
-                        System.out.println("fallamos");
-                        
-                    }
-                }
-                System.out.println(i);
-                i++;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-           try {
-           if (null != fr)
-              fr.close();
-           } catch (Exception e2) {
-              e2.printStackTrace();
-           }
-        }
-        TFin = System.currentTimeMillis();
-        getTime(TFin - TInicio,"Acceder a Cuenta");
-        return result;
-    }
-    
     public static void EliminarCuenta(Tienda tienda, int ex){
         long TInicio, TFin;
         TInicio = System.currentTimeMillis();
         EliminarProductos(tienda,ex);
         Queue<String> Users = new Queue<>();
-        Queue<String> Pword = new Queue<>();
         File User = null;
         FileReader ReadUser = null;
-        File word = null;
-        FileReader Readword = null;
         try {
            User = new File ("src/txt/Users"+ex+".txt");
-           word = new File ("src/txt/PWORD"+ex+".txt");
            ReadUser= new FileReader (User);
-           Readword= new FileReader (word);
            BufferedReader ReaderUser = new BufferedReader(ReadUser);
-           BufferedReader ReaderWord = new BufferedReader(Readword);
            
            String linea;
-           while((linea=ReaderWord.readLine())!=null){
-                String []  palabras = linea.split(Pattern.quote("|"));
-                if(!palabras[0].equals(tienda.actualUser.getUsername())){
-                    Pword.enQueue(linea);
-                }
-           }
+
            while((linea=ReaderUser.readLine())!=null){
                 String []  palabras = linea.split(Pattern.quote("|"));
                 if(!palabras[0].equals(tienda.actualUser.getUsername())){
@@ -109,40 +47,25 @@ public class LectoUpdater {
               if( null != ReadUser ){   
                  ReadUser.close();     
               }  
-              if( null != Readword ){   
-                 Readword.close();     
-              } 
            }catch (Exception e2){ 
               e2.printStackTrace();
            }
         }
         FileWriter WUser = null;
         PrintWriter WriterUser = null;
-        FileWriter WWord = null;
-        PrintWriter WriterWord = null;
         try
         {
             boolean delete = User.delete();
             if(delete){
                 User.createNewFile();
             }
-            boolean delete2 = word.delete();
-            if(delete2){
-                word.createNewFile();
-            }
             
             WUser = new FileWriter(User);
             WriterUser = new PrintWriter(WUser);
-            WWord = new FileWriter(word);
-            WriterWord = new PrintWriter(WWord);
 
             while(!Users.isEmpty()){
                 WriterUser.println(Users.Peek());
                 Users.deQueue();
-            }
-            while(!Pword.isEmpty()){
-                WriterWord.println(Pword.Peek());
-                Pword.deQueue();
             }
 
         } catch (Exception e) {
@@ -151,10 +74,6 @@ public class LectoUpdater {
            try {
                 if (null != WUser){
                    WUser.close();
-                }
-                
-                if (null != WWord){
-                   WWord.close();
                 }
            } catch (Exception e2) {
               e2.printStackTrace();

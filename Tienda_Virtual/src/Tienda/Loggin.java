@@ -92,7 +92,7 @@ public class Loggin extends JDialog {
             
             confirma.addActionListener((ActionEvent e) -> {
                 System.out.println("confirma");
-                if(LectoUpdater.Acceder(textField.getText(), passwordField.getText(), princ.tienda, princ.CantPrub)){
+                if(princ.tienda.Acceder(textField.getText(), passwordField.getText())){
                     dispose();
                 }else{
                     lblerror.setText("usuario o contraseña incorrectos");
