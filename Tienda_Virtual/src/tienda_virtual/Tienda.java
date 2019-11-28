@@ -108,5 +108,28 @@ public class Tienda{
         
         return car;
     }
+
+    /**
+     * enlista los productos del usuario actual
+     * @return productos del usuario actual
+     */
+    
+    public DinamicArray<Producto> actualsProducts() {
+        DinamicArray<Producto> productos =  new DinamicArray<>();
+        
+        for(int i = 0; i< actualUser.productos.tam;i++){
+            System.out.println("hey hey hey hey");
+            for(int j=0; j < prod.tam;j++){
+                System.out.println(prod.get(j).getId() +" habia una "+ actualUser.productos.get(i));
+                if(prod.get(j).getId().equals(actualUser.productos.get(i))){
+                    productos.addBack(prod.get(j));
+                    System.out.println("heyheyheyhey");
+                    break;
+                }
+            }
+        }
+        System.out.println(productos.tam+ "probando"+actualUser.productos.tam);
+        return productos;
+    }
 }
                                                                                                                                            

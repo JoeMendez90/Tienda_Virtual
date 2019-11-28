@@ -239,7 +239,7 @@ public class LectoUpdater {
                 users.addBack(new Usuario(palabras[0], palabras[1],palabras[2]));
                 DinamicArray<String> prod = new DinamicArray<>();
                 for (int i = 0; i < Integer.valueOf(palabras[3]); i++) {
-                    prod.addBack(palabras[3+i]);
+                    prod.addBack(palabras[4+i]);
                 }
                 users.get(us).setProductos(prod);
                 us++;
