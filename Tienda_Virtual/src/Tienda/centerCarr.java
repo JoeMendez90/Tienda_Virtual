@@ -9,13 +9,10 @@ import java.util.regex.Pattern;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import tienda_virtual.DinamicArray;
 import tienda_virtual.Producto;
 import tienda_virtual.ReturnAction;
@@ -33,13 +30,13 @@ public class centerCarr extends CenterPane{
     private int save;
     
     
-    public centerCarr(Tienda tienda, String orden, ReturnAction actionPrev) {
-        super(tienda, orden, actionPrev," VisualizarCarro ");
+    public centerCarr(Principal principal, String orden, ReturnAction actionPrev) {
+        super(principal, orden, actionPrev," VisualizarCarro ");
     }
 
     @Override
     protected void createButton() {
-        Carr = tienda.actualUser.getCarrito().getCarrito();
+        Carr = principal.tienda.actualUser.getCarrito().getCarrito();
         if(Carr.isEmpty()){
             
         }

@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import tienda_virtual.DinamicArray;
+import tienda_virtual.LectoUpdater;
 import tienda_virtual.Producto;
 import tienda_virtual.ReturnAction;
 import tienda_virtual.Tienda;
@@ -33,8 +34,8 @@ import tienda_virtual.Tienda;
 public class centerCuenta extends CenterPane{
     
     
-    public centerCuenta(Tienda tienda, String orden, ReturnAction actionPrev) {
-        super(tienda, orden, actionPrev, "Cuenta Propia");
+    public centerCuenta(Principal principal, String orden, ReturnAction actionPrev) {
+        super(principal, orden, actionPrev, "Cuenta Propia");
     }
 
     /**
@@ -49,7 +50,7 @@ public class centerCuenta extends CenterPane{
     
         pestanas.addTab("Cuenta", Cuenta());
         pestanas.addTab("Productos", Productos());
-        pestanas.addTab("Productos", Servicios());
+        pestanas.addTab("Servicios", Servicios());
         pestanas.addTab("Garage", Garage());
         pestanas.addTab("Archivo", Archivo());
         pestanas.addTab("Contratos", Contratos());
@@ -74,12 +75,16 @@ public class centerCuenta extends CenterPane{
     private Component Productos() {
         JPanel Productos = new  JPanel();
         Productos.setBounds(0, 0, 1000, 500);
-        DinamicArray<Producto> search = tienda.actualsProducts();
+        Productos.setBackground(Color.red);
+        Productos.setLayout(null);
+        DinamicArray<Producto> search = principal.tienda.actualsProducts();
+        System.out.println(search.tam);
         if(search.isEmpty()){
             return Error("Productos");
         }
         
         int div=search.tam/50; 
+        System.out.println(div + "div");
         
         String[] numbers = new String[div+1];
         for (int i = 1; i < div+2; i++) {
@@ -92,17 +97,17 @@ public class centerCuenta extends CenterPane{
         scrollPane_1.setBounds(20, 20, 1000, 500);
         scrollPane_1.setBackground(Color.decode("#424242"));
 
-        JLabel busqueda = new JLabel("Search: ");
-        busqueda.setBounds(1050, 200, 200,50);
+        JLabel busqueda = new JLabel("Productos en");
+        busqueda.setBounds(1050, 200, 300,50);
         busqueda.setForeground(Color.white);
         busqueda.setFont(Principal.createFont(busqueda, 20));
-        JLabel busqueda2 = new JLabel(orden);
+        JLabel busqueda2 = new JLabel("Venta: " + principal.tienda.actualUser.productos.tam);
         busqueda2.setBounds(1050, 300, 200,50);
         busqueda2.setForeground(Color.white);
         busqueda2.setFont(Principal.createFont(busqueda2, 20));
 
-        centerPane.add(busqueda);
-        centerPane.add(busqueda2);
+        Productos.add(busqueda);
+        Productos.add(busqueda2);
 
 
         box.addActionListener(new ActionListener() {
@@ -114,6 +119,13 @@ public class centerCuenta extends CenterPane{
             }
         });
         box.setSelectedIndex(0);
+        Productos.add(box);
+        
+        Productos.add(scrollPane_1);
+
+
+        scrollPane_1.setViewportView(createListSet(box,div,search));
+        
         return Productos;
     }
         
@@ -135,6 +147,7 @@ public class centerCuenta extends CenterPane{
         JPanel list = new JPanel();
         list.setLayout(new BoxLayout(list, BoxLayout.X_AXIS));
         list.setBackground(Color.decode("#424242"));
+        list.setBounds(0, 0,1000, 400);
         
         if(serch.tam%2==0){
             for (int i = 0; i < serch.tam; i+=2) {
@@ -154,8 +167,8 @@ public class centerCuenta extends CenterPane{
         JPanel pan = new JPanel();
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
         pan.setBounds(0, 0, 250, 500);
-        pan.add(createProduct(producto));
-        pan.add(createProduct(producto2));
+        pan.add(createGenProduct(producto));
+        pan.add(createGenProduct(producto2));
         return pan;
     }
     
@@ -163,7 +176,7 @@ public class centerCuenta extends CenterPane{
         JPanel pan = new JPanel();
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
         pan.setBounds(0, 0, 250, 500);
-        pan.add(createProduct(producto2));
+        pan.add(createGenProduct(producto2));
         pan.add(Box.createRigidArea(new Dimension(250, 250)));
         return pan;
     }
@@ -174,7 +187,7 @@ public class centerCuenta extends CenterPane{
     }
     
     
-    public JPanel createProduct(Producto producto){
+    public JPanel createGenProduct(Producto producto){
         JLabel label1 = new JLabel(producto.getNombre());
         JLabel label2 = new JLabel(producto.getSeller());
         JLabel label3 = new JLabel(producto.getValor()+"");
@@ -190,43 +203,54 @@ public class centerCuenta extends CenterPane{
         Prod.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                StackAction("select|"+producto.getId());
+                //StackAction("select|"+producto.getId());
             }
             
         });
         
-        JCheckBox Prod3 = new JCheckBox("to Car");
+        JButton Prod3 = new JButton("editar");
         Prod3.setBounds(0,0,100,50);
-        /*DinamicArray<Producto> car = tienda.tienda.actualUser.getCarrito().getCarrito().DisplayList();
-        System.out.println(producto.getNombre());
-        for (int i = 0; i < car.tam; i++) {
-            System.out.print(car.get(i).getNombre()+" | ");
-        }
-        System.out.println(car.exist(producto));
-        if(car.exist(producto)){
-            
-            Prod3.setSelected(true);
-        }*/
+        JButton Prod4 = new JButton("eliminar");
+        Prod4.setBounds(0,0,100,50);
+        
         Prod3.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(e.equals(Prod3)){
+                /*if(e.equals(Prod3)){
                     System.out.println(Prod3);
                     if(Prod3.isSelected()){
-                        tienda.actualUser.aCarrito(producto);
+                        principal.tienda.actualUser.aCarrito(producto);
                     }else{
-                        tienda.actualUser.dCarrito(producto);
+                        principal.tienda.actualUser.dCarrito(producto);
                     }
+                }*/
+            }
+        });
+        
+        Prod4.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                /*if(e.equals(Prod3)){
+                    System.out.println(Prod3);
+                    if(Prod3.isSelected()){
+                        principal.tienda.actualUser.aCarrito(producto);
+                    }else{
+                        principal.tienda.actualUser.dCarrito(producto);
+                    }
+                }*/
+                JSure sure = new JSure(principal, true);
+                sure.setVisible(true);
+                if(sure.sure){
+                    LectoUpdater.EliminarCuenta(principal.tienda,principal.CantPrub);
                 }
             }
         });
-        JPanel boxcheck = new JPanel();
-        boxcheck.add(Prod3);
         
         JPanel prod2 = new JPanel();
         prod2.setLayout(new BoxLayout(prod2, BoxLayout.Y_AXIS));
         prod2.add(Prod);
-        prod2.add(boxcheck);
+        prod2.add(Prod3);
+        prod2.add(Prod4);
         return prod2;
     }
 
@@ -239,7 +263,7 @@ public class centerCuenta extends CenterPane{
             JPanel first = new JPanel();
             first.setBackground(Color.red);
             first.setLayout(new BoxLayout(first, BoxLayout.X_AXIS));
-                JLabel text = new JLabel(tienda.actualUser.getUsername());
+                JLabel text = new JLabel(principal.tienda.actualUser.getUsername());
                 text.setFont(Principal.createFont(text,50));
                 text.setForeground(Color.WHITE);
                 JPanel image = new JPanel();
@@ -257,7 +281,7 @@ public class centerCuenta extends CenterPane{
             first.add(Box.createRigidArea(new Dimension(100, 100)));
             first.add(image);
             
-            JTextArea second = new JTextArea(tienda.actualUser.getDesc(),100,50);
+            JTextArea second = new JTextArea(principal.tienda.actualUser.getDesc(),100,50);
             second.setBackground(Color.decode("#616161"));
             second.setEditable(false);
             second.setFont(Principal.createFont(image,20));

@@ -21,8 +21,8 @@ public class centerProducto extends CenterPane{
     
     private Producto producto;
 
-    public centerProducto(Tienda tienda, String orden, ReturnAction actionPrev, Producto producto) {
-        super(tienda, orden, actionPrev,"Muestra Producto");
+    public centerProducto(Principal principal, String orden, ReturnAction actionPrev, Producto producto) {
+        super(principal, orden, actionPrev,"Muestra Producto");
         this.producto=producto;
     }
 

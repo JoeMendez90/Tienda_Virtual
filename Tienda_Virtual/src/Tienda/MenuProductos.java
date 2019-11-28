@@ -17,6 +17,10 @@ public class MenuProductos extends JFrame{
                                     
 					MenuProductos frame = new MenuProductos(LectoUpdater.initProd(10000));
                                         frame.setVisible(true);
+                                        JSure sure = new JSure(frame, true);
+                                        sure.setVisible(true);
+                                        System.out.println(sure.sure);
+                                        
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -40,7 +40,7 @@ public class Principal extends JFrame {
     }
     
     private  void init(){
-        center= new centerSearch(tienda, "", actionsPrev);
+        center= new centerSearch(this, "", actionsPrev);
         contentPane = new JPanel();
         contentPane.setBackground(Color.decode("#616161"));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -119,7 +119,7 @@ public class Principal extends JFrame {
                 }
                 if(!tienda.actualUser.getUsername().equals("")){
                     center.getCenterPane().setVisible(false);
-                    center = new centerCuenta(tienda, "", actionsPrev);
+                    center = new centerCuenta(this, "", actionsPrev);
                     center.getCenterPane().setVisible(true);
                     contentPane.add(center.getCenterPane());
 
@@ -203,7 +203,7 @@ public class Principal extends JFrame {
    
     public void cart(){
 
-            center = new centerCarr(tienda, "this", actionsPrev);
+            center = new centerCarr(this, "this", actionsPrev);
             center.getCenterPane().setVisible(true);
             contentPane.add(center.getCenterPane());
 
@@ -214,7 +214,7 @@ public class Principal extends JFrame {
 
         if(!(center instanceof centerSearch) || !center.orden.equals(busqueda)){
             center.getCenterPane().setVisible(false);
-            center = new centerSearch(tienda, busqueda,actionsPrev);
+            center = new centerSearch(this, busqueda,actionsPrev);
             center.getCenterPane().setVisible(true);
             contentPane.add(center.getCenterPane());
         }

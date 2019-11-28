@@ -117,51 +117,19 @@ public class LectoUpdater {
             getTime(TFin - TInicio,"Crear Cuenta");
             return -1;
         }
-        int var=0;
-        File word;
-        FileReader Readword = null;
-        try {
-           word = new File ("src/txt/PWORD"+ex+".txt");
-           Readword= new FileReader (word);
-           BufferedReader ReaderWord = new BufferedReader(Readword);
-           
-           String linea;
-           while((linea=ReaderWord.readLine())!=null){
-                String []  palabras = linea.split(Pattern.quote("|"));
-                if(palabras[0].equals(nombre)){
-                    var=1;
-                    break;
-                }
-           }
-        }
-        catch(IOException e){
-            System.out.println(e);
-        }finally{
-           try{                    
-              if( null != Readword ){   
-                 Readword.close();     
-              } 
-           }catch (IOException e2){ 
-              System.out.println(e2);
-           }
-        }
-        if(var==1){
+        
+        if(tienda.UserSearch(nombre)==-1){
             TFin = System.currentTimeMillis();
             getTime(TFin - TInicio,"Crear Cuenta");
-            return var;
+            return 1;
         }
-        FileWriter fichero1 = null;
-        PrintWriter pw1;
         FileWriter fichero2 = null;
         PrintWriter pw2;
         try
         {
-            fichero1 = new FileWriter("src/txt/PWORD"+ex+".txt",true);
-            pw1 = new PrintWriter(fichero1);
             fichero2 = new FileWriter("src/txt/Users"+ex+".txt",true);
             pw2 = new PrintWriter(fichero2);
-            pw1.println(nombre+"|"+contrasena);
-            pw2.println(nombre+"| |0|");
+            pw2.println(nombre+"| |"+contrasena+"|0|");
                 
             tienda.users.addBack(new Usuario(nombre));
             
@@ -170,19 +138,16 @@ public class LectoUpdater {
             e.printStackTrace();
         } finally {
            try {
-           if (null != fichero1){
-              fichero1.close();
-           } 
-           if (null != fichero2){
-              fichero2.close();
-           }
+            if (null != fichero2){
+               fichero2.close();
+            }
            }catch (Exception e2) {
               e2.printStackTrace();
            }
         }
         TFin = System.currentTimeMillis();
         getTime(TFin - TInicio,"Crear Cuenta");
-        return var;
+        return 0;
     }
     
     public static DinamicArray<Producto> initProd(int ex){

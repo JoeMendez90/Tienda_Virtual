@@ -131,5 +131,23 @@ public class Tienda{
         System.out.println(productos.tam+ "probando"+actualUser.productos.tam);
         return productos;
     }
+    
+    /**
+     * realiza una busqueda del usuario por medio del nombre, y devuelve su indice en lista, 
+     * esta funcion tambien es util para saber si ese nombre existe
+     * @param userName nombre buscado
+     * @return index del usuario en lista
+     */
+    
+    public int UserSearch(String userName){
+        int index = -1;
+        for (int i = 0; i < users.tam; i++) {
+            if(users.get(i).getUsername().equals(userName));{
+                index=i;
+                break;
+            }
+        }
+        return index;
+    }
 }
                                                                                                                                            

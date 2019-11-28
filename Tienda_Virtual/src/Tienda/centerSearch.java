@@ -33,14 +33,14 @@ public class centerSearch extends CenterPane{
     private int save;
     
     
-    public centerSearch(Tienda tienda, String orden, ReturnAction actionPrev) {
-        super(tienda, orden, actionPrev,"Busqueda nueva");
+    public centerSearch(Principal principal, String orden, ReturnAction actionPrev) {
+        super(principal, orden, actionPrev,"Busqueda nueva");
     }
 
     @Override
     protected void createButton() {
         centerPane.setLayout(null);
-        search = tienda.Buscar(orden);
+        search = principal.tienda.Buscar(orden);
         if(search.isEmpty()){
             Error();
         }else{
@@ -211,9 +211,9 @@ public class centerSearch extends CenterPane{
                 if(e.equals(Prod3)){
                     System.out.println(Prod3);
                     if(Prod3.isSelected()){
-                        tienda.actualUser.aCarrito(producto);
+                        principal.tienda.actualUser.aCarrito(producto);
                     }else{
-                        tienda.actualUser.dCarrito(producto);
+                        principal.tienda.actualUser.dCarrito(producto);
                     }
                 }
             }
