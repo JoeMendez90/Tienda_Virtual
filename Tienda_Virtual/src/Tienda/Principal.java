@@ -40,7 +40,7 @@ public class Principal extends JFrame {
     }
     
     private  void init(){
-        center= new centerSearch(this, "", actionsPrev);
+        center= new centerSearch(this, "");
         contentPane = new JPanel();
         contentPane.setBackground(Color.decode("#616161"));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -105,6 +105,7 @@ public class Principal extends JFrame {
 
             btnSearch.addActionListener((ActionEvent e) -> {
                 search(txtSearch.getText());
+                System.out.println(txtSearch.getText());
                 actionsPrev.addAction("Search|"+txtSearch.getText());
                 
             });
@@ -119,7 +120,7 @@ public class Principal extends JFrame {
                 }
                 if(!tienda.actualUser.getUsername().equals("")){
                     center.getCenterPane().setVisible(false);
-                    center = new centerCuenta(this, "", actionsPrev);
+                    center = new centerCuenta(this, "");
                     center.getCenterPane().setVisible(true);
                     contentPane.add(center.getCenterPane());
 
@@ -172,6 +173,7 @@ public class Principal extends JFrame {
                 dispose();
             break;
             case "Search":
+                System.out.println("Searchhhh");
                 search(subActions[1]);
                 hey ="";
                 System.out.println("saliendocenter");
@@ -182,6 +184,7 @@ public class Principal extends JFrame {
                 
                 
             case "Center":
+                System.out.println("centeerererre");
                 hey ="";
                 System.out.println("saliendocenter");
                 for (int i = 1; i < subActions.length; i++) {
@@ -203,7 +206,7 @@ public class Principal extends JFrame {
    
     public void cart(){
 
-            center = new centerCarr(this, "this", actionsPrev);
+            center = new centerCarr(this, "this");
             center.getCenterPane().setVisible(true);
             contentPane.add(center.getCenterPane());
 
@@ -214,7 +217,7 @@ public class Principal extends JFrame {
 
         if(!(center instanceof centerSearch) || !center.orden.equals(busqueda)){
             center.getCenterPane().setVisible(false);
-            center = new centerSearch(this, busqueda,actionsPrev);
+            center = new centerSearch(this, busqueda);
             center.getCenterPane().setVisible(true);
             contentPane.add(center.getCenterPane());
         }

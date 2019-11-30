@@ -34,8 +34,8 @@ import tienda_virtual.Tienda;
 public class centerCuenta extends CenterPane{
     
     
-    public centerCuenta(Principal principal, String orden, ReturnAction actionPrev) {
-        super(principal, orden, actionPrev, "Cuenta Propia");
+    public centerCuenta(Principal principal, String orden) {
+        super(principal, orden, "Cuenta Propia");
     }
 
     /**
@@ -213,35 +213,26 @@ public class centerCuenta extends CenterPane{
         JButton Prod4 = new JButton("eliminar");
         Prod4.setBounds(0,0,100,50);
         
-        Prod3.addChangeListener(new ChangeListener() {
+        Prod3.addActionListener(new ActionListener() {
+
             @Override
-            public void stateChanged(ChangeEvent e) {
-                /*if(e.equals(Prod3)){
-                    System.out.println(Prod3);
-                    if(Prod3.isSelected()){
-                        principal.tienda.actualUser.aCarrito(producto);
-                    }else{
-                        principal.tienda.actualUser.dCarrito(producto);
-                    }
-                }*/
-            }
-        });
-        
-        Prod4.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                /*if(e.equals(Prod3)){
-                    System.out.println(Prod3);
-                    if(Prod3.isSelected()){
-                        principal.tienda.actualUser.aCarrito(producto);
-                    }else{
-                        principal.tienda.actualUser.dCarrito(producto);
-                    }
-                }*/
+            public void actionPerformed(ActionEvent e) {
                 JSure sure = new JSure(principal, true);
                 sure.setVisible(true);
                 if(sure.sure){
-                    LectoUpdater.EliminarCuenta(principal.tienda,principal.CantPrub);
+                    //LectoUpdater.EliminarCuenta(principal.tienda,principal.CantPrub);
+                }
+            }
+        });
+        
+        Prod4.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JSure sure = new JSure(principal, true);
+                sure.setVisible(true);
+                if(sure.sure){
+                    //LectoUpdater.EliminarCuenta(principal.tienda,principal.CantPrub);
                 }
             }
         });
@@ -307,6 +298,16 @@ public class centerCuenta extends CenterPane{
                     }
                 });
             Buttons.add(delete);
+                JButton close = new JButton("cerrar Cuenta");
+                close.setSize(70,25);
+                close.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        principal.actionsPrev.deleteCount();
+                        principal.search(orden);
+                    }
+                });
+            Buttons.add(close);
             
         Cuenta1.add(first);
         Cuenta1.add(second);

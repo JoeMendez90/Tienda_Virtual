@@ -30,8 +30,8 @@ public class centerCarr extends CenterPane{
     private int save;
     
     
-    public centerCarr(Principal principal, String orden, ReturnAction actionPrev) {
-        super(principal, orden, actionPrev," VisualizarCarro ");
+    public centerCarr(Principal principal, String orden) {
+        super(principal, orden," VisualizarCarro ");
     }
 
     @Override

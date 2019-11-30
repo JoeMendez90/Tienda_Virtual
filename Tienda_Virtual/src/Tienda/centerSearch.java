@@ -33,8 +33,8 @@ public class centerSearch extends CenterPane{
     private int save;
     
     
-    public centerSearch(Principal principal, String orden, ReturnAction actionPrev) {
-        super(principal, orden, actionPrev,"Busqueda nueva");
+    public centerSearch(Principal principal, String orden) {
+        super(principal, orden,"Busqueda nueva");
     }
 
     @Override

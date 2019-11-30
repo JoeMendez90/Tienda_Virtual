@@ -19,14 +19,12 @@ public abstract class CenterPane {
     protected JPanel centerPane;
     protected Principal principal;
     protected String orden;
-    protected ReturnAction actionPrev;
 
-    public CenterPane(Principal principal, String orden,ReturnAction actionPrev,String action) {
+    public CenterPane(Principal principal, String orden, String action) {
         long TInicio, TFin;
         TInicio = System.currentTimeMillis();
         this.principal = principal;
         this.orden = orden;
-        this.actionPrev = actionPrev;
         System.out.println("ini");
         create();
         TFin = System.currentTimeMillis();
@@ -46,7 +44,7 @@ public abstract class CenterPane {
     public abstract void Actions(String set);
     
     protected void StackAction(String action){
-        actionPrev.addAction("Center|"+action);
+        principal.actionsPrev.addAction("Center|"+action);
         Actions(action);
     }
     public JPanel getCenterPane() {
