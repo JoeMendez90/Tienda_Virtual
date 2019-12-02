@@ -1,4 +1,4 @@
-/*
+/**
  * Un servicio también es algo comerciable
  * Un servicio se diferencia de los productos en tanto tiene tiempo de entrega
  * el tiempo de entrega determina la prioridad del servicio
@@ -7,7 +7,7 @@
 package tienda_virtual;
 
 public class Servicio {
-    /*
+    /**
      * Tstandar: el tiempo estandar que tarda el servicio en cumplirse
      * name: nombre del servicio
      * cumplido: determina si ya se cumplió el servicio

@@ -12,10 +12,11 @@ public class Usuario {
     public String username;
     public String desc;
     private String password;
-    public DinamicArray<String> productos;
     private  Carrito carrito;
+    public DinamicArray<String> productos;
+    private Heap<Servicio> Servicios;
     private DinamicArray<GuardCarr> garage;
-    //private Heap<Servicio> Servicios;
+    
     private int servlim;
     
     // la variable servlim es para que el usuario no se sature de servicios

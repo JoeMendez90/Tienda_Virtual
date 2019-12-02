@@ -10,7 +10,7 @@ package tienda_virtual;
  * @author fanat
  */
 public class BigActions {
-    private String bigAction;
+    public String bigAction;
     private Stack<String> smallActions;
     private boolean add;
 
@@ -27,11 +27,13 @@ public class BigActions {
             smallActions.Push("set|0");
         }
         
+        System.out.println(smallActions.length+ " longitud");
     }
     
     private void BigIn(){
         smallActions.Push("0");
         add=true;
+        
     }
     /**
      * inicia la gran accion con su nombre, inicia el stack y le añade la primera accion
@@ -119,6 +121,7 @@ public class BigActions {
      */
     
     public boolean isFirst(){
+        System.out.println(smallActions.length);
         if(add){
             return smallActions.length<=2||smallActions.isEmpty();
         }else{
@@ -133,5 +136,26 @@ public class BigActions {
     
     public boolean isEmpty(){
         return smallActions.isEmpty();
+    }
+    
+    public void displaySmall(){
+        Stack<String> hey = new Stack<>();
+        System.out.println(smallActions.length);
+        int h = smallActions.length;
+        for (int i = 0; i < h; i++) {
+            System.out.print("   "+smallActions.Peek()+" small");
+            hey.Push(smallActions.Peek());
+            smallActions.Pop();
+            System.out.println(i);
+        }
+        h = hey.length;
+        for (int i = 0; i < h; i++) {
+            smallActions.Push(hey.Peek());
+            hey.Pop();
+        }
+    }
+    
+    public int loeng(){
+        return smallActions.length;
     }
 }

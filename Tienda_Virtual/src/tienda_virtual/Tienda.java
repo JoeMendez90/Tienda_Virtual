@@ -20,25 +20,126 @@ public class Tienda{
         }
         return prod1;
     }
-    public DinamicArray<Producto> Buscar(String search){
+    
+    /**
+     * primer tipo de busqueda, para productos
+     * retorna todos los productos que poseen esa palabra dentro, o una de las palabras que contiene
+     * @param search palabra o palabras a buscar
+     * @return productos encontrados
+     */
+    
+    public DinamicArray<Producto> BuscarProd(String search){
+        search = search.trim();
         DinamicArray<Producto> prod1 = new DinamicArray<>();
-        DinamicArray<Producto> prod2 = new DinamicArray<>();
+        DinamicArray<Producto> not1 = new DinamicArray<>();
         if(search.equals("")){
             return prod;
         }
+        
         for(int i=0; i<prod.tam;i++){
             if(prod.get(i).getNombre().contains(search)){
                 prod1.addBack(prod.get(i));
-            }else if(prod.get(i).getSeller().contains(search)){
-                prod2.addBack(prod.get(i));
+            }else{
+                not1.addBack(prod.get(i));
             }
         }
-        for (int i = 0; i < prod2.tam; i++) {
-            prod1.addBack(prod2.get(i));
+        
+        String[] palabras = search.split(" ");
+        
+        if(palabras.length<=1){
+            return prod1;
+        }
+        
+        String newSearch="";
+        for (int i = 0; i < palabras.length; i++) {
+            for (int j = 1; j < palabras.length-1; j++) {
+                if(palabras[i].equals("")){
+                    break;
+                }
+                
+                if(i!=j){
+                    if(palabras[i].equals(palabras[j])){
+                        // eliminamos su valor
+                        palabras[j]="";
+                    }
+                }
+            }
+            if(!palabras[i].equals("")){
+                newSearch+=" "+palabras[i];
+            }
+        }
+        
+        newSearch = newSearch.trim();
+        
+        palabras = newSearch.split(" ");
+        
+            for (int j = 0; j < palabras.length; j++) {
+                DinamicArray<Producto> prod2 = BusquedaIndList(palabras[j],not1);
+                for (int i = 0; i < prod2.tam; i++) {
+                    prod1.addBack(prod2.get(i));
+                }
+            }
+        
+        return prod1;
+    }
+    
+    /**
+     * primer tipo de busqueda, para usuarios
+     * retorna todos los usuarios que poseen ese nombre dentro, o una de las palabras que contiene
+     * @param search palabra o palabras a buscar
+     * @return productos encontrados
+     */
+    
+    public DinamicArray<Producto> BuscarUsers(String search){
+        search = search.trim();
+        DinamicArray<Producto> prod1 = new DinamicArray<>();
+        DinamicArray<Producto> not1 = new DinamicArray<>();
+        if(search.equals("")){
+            return prod;
+        }
+        
+        for(int i=0; i<prod.tam;i++){
+            if(prod.get(i).getNombre().contains(search)){
+                prod1.addBack(prod.get(i));
+            }else{
+                not1.addBack(prod.get(i));
+            }
+        }
+        
+        String[] palabras = search.split(" ");
+        if(palabras.length>1){
+            for (int j = 0; j < palabras.length; j++) {
+                DinamicArray<Producto> prod2 = BusquedaIndList(palabras[j],not1);
+                for (int i = 0; i < prod2.tam; i++) {
+                    prod1.addBack(prod2.get(i));
+                }
+            }
         }
         
         return prod1;
     }
+    
+    
+    /**
+     * busca una palabra dentro de una lista dada, y lo que encuentra lo va sacando
+     * @param word
+     * @param list
+     * @return 
+     */
+    
+    private DinamicArray<Producto> BusquedaIndList(String word,DinamicArray<Producto> list){
+        DinamicArray<Producto> prod1 = new DinamicArray<>();
+        for(int i=0; i<list.tam;i++){
+            if(list.get(i).getNombre().contains(word)){
+                prod1.addBack(list.get(i));
+                list.delete(i);
+            }
+        }
+        
+        return prod1;
+    }
+    
+    
     
     /*
     public String makeKey(){

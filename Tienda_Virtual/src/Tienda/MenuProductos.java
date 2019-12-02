@@ -14,7 +14,12 @@ public class MenuProductos extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+                                    String hey = "1234";
+                                    String[] palabras = hey.split(" ");
                                     
+                                    for (int i = 0; i < palabras.length; i++) {
+                                        System.out.print(palabras[i]+" | ");
+                                    }
 					MenuProductos frame = new MenuProductos(LectoUpdater.initProd(10000));
                                         frame.setVisible(true);
                                         JSure sure = new JSure(frame, true);

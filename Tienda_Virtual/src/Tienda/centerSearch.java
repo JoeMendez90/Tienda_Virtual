@@ -14,12 +14,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import tienda_virtual.DinamicArray;
 import tienda_virtual.Producto;
-import tienda_virtual.ReturnAction;
-import tienda_virtual.Tienda;
 
 /**
  *
@@ -27,8 +26,11 @@ import tienda_virtual.Tienda;
  */
 public class centerSearch extends CenterPane{
     private DinamicArray<Producto> search;
+    private JTabbedPane tabsearch;
     private JScrollPane scrollPane_1;
-    private JComboBox<String> box;
+    private JScrollPane scrollPane_2;
+    private JComboBox<String> box1;
+    private JComboBox<String> box2;
     private int div;
     private int save;
     
@@ -40,7 +42,18 @@ public class centerSearch extends CenterPane{
     @Override
     protected void createButton() {
         centerPane.setLayout(null);
-        search = principal.tienda.Buscar(orden);
+        tabsearch = new JTabbedPane();
+        tabsearch.setBounds(10, 10, centerPane.getWidth()-10, centerPane.getHeight()-10);
+        tabsearch.add("productos",createProd());
+        centerPane.add(tabsearch);
+    }
+
+    public JPanel createProd(){
+        JPanel center = new JPanel();
+        center.setBackground(Color.decode("#414141"));
+        center.setBounds(0, 0, centerPane.getWidth()-20, centerPane.getHeight()-20);
+        center.setLayout(null);
+        search = principal.tienda.BuscarProd(orden);
         if(search.isEmpty()){
             Error();
         }else{
@@ -51,42 +64,44 @@ public class centerSearch extends CenterPane{
                 numbers[i-1]=i+"";
             }
             save=-1;
-            box = new JComboBox<>(numbers);
-            box.setBounds(1150, 120, 60, 27);
+            box1 = new JComboBox<>(numbers);
+            box1.setBounds(25, 60, 60, 27);
             scrollPane_1 = new JScrollPane();
-            scrollPane_1.setBounds(20, 20, 1000, 500);
+            scrollPane_1.setBounds(10, 100, 1200, 400);
             scrollPane_1.setBackground(Color.decode("#424242"));
 
             JLabel busqueda = new JLabel("Search: ");
-            busqueda.setBounds(1050, 200, 200,50);
+            busqueda.setBounds(100, 50, 200,50);
             busqueda.setForeground(Color.white);
             busqueda.setFont(Principal.createFont(busqueda, 20));
             JLabel busqueda2 = new JLabel(orden);
-            busqueda2.setBounds(1050, 300, 200,50);
+            busqueda2.setBounds(300, 50, 700,50);
             busqueda2.setForeground(Color.white);
             busqueda2.setFont(Principal.createFont(busqueda2, 20));
 
-            centerPane.add(busqueda);
-            centerPane.add(busqueda2);
+            center.add(busqueda);
+            center.add(busqueda2);
 
-
-            box.addActionListener(new ActionListener() {
+            box1.setSelectedIndex(0);
+            box1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if(save!=box.getSelectedIndex()){
-                        StackAction("set|"+box.getSelectedIndex());
+                    if(save!=box1.getSelectedIndex()){
+                        StackAction("set|"+box1.getSelectedIndex());
                     }
                 }
             });
-            box.setSelectedIndex(0);
-            centerPane.add(box);
 
-            centerPane.add(scrollPane_1);
+            center.add(box1);
+
+            center.add(scrollPane_1);
 
 
             scrollPane_1.setViewportView(createListSet());
         }
+        return center;
     }
+
 
     @Override
     public void Actions(String set) {
@@ -96,8 +111,8 @@ public class centerSearch extends CenterPane{
             case "set":
                     System.out.println("acction");
                     save=Integer.valueOf(subAction[1]);
-                    if(box.getSelectedIndex()!=save){
-                        box.setSelectedIndex(Integer.valueOf(subAction[1]));
+                    if(box1.getSelectedIndex()!=save){
+                        box1.setSelectedIndex(Integer.valueOf(subAction[1]));
                     }
                     
                     scrollPane_1.setViewportView(createListSet());
@@ -115,12 +130,12 @@ public class centerSearch extends CenterPane{
     
     public DinamicArray<Producto> search2(){
         DinamicArray<Producto> search2 = new DinamicArray<>();
-        if(box.getSelectedIndex()==div){
-            for (int i = box.getSelectedIndex()*50; i < search.tam; i++) {
+        if(box1.getSelectedIndex()==div){
+            for (int i = box1.getSelectedIndex()*50; i < search.tam; i++) {
                 search2.addBack(search.get(i));
             }
         }else{
-            for (int i = box.getSelectedIndex()*50; i < box.getSelectedIndex()*50+50; i++) {
+            for (int i = box1.getSelectedIndex()*50; i < box1.getSelectedIndex()*50+50; i++) {
                 search2.addBack(search.get(i));
             }
         }
@@ -228,16 +243,24 @@ public class centerSearch extends CenterPane{
         return prod2;
     }
 
-    private void Error() {
+    private JPanel Error() {
+        JPanel error = new JPanel();
+        error.setForeground(Color.WHITE);
+        error.setLayout(null);
+        error.setBounds(0, 0, centerPane.getWidth()-20, centerPane.getHeight()-20);
         JLabel error1 = new JLabel("Error Busqueda");
+        error1.setForeground(Color.WHITE);
         JLabel error2 = new JLabel("No Encontrada");
+        error2.setForeground(Color.WHITE);
         System.out.println("error");
         error1.setFont(Principal.createFont(error1, 100));
         error1.setBounds(50, 50, 1000, 150);
         error2.setFont(Principal.createFont(error2, 100));
         error2.setBounds(50, 150, 1000, 300);
-        centerPane.add(error1);
-        centerPane.add(error2);
+        error.add(error1);
+        error.add(error2);
+        
+        return error;
     }
     
 }

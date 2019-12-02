@@ -26,6 +26,25 @@ public class ReturnAction {
      */
     
     public String Action(){
+        Stack<BigActions> hey = new Stack();
+        int t= Actions.length ;
+        System.out.println(t);
+        for(int i=0; i< t;i++){
+            System.out.println(Actions.Peek().bigAction+" big"+ Actions.Peek().loeng());
+            Actions.Peek().displaySmall();
+            System.out.println(Actions.Peek().bigAction+" big"+ Actions.Peek().loeng());
+            
+            hey.Push(Actions.Peek());
+            Actions.Pop();
+        }
+        t=hey.length;
+        
+        for (int i = 0; i < t; i++) {
+            Actions.Push(hey.Peek());
+            hey.Pop();
+        }
+        
+        System.out.println(Actions.length+" ash");
         if(Actions.isEmpty()){
             System.out.println("out1");
             return "out";
@@ -41,6 +60,7 @@ public class ReturnAction {
         if(Actions.Peek().isFirst()){
             Actions.Pop();
             String out = Actions.Peek().getBigAction()+"|Center|"+Actions.Peek().getLastAction();
+            System.out.println(out);
             return out;
             
         }else{
@@ -62,7 +82,6 @@ public class ReturnAction {
     public void addAction(String action){
         if(action.contains("Center|")){
             String actionSub = action.substring(7);
-            
             if(!Actions.Peek().repeatS(actionSub)){
                 System.out.println(Actions.Peek().getLastActionNoPop()+" "+actionSub);
                 Actions.Peek().addAction(actionSub);
@@ -70,7 +89,7 @@ public class ReturnAction {
                 return;
             }
             System.out.println("subActionRepeat");
-        }else if(!Actions.Peek().repeatB(action)){
+        }else if(Actions.Peek().repeatB(action)){
             Actions.Peek().addAction("");
             System.out.println("BigActionIn");
         }else{
@@ -78,6 +97,22 @@ public class ReturnAction {
             Actions.Push(newBig);
             System.out.println("NewBigAction");
         }
+    }
+    
+    public void deleteCount(){
+        Stack<BigActions> seconds = new Stack<>();
+        for(int i =0;i<Actions.length;i++){
+            seconds.Push(Actions.Peek());
+            Actions.Pop();
+        }
+        for (int i = 0; i < seconds.length; i++) {
+            if(seconds.Peek().getBigAction().equals("Cuenta")){
+                Actions.Push(seconds.Peek());
+            }
+            seconds.Pop();
+        }
+        
+        
     }
     
 }
