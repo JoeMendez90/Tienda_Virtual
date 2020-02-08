@@ -15,7 +15,7 @@ public class Usuario {
     private  Carrito carrito;
     public DinamicArray<String> productos;
     private Heap<Servicio> Servicios;
-    private DinamicArray<GuardCarr> garage;
+    private Garaje garaje;
     
     private int servlim;
     private DinamicArray<Contrato> contratos;
@@ -34,7 +34,8 @@ public class Usuario {
         this.desc = " ";
         productos = new DinamicArray<>();
         carrito = new Carrito();
-        garage = new DinamicArray<>();
+        garaje = new Garaje(new DinamicArray<GuardCarr>());
+        garaje.setMainCar(this.carrito);
     }
     
     /**
@@ -88,7 +89,7 @@ public class Usuario {
         this.desc = desc;
         this.carrito = null;
         productos = new DinamicArray<>();
-        this.garage = carritos;
+        //this.garage = carritos;
     }
     
     /**
@@ -104,7 +105,7 @@ public class Usuario {
         this.desc = desc;
         this.carrito = carrito;
         productos = new DinamicArray<>();
-        this.garage = carritos;
+        //this.garage = carritos;
     }
     
     /**
@@ -158,9 +159,7 @@ public class Usuario {
     }
     
     
-    public void nuevo_carrito(Carrito name, String Nombre){
-        garage.addBack(new GuardCarr(name, Nombre));
-    }
+    
 
     public DinamicArray<String> getProductos() {
         return productos;
@@ -169,10 +168,8 @@ public class Usuario {
     public Carrito getCarrito() {
         return carrito;
     }
-
-    public DinamicArray<GuardCarr> getGarage() {
-        return garage;
-    }
+    
+    
 
     public void setProductos(DinamicArray<String> productos) {
         this.productos = productos;
@@ -181,10 +178,8 @@ public class Usuario {
     public void setCarrito(Carrito carrito) {
         this.carrito = carrito;
     }
-
-    public void setGarage(DinamicArray<GuardCarr> garage) {
-        this.garage = garage;
-    }
+    
+    
     
     
     public void aCarrito(Producto p){
