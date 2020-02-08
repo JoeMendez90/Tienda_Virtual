@@ -1,4 +1,4 @@
-package tienda_virtual;
+ package tienda_virtual;
 
 /**
  * Clase que define los Usuarios de la aplicacion, 
@@ -18,6 +18,7 @@ public class Usuario {
     private DinamicArray<GuardCarr> garage;
     
     private int servlim;
+    private DinamicArray<Contrato> contratos;
     
     // la variable servlim es para que el usuario no se sature de servicios
     // se sugiere que se pueda editar esto en el perfil
@@ -43,7 +44,7 @@ public class Usuario {
      * @param desc descripcion nueva
      */
     
-   public Usuario(String username, String desc){
+    public Usuario(String username, String desc){
         this(username);
         this.desc=desc;
     }
@@ -213,9 +214,8 @@ public class Usuario {
             // prioridad = dias del año menos el tiempo que toma el servicio
             int p = 365 - time;
             Servicios.Insert(p, serv);    
-        }
-        
-    }*/
+        }   
+    }
 
     public int getServlim() {
         return servlim;
@@ -223,7 +223,7 @@ public class Usuario {
 
     public void setServlim(int servlim) {
         this.servlim = servlim;
-    }
+    }*/
     
     public boolean itsPassword(String pass){
         return pass.equals(password);
