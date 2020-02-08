@@ -12,7 +12,7 @@ public class Servicio {
     int comision;
     int task;
     int cump;
-    boolean ready;
+    public boolean ready;
     String nombre;
     String vendedor;
     String descripcion;
