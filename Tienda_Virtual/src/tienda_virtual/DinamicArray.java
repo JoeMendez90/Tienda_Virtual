@@ -139,7 +139,7 @@ public class DinamicArray<T>  {
     
     public void imprime(){
         for(int j = 0; j<tam;j++){
-            System.out.print(arr[j]+" ");
+            System.out.print(arr[j].object+" ");
         }
         System.out.println();
     }

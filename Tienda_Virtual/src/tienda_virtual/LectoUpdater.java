@@ -19,42 +19,64 @@ import java.util.regex.Pattern;
  */
 public class LectoUpdater {
     
+    public static void Cerrar(Tienda tienda,int ex){
+        long TInicio, TFin;
+        TInicio = System.currentTimeMillis();
+        updateProductos(tienda.prod, ex);
+        
+        TFin = System.currentTimeMillis();
+        getTime(TFin - TInicio,"Cerrar");
+    }
+    
+    private static void updateProductos(DinamicArray<Producto> productos, int ex){
+        
+        long TInicio, TFin; 
+        TInicio = System.currentTimeMillis();
+        
+        
+        File Products = null;
+
+        FileWriter WProduct = null;
+        PrintWriter  WriterProd;
+        try {
+           Products = new File ("src/txt/Products"+ex+".txt");
+           
+            WProduct = new FileWriter(Products);
+            WriterProd = new PrintWriter(WProduct);
+
+            for (int i = 0; i < productos.tam; i++) {
+                WriterProd.println(productos.get(i).getId()+"|" +productos.get(i).getNombre()+"|"+productos.get(i).getDesc()+"|"+productos.get(i).getValor()+"|"+productos.get(i).getSeller());
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+                if (null != WProduct){
+                   WProduct.close();
+                }
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+        
+        TFin = System.currentTimeMillis();
+        getTime(TFin - TInicio,"sacar producto de la tienda");
+        
+        
+    }
+    
     public static void EliminarCuenta(Tienda tienda, int ex){
         long TInicio, TFin;
         TInicio = System.currentTimeMillis();
         EliminarProductos(tienda,ex);
-        Queue<String> Users = new Queue<>();
-        File User = null;
-        FileReader ReadUser = null;
-        try {
-           User = new File ("src/txt/Users"+ex+".txt");
-           ReadUser= new FileReader (User);
-           BufferedReader ReaderUser = new BufferedReader(ReadUser);
-           
-           String linea;
-
-           while((linea=ReaderUser.readLine())!=null){
-                String []  palabras = linea.split(Pattern.quote("|"));
-                if(!palabras[0].equals(tienda.actualUser.getUsername())){
-                    Users.enQueue(linea);
-                }
-           }
-        }
-        catch(Exception e){
-           e.printStackTrace();
-        }finally{
-           try{                    
-              if( null != ReadUser ){   
-                 ReadUser.close();     
-              }  
-           }catch (Exception e2){ 
-              e2.printStackTrace();
-           }
-        }
+        tienda.users.delete(tienda.users.getIndex(tienda.actualUser));
         FileWriter WUser = null;
         PrintWriter WriterUser = null;
         try
         {
+            File User = new File ("src/txt/Users"+ex+".txt");
             boolean delete = User.delete();
             if(delete){
                 User.createNewFile();
@@ -63,9 +85,8 @@ public class LectoUpdater {
             WUser = new FileWriter(User);
             WriterUser = new PrintWriter(WUser);
 
-            while(!Users.isEmpty()){
-                WriterUser.println(Users.Peek());
-                Users.deQueue();
+            for (int i = 0; i < tienda.users.tam; i++) {
+                WriterUser.println(tienda.users.get(i).escribemeTodo());
             }
 
         } catch (Exception e) {
@@ -131,7 +152,7 @@ public class LectoUpdater {
             pw2 = new PrintWriter(fichero2);
             pw2.println(nombre+"| |"+contrasena+"|0|");
                 
-            tienda.users.addBack(new Usuario(nombre));
+            tienda.users.addBack(new Usuario(nombre,"", contrasena));
             
 
         } catch (Exception e) {

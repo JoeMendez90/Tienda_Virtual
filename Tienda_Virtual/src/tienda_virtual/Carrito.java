@@ -79,11 +79,23 @@ public class Carrito {
      */
     
     public void agregar(Producto key){
-        if(!carrito.exist(key)){
+        if(!exists(key.getId())){
             carrito.addBack(key);
             carId= carId+key.getId();
             length++;
+            System.out.println("agregado");
         }
+    }
+    
+    
+    public boolean exists(String key){
+        for (int i = 0; i < carrito.tam; i++) {
+            if(carrito.get(i).getId().equals(key)){
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     /**

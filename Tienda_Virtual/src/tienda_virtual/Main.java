@@ -17,6 +17,7 @@ public class Main {
                     Tienda tienda = new Tienda(ex);
                     Principal frame = new Principal(tienda, ex);
                     frame.setVisible(true);
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

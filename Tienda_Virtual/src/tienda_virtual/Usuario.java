@@ -1,4 +1,4 @@
- package tienda_virtual;
+package tienda_virtual;
 
 /**
  * Clase que define los Usuarios de la aplicacion, 
@@ -15,10 +15,9 @@ public class Usuario {
     private  Carrito carrito;
     public DinamicArray<String> productos;
     private Heap<Servicio> Servicios;
-    private Garaje garaje;
+    private Garage garage;
     
     private int servlim;
-    private DinamicArray<Contrato> contratos;
     
     // la variable servlim es para que el usuario no se sature de servicios
     // se sugiere que se pueda editar esto en el perfil
@@ -34,8 +33,7 @@ public class Usuario {
         this.desc = " ";
         productos = new DinamicArray<>();
         carrito = new Carrito();
-        garaje = new Garaje(new DinamicArray<GuardCarr>());
-        garaje.setMainCar(this.carrito);
+        garage = new Garage();
     }
     
     /**
@@ -45,7 +43,7 @@ public class Usuario {
      * @param desc descripcion nueva
      */
     
-    public Usuario(String username, String desc){
+   public Usuario(String username, String desc){
         this(username);
         this.desc=desc;
     }
@@ -58,7 +56,7 @@ public class Usuario {
     */
    
     public Usuario(String username, String desc, Carrito carrito) {
-        this.username = username;
+        this(username);
         this.desc = desc;
         this.carrito = carrito;
         productos = new DinamicArray<>();
@@ -72,7 +70,7 @@ public class Usuario {
      */
 
     public Usuario(String username, String desc, String password) {
-        this.username = username;
+        this(username);
         this.desc = desc;
         this.password = password;
     }
@@ -89,7 +87,7 @@ public class Usuario {
         this.desc = desc;
         this.carrito = null;
         productos = new DinamicArray<>();
-        //this.garage = carritos;
+        this.garage = new Garage(carritos);
     }
     
     /**
@@ -105,7 +103,7 @@ public class Usuario {
         this.desc = desc;
         this.carrito = carrito;
         productos = new DinamicArray<>();
-        //this.garage = carritos;
+        this.garage = new Garage(carritos);
     }
     
     /**
@@ -159,7 +157,9 @@ public class Usuario {
     }
     
     
-    
+    public void nuevo_carrito(Carrito name, String Nombre){
+        garage.nuevo_carrito(name, Nombre);
+    }
 
     public DinamicArray<String> getProductos() {
         return productos;
@@ -168,8 +168,10 @@ public class Usuario {
     public Carrito getCarrito() {
         return carrito;
     }
-    
-    
+
+    public DinamicArray<GuardCarr> getGarage() {
+        return garage.getGarage();
+    }
 
     public void setProductos(DinamicArray<String> productos) {
         this.productos = productos;
@@ -178,8 +180,10 @@ public class Usuario {
     public void setCarrito(Carrito carrito) {
         this.carrito = carrito;
     }
-    
-    
+
+    public void setGarage(DinamicArray<GuardCarr> garage) {
+        //this.garage = garage;
+    }
     
     
     public void aCarrito(Producto p){
@@ -209,8 +213,9 @@ public class Usuario {
             // prioridad = dias del año menos el tiempo que toma el servicio
             int p = 365 - time;
             Servicios.Insert(p, serv);    
-        }   
-    }
+        }
+        
+    }*/
 
     public int getServlim() {
         return servlim;
@@ -218,9 +223,18 @@ public class Usuario {
 
     public void setServlim(int servlim) {
         this.servlim = servlim;
-    }*/
+    }
     
     public boolean itsPassword(String pass){
         return pass.equals(password);
+    }
+
+    public String escribemeTodo() {
+        String hey = username+"|"+desc+"|"+password+"|";
+        hey+=productos.tam+"|";
+        for (int i = 0; i < productos.tam; i++) {
+            hey+=productos.get(i)+"|";
+        }
+        return hey;
     }
 }

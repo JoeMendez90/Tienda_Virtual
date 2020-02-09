@@ -7,44 +7,81 @@
 package tienda_virtual;
 
 public class Servicio {
-    int tiempoMax;
-    int valor;
-    int comision;
-    int task;
-    int cump;
-    public boolean ready;
-    String nombre;
-    String vendedor;
-    String descripcion;
-    Producto product;
-    DinamicArray<Fase> fases;
-    public Servicio(String nombre, int tiempoMax, int valor){
-        this.nombre = nombre;
-        this.tiempoMax = tiempoMax;
+    /**
+     * Tstandar: el tiempo estandar que tarda el servicio en cumplirse
+     * name: nombre del servicio
+     * cumplido: determina si ya se cumplió el servicio
+     * seller: el que ofrece el servicio
+     * valor: el precio: 
+    */
+    private int Tstandar;
+    private int valor;
+    private String name;
+    private String seller;
+    private String desc;
+    private boolean cumplido;
+
+    public Servicio(int Tstandar, int valor, String name) {
+        setTstandar(Tstandar);
+        setValor(valor);
+        setName(name);
+    }
+    
+    public Servicio(int Tstandar, int valor, String name, String seller){
+        this(Tstandar, valor, name);
+        setSeller(seller);
+    }
+    public Servicio(int Tstandar, int valor, String name, String seller, String desc){
+        this(Tstandar, valor, name, seller);
+        setDesc(desc);
+    }
+    
+    public int getTstandar() {
+        return Tstandar;
+    }
+
+    public void setTstandar(int Tstandar) {
+        this.Tstandar = Tstandar;
+    }
+
+    public int getValor() {
+        return valor;
+    }
+
+    public void setValor(int valor) {
         this.valor = valor;
-        task = 0;
-        cump = 0;
-        ready = false;
     }
-    public Servicio(String nombre, int tiempoMax, int valor, String descripcion){
-        this(nombre, tiempoMax, valor);
-        this.descripcion = descripcion;
+
+    public String getName() {
+        return name;
     }
-    public Servicio(String nombre, int tiempoMax, int valor, String descripcion, String vendedor){
-        this(nombre, tiempoMax, valor, descripcion);
-        this.vendedor = vendedor;
+
+    public void setName(String name) {
+        this.name = name;
     }
-    public void addFase(String nombre, int t){
-        fases.addBack(new Fase(nombre,t));
-        task++;
+
+    public String getSeller() {
+        return seller;
     }
-    // ejecute esto cuando se haya cumplido una fase
-    void cumplir(){
-        fases.get(0).chulito();
-        cump++;
-        // el servicio se ha cumplido
-        if(task==cump){
-            ready = true;
-        }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+    
+    public boolean isCumplido() {
+        return cumplido;
+    }
+
+    public void setCumplido(boolean cumplido) {
+        this.cumplido = cumplido;
+    }
+    
 }
