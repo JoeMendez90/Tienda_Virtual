@@ -19,6 +19,7 @@ public abstract class CenterPane {
     protected JPanel centerPane;
     protected Principal principal;
     protected String orden;
+    public boolean productoB;
 
     public CenterPane(Principal principal, String orden, String action) {
         long TInicio, TFin;

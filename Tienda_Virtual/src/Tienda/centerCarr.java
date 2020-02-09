@@ -25,9 +25,10 @@ import tienda_virtual.Tienda;
 public class centerCarr extends CenterPane{
     private DinamicArray<Producto> Carr;
     private JScrollPane scrollPane_1;
-    private JComboBox<String> box;
     private int div;
     private int save;
+    private JLabel precio;
+    private int precio2;
     
     
     public centerCarr(Principal principal, String orden) {
@@ -37,44 +38,120 @@ public class centerCarr extends CenterPane{
     @Override
     protected void createButton() {
         Carr = principal.tienda.actualUser.getCarrito().getCarrito();
+        centerPane.setLayout(null);
+        scrollPane_1 = new JScrollPane();
+        scrollPane_1.setBounds(20, 20, 600, 400);
+        scrollPane_1.setBackground(Color.decode("#424242"));
+        
+        centerPane.add(scrollPane_1);
+        precio2 = 0;
+        precio = new JLabel(precio2+"");
+        JLabel total = new JLabel("Total:");
+        total.setBounds(400,400,200,100);
+        total.setForeground(Color.WHITE);
+        total.setFont(Principal.createFont(total, 20));
+        
+        scrollPane_1.setViewportView(reload());
+        
+        
+        precio.setBounds(450,400,200,100);
+        precio.setForeground(Color.WHITE);
+        precio.setFont(Principal.createFont(precio, 20));
+        
+        
+        centerPane.add(total);
+        centerPane.add(precio);
+        
+        
+              
+        //scrollPane_1.setViewportView(/*createListSet()*/);
+        
         if(Carr.isEmpty()){
             
         }
-        centerPane.setLayout(null);
         
-        div=Carr.tam/50;
-        
-        String[] numbers = new String[div];
-        for (int i = 1; i < div+2; i++) {
-            numbers[i-1]=i+"";
-        }
-        save=-1;
-        box = new JComboBox<>(numbers);
-        box.setBounds(1150, 120, 60, 27);
-        
-        box.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(save!=box.getSelectedIndex()){
-                    StackAction("set|"+box.getSelectedIndex());
-                }
-            }
-        });
-        
-        box.setSelectedIndex(0);
-        centerPane.add(box);
-        scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(20, 20, 1000, 500);
-        scrollPane_1.setBackground(Color.decode("#424242"));
-        centerPane.add(scrollPane_1);
-        
-              
-        scrollPane_1.setViewportView(createListSet());
     }
-
+    
+    public JPanel reload(){
+        JPanel list = new JPanel();
+        list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
+        precio2=0;
+        for (int i = 0; i < principal.tienda.actualUser.getCarrito().getCarrito().tam; i++) {
+            JPanel prod = new JPanel();
+            prod.setLayout(new BoxLayout(prod, BoxLayout.X_AXIS));
+            
+            
+            precio2+=principal.tienda.actualUser.getCarrito().getCarrito().get(i).getValor();
+            
+            /*prod.add(nombre);
+            prod.add(Box.createRigidArea(new Dimension(200, )))
+            */
+            JButton produ = new JButton();
+            
+            
+            
+            String Mane = principal.tienda.actualUser.getCarrito().getCarrito().get(i).getNombre();
+            
+            String valor = "$"+(int)principal.tienda.actualUser.getCarrito().getCarrito().get(i).getValor();
+            
+            int set = 30 - valor.length();
+            
+            if(set-5<Mane.length()){
+                Mane = Mane.substring(0, set-5)+"..";
+            }
+            
+            set = set - Mane.length();
+            
+            JLabel nombre = new JLabel(Mane);
+             nombre.setFont(Principal.createFont(nombre, 20));
+            
+            String hey = "";
+            
+            for (int j = 0; j < set; j++) {
+                hey+="     ";
+            }
+            
+            JLabel procio = new JLabel(valor);
+            procio.setFont(Principal.createFont(procio, 20));
+            
+            JPanel pordu = new JPanel();
+            pordu.setLayout(new BoxLayout(pordu, BoxLayout.X_AXIS));
+            
+            JLabel heyy = new JLabel(hey);
+            //heyy.setFont(Principal.createFont(heyy, 20));
+            
+            pordu.add(nombre);
+            pordu.add(heyy);
+            pordu.add(procio);
+            
+            
+            produ.add(pordu);
+            
+            JButton elimi = new JButton("X");
+            
+            elimi.setFont(Principal.createFont(elimi, 20));
+            String id = principal.tienda.actualUser.getCarrito().getCarrito().get(i).getId();
+            elimi.addActionListener((e) -> {
+                principal.tienda.actualUser.getCarrito().sacar(id);
+                scrollPane_1.setViewportView(reload());
+                scrollPane_1.validate();
+            });
+                    
+            
+            prod.add(produ);
+            prod.add(elimi);
+            
+            list.add(prod);
+        }
+        
+        precio.setText("$"+precio2);
+        
+        return list;
+    }
+    
     @Override
     public void Actions(String set) {
-        String[] subAction = set.split(Pattern.quote("|"));
+        /*String[] subAction = set.split(Pattern.quote("|"));
         
         switch(subAction[0]){
             case "set":
@@ -88,10 +165,10 @@ public class centerCarr extends CenterPane{
             case "select":
                 
             break;
-        }
+        }*/
     }
     
-    public DinamicArray<Producto> search2(){
+    /*public DinamicArray<Producto> search2(){
         DinamicArray<Producto> search2 = new DinamicArray<>();
         if(box.getSelectedIndex()==div){
             for (int i = box.getSelectedIndex()*50; i < Carr.tam; i++) {
@@ -104,7 +181,7 @@ public class centerCarr extends CenterPane{
         }
         return search2;
     }
-    
+    */
     public JPanel createList(DinamicArray<Producto> serch){
         JPanel list = new JPanel();
         list.setLayout(new BoxLayout(list, BoxLayout.X_AXIS));
@@ -142,10 +219,10 @@ public class centerCarr extends CenterPane{
         return pan;
     }
     
-    public JPanel createListSet(){
+    /*public JPanel createListSet(){
         DinamicArray<Producto> serch = search2();
         return createList(serch);
-    }
+    }*/
     
     
     public JPanel createProduct(Producto producto){

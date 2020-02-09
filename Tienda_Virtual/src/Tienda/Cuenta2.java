@@ -27,11 +27,15 @@ import javax.swing.JScrollBar;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 
 public class Cuenta2 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+        JButton seh;
+        JButton  search;
+        JButton button;
 
 	/**
 	 * Launch the application.
@@ -82,24 +86,51 @@ public class Cuenta2 extends JFrame {
 		label.setBounds(10, 38, 296, 77);
 		panel.add(label);
 		
-		JButton button = new JButton("Serch");
-		button.setBounds(870, 71, 91, 23);
+                  search =new JButton("Serch");
+		search.setBounds(870, 71, 91, 23);
+                search.addActionListener((e) -> {
+                    System.out.println("search");
+                });
+                search.setVisible(true);
+                
+                seh =new JButton("set");
+		seh.setBounds(870, 71, 91, 23);
+                seh.addActionListener((e) -> {
+                    System.out.println("seh");
+                });
+                 seh.setVisible(true);
+                
+		 button = search;
 		panel.add(button);
 		
 		JButton button_1 = new JButton("");
 		button_1.setIcon(new ImageIcon(Cuenta.class.getResource("/Images/Captura2.png")));
 		button_1.setBounds(985, 38, 74, 77);
+                
+                button_1.addActionListener((ActionEvent e) -> {
+                        button = search;
+                        button.validate();
+                    
+                });
 		panel.add(button_1);
 		
 		JButton button_2 = new JButton("");
 		button_2.setIcon(new ImageIcon(Cuenta.class.getResource("/Images/Register2.png")));
 		button_2.setBounds(1069, 38, 74, 77);
 		panel.add(button_2);
+                button_2.addActionListener((e) -> {
+                        button = seh;
+                        button.validate();
+                });
 		
 		JButton button_3 = new JButton("");
 		button_3.setIcon(new ImageIcon(Cuenta.class.getResource("/Images/carrito2.png")));
 		button_3.setBounds(1153, 38, 74, 77);
 		panel.add(button_3);
+                button_3.addActionListener((e) -> {
+                    search.setEnabled(!search.isEnabled());
+                    button.validate();
+                });
 		
 		JLayeredPane layeredPane = new JLayeredPane();
 		layeredPane.setLayout(null);

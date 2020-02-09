@@ -1,6 +1,7 @@
 
 package Tienda;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -16,13 +17,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import tienda_virtual.Carrito;
 import tienda_virtual.DinamicArray;
 import tienda_virtual.LectoUpdater;
 import tienda_virtual.Producto;
 import tienda_virtual.ReturnAction;
 import tienda_virtual.Tienda;
+import tienda_virtual.Usuario;
 
 /**
  * el center cuenta es la ventana center donde se visualizara la cuenta del usuario actual, 
@@ -294,7 +298,11 @@ public class centerCuenta extends CenterPane{
                 delete.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println("delete not list");
+                        Carrito have = principal.tienda.actualUser.getCarrito();
+                        LectoUpdater.EliminarCuenta(principal.tienda, 10000);
+                        principal.tienda.actualUser = new Usuario();
+                        principal.tienda.actualUser.setCarrito(have);
+                        principal.search(orden);
                     }
                 });
             Buttons.add(delete);
@@ -304,6 +312,10 @@ public class centerCuenta extends CenterPane{
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         principal.actionsPrev.deleteCount();
+                        Carrito have = principal.tienda.actualUser.getCarrito();
+                        principal.tienda.actualUser.setCarrito(null);
+                        principal.tienda.actualUser = new Usuario();
+                        principal.tienda.actualUser.setCarrito(have);
                         principal.search(orden);
                     }
                 });
@@ -325,12 +337,8 @@ public class centerCuenta extends CenterPane{
     }
 
     private Component Garage() {
-        JPanel Contrat = new  JPanel();
-        Contrat.setBounds(0, 0, 1000, 500);
-        JLabel text = new JLabel("No hay Garage");
-        text.setFont(Principal.createFont(text,100));
-        Contrat.add(text);
-        return Contrat;
+        Component Garage = new GarageVisual();
+        return Garage;
     }
 
     private Component Archivo() {

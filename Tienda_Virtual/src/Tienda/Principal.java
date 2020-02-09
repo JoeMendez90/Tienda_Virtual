@@ -11,10 +11,13 @@ import java.awt.Component;
 import java.awt.Window.Type;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
+import tienda_virtual.LectoUpdater;
 import tienda_virtual.ReturnAction;
 import tienda_virtual.Tienda;
 
@@ -47,6 +50,13 @@ public class Principal extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         contentPane.add(center.getCenterPane());
+        this.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            LectoUpdater.Cerrar(tienda, CantPrub);
+            System.out.println("Estoy cerrando");
+        }
+ });
     }
 
     private void createFrame(){
@@ -84,7 +94,18 @@ public class Principal extends JFrame {
             JLabel label = new JLabel();
             label.setIcon(createIcon("/Images/LogotipoBlanc.png", 300, 100));
             label.setBounds(0, 5, 300, 100);
-            up.add(label);
+            JButton logotipo = new JButton();
+            logotipo.add(label);
+            logotipo.setBackground(Color.decode("#212121"));
+            logotipo.setBounds(0, 5, 300, 100);
+            
+            logotipo.addActionListener((e) -> {
+                
+            });
+            
+            
+            
+            up.add(logotipo);
 
             JButton btnExit = new JButton();
             btnExit.setBackground(Color.LIGHT_GRAY);
@@ -141,10 +162,8 @@ public class Principal extends JFrame {
                 if(!tienda.actualUser.getCarrito().isSearched()){
                     tienda.actualUser.getCarrito().search(tienda);
                 }
-                if(tienda.actualUser.getCarrito().getCarrito().isEmpty()){
-                    cart();
-                    actionsPrev.addAction("Car|");
-                }
+                cart();
+                actionsPrev.addAction("Car|");
                 
             });
         contentPane.add(up);
@@ -171,6 +190,7 @@ public class Principal extends JFrame {
         switch(subActions[0]){
             case "out":
                 dispose();
+                System.out.println("estoy cerrando 2");
             break;
             case "Search":
                 System.out.println("Searchhhh");
@@ -206,16 +226,19 @@ public class Principal extends JFrame {
    
     public void cart(){
 
+        if(!(center instanceof centerCarr)|| center.productoB){
+            center.getCenterPane().setVisible(false);
             center = new centerCarr(this, "this");
             center.getCenterPane().setVisible(true);
             contentPane.add(center.getCenterPane());
+        }
 
         contentPane.validate();
     }
     
     public void search(String busqueda){
 
-        if(!(center instanceof centerSearch) || !center.orden.equals(busqueda)){
+        if(!(center instanceof centerSearch) || !center.orden.equals(busqueda) || center.productoB){
             center.getCenterPane().setVisible(false);
             center = new centerSearch(this, busqueda);
             center.getCenterPane().setVisible(true);
