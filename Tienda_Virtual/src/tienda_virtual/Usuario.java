@@ -14,7 +14,6 @@ public class Usuario {
     private String password;
     private  Carrito carrito;
     public DinamicArray<String> productos;
-    private Heap<Servicio> Servicios;
     private Garage garage;
     
     private int servlim;
@@ -82,7 +81,7 @@ public class Usuario {
      * @param carritos lista de carros guardados
      */
    
-    public Usuario(String username, String desc,DinamicArray<GuardCarr> carritos) {
+    public Usuario(String username, String desc, Hash_Map<String, GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = null;
@@ -98,7 +97,7 @@ public class Usuario {
      * @param carritos 
      */
     
-    public Usuario(String username, String desc, Carrito carrito,DinamicArray<GuardCarr> carritos) {
+    public Usuario(String username, String desc, Carrito carrito, Hash_Map<String, GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = carrito;
@@ -169,7 +168,7 @@ public class Usuario {
         return carrito;
     }
 
-    public DinamicArray<GuardCarr> getGarage() {
+    public Hash_Map<String, GuardCarr> getGarage() {
         return garage.getGarage();
     }
 
