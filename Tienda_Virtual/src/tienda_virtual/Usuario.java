@@ -1,12 +1,5 @@
 package tienda_virtual;
 
-/**
- * Clase que define los Usuarios de la aplicacion, 
- * guarda su nombre descripcion, productos subidos,
- * su carro de compras, y el garage de carros que desea guardar.
- * 
- * @author Team
- */
 
 public class Usuario {
     public String username;
@@ -14,6 +7,7 @@ public class Usuario {
     private String password;
     private  Carrito carrito;
     public DinamicArray<String> productos;
+    public DinamicArray<String> producAdquire;
     private Garage garage;
     
     private int servlim;
@@ -33,6 +27,8 @@ public class Usuario {
         productos = new DinamicArray<>();
         carrito = new Carrito();
         garage = new Garage();
+        producAdquire = new DinamicArray<>();
+        
     }
     
     /**
@@ -59,6 +55,7 @@ public class Usuario {
         this.desc = desc;
         this.carrito = carrito;
         productos = new DinamicArray<>();
+        producAdquire = new DinamicArray<>();
     }
     
     /**
@@ -81,12 +78,13 @@ public class Usuario {
      * @param carritos lista de carros guardados
      */
    
-    public Usuario(String username, String desc, Hash_Map<String, GuardCarr> carritos) {
+    public Usuario(String username, String desc,DinamicArray<GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = null;
         productos = new DinamicArray<>();
         this.garage = new Garage(carritos);
+        producAdquire = new DinamicArray<>();
     }
     
     /**
@@ -97,12 +95,13 @@ public class Usuario {
      * @param carritos 
      */
     
-    public Usuario(String username, String desc, Carrito carrito, Hash_Map<String, GuardCarr> carritos) {
+    public Usuario(String username, String desc, Carrito carrito,DinamicArray<GuardCarr> carritos) {
         this.username = username;
         this.desc = desc;
         this.carrito = carrito;
         productos = new DinamicArray<>();
         this.garage = new Garage(carritos);
+        producAdquire = new DinamicArray<>();
     }
     
     /**
@@ -127,6 +126,7 @@ public class Usuario {
         username= "";
         productos = new DinamicArray<>();
         carrito = new Carrito();
+        producAdquire = new DinamicArray<>();
     }
     // Setters y Getters
     
@@ -168,7 +168,7 @@ public class Usuario {
         return carrito;
     }
 
-    public Hash_Map<String, GuardCarr> getGarage() {
+    public DinamicArray<GuardCarr> getGarage() {
         return garage.getGarage();
     }
 

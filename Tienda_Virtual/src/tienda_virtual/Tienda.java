@@ -19,6 +19,30 @@ public class Tienda{
             prod1.addBack(this.prod.get(indexIn+i));
         }
         return prod1;
+    
+    }
+    
+    public Producto BuscarId(String key){
+        Producto get= null;
+        for (int i = 0; i < prod.tam; i++) {
+            if(prod.get(i).getId().equals(key)){
+                get = prod.get(i);
+            }
+        }
+        return get;
+    }
+    
+    public Usuario User(Producto prod){
+        Usuario user = null;
+        String username= prod.getSeller();
+        for (int i = 0; i < this.users.tam; i++) {
+            if(users.get(i).getUsername().equals(username)){
+                user = users.get(i);
+                break;
+            }
+        }
+        
+        return user;
     }
     
     /**
@@ -29,18 +53,21 @@ public class Tienda{
      */
     
     public DinamicArray<Producto> BuscarProd(String search){
+        long TInicio, TFin;
+        TInicio = System.currentTimeMillis();
         search = search.trim();
         DinamicArray<Producto> prod1 = new DinamicArray<>();
         DinamicArray<Producto> not1 = new DinamicArray<>();
         if(search.equals("")){
-            return prod;
+            return prod1;
         }
         
         for(int i=0; i<prod.tam;i++){
-            if(prod.get(i).getNombre().contains(search)){
-                prod1.addBack(prod.get(i));
+            Producto prods = prod.get(i);
+            if(prods.getNombre().contains(search)){
+                prod1.addBack(prods);
             }else{
-                not1.addBack(prod.get(i));
+                not1.addBack(prods);
             }
         }
         
@@ -79,6 +106,9 @@ public class Tienda{
                     prod1.addBack(prod2.get(i));
                 }
             }
+            
+            TFin = System.currentTimeMillis();
+        LectoUpdater.getTime(TFin - TInicio,"Buscar cosas");
         
         return prod1;
     }
@@ -186,8 +216,7 @@ public class Tienda{
     public void  vender(String nombre, double value){
         Producto objeto = new Producto(nombre, value, actualUser.username);
         prod.addBack(objeto);
-        actualUser.productos.addBack(objeto.getId());
-        LectoUpdater.anadirProducto(objeto, actualUser);
+        actualUser.productos.addBack(objeto.getId()); 
     }
     public Carrito sintetizar(String codigo, String carname){
         int n = (int)(codigo.length()/5);
@@ -219,11 +248,11 @@ public class Tienda{
         DinamicArray<Producto> productos =  new DinamicArray<>();
         
         for(int i = 0; i< actualUser.productos.tam;i++){
-            System.out.println("hey hey hey hey");
+            String id =  actualUser.productos.get(i);
             for(int j=0; j < prod.tam;j++){
-                System.out.println(prod.get(j).getId() +" habia una "+ actualUser.productos.get(i));
-                if(prod.get(j).getId().equals(actualUser.productos.get(i))){
-                    productos.addBack(prod.get(j));
+                Producto prods = prod.get(j);
+                if(prods.getId().equals(id)){
+                    productos.addBack(prods);
                     System.out.println("heyheyheyhey");
                     break;
                 }
@@ -251,4 +280,4 @@ public class Tienda{
         return index;
     }
 }
-                                                                                                                                           
+                                                                                                                                       

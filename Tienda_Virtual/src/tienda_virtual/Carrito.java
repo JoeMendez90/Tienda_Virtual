@@ -29,6 +29,10 @@ public class Carrito {
         searched=true;
     }
     
+    
+    public void vaciar(){
+        carrito=new DinamicArray<>();
+    }
     /**
      * el iniciador con string guarda el id dado, el carrito no lo inicia, por que solo es referencia
      * su longitud igualmente es 0 y no ha sido buscado, dado que no tiene los productos enlistados en su id.
