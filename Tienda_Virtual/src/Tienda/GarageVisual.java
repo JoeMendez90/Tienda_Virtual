@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import tienda_virtual.Garage;
 
 /**
  *
@@ -21,6 +22,7 @@ import javax.swing.border.EmptyBorder;
  */
 public class GarageVisual extends JPanel{
     
+    private Garage garage;
     
     
     public GarageVisual(){
@@ -29,16 +31,19 @@ public class GarageVisual extends JPanel{
     }
     
     private void generateGarage(){
-        setLayout(new BorderLayout());
+        setLayout(null);
         setBounds(0, 0, 1000, 500);
         setBackground(Color.red);
+            JScrollPane scrollPane_1 = new JScrollPane();
+            scrollPane_1.setBounds(100, 20, 500, 500);
+            scrollPane_1.setBackground(Color.decode("#424242"));
+            
+            scrollPane_1.setViewportView(visualactualOption());
             JPanel Garage2 = new JPanel();
             Garage2.setLayout(new BoxLayout(Garage2, BoxLayout.X_AXIS));
                 JPanel Visual  = new JPanel();
                 Visual.setLayout(new BoxLayout(Visual, BoxLayout.Y_AXIS));
-                    JScrollPane scrollPane_1 = new JScrollPane();
-                    scrollPane_1.setBounds(20, 20, 1000, 500);
-                    scrollPane_1.setBackground(Color.decode("#424242"));
+                    
                     JPanel fondo = new JPanel();
                     fondo.setBackground(Color.green);
                     JPanel fondo2 = new JPanel();
@@ -59,6 +64,10 @@ public class GarageVisual extends JPanel{
             Buttons.setSize(1000, 100);
             Buttons.setLayout(new BoxLayout(Buttons, BoxLayout.X_AXIS));
                 //Button
+    }
+
+    private Component visualactualOption() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

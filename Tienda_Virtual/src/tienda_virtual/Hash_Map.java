@@ -58,6 +58,8 @@ public class Hash_Map <K, V> {
     private int getHash(K key) {
         return key == null ? 0 : Math.abs(key.hashCode());
     }
+    
+    
 
     @Override
     public String toString() {

@@ -145,6 +145,7 @@ public class Principal extends JFrame {
                 if(tienda.actualUser.getUsername().equals("")){
                     Loggin login = new Loggin(this, true);
                     login.setVisible(true);
+                    tienda.actualUser.searchGarage(tienda);
                 }
                 if(!tienda.actualUser.getUsername().equals("")){
                     center.getCenterPane().setVisible(false);

@@ -137,23 +137,32 @@ public class Carrito {
     /**
      * si el carro no fue buscado busca los productos dentro del id para añadirlos al carro
      * @param tienda lugar donde se guardan todos los productos
+     * @return 
      */
     
-    public void search(Tienda tienda){
+    public boolean search(Tienda tienda){
         if(!searched){
             length=0;
             String[] palabras = carId.split("#");
             for (int i=1; i<palabras.length;i++) {
+                int a=0;
                 for (int j = 0; j< tienda.prod.tam; j++) {
                     if (tienda.prod.get(j).getId().equals("#" + palabras[i])) {
                         carrito.addBack(tienda.prod.get(j));
                         length++;
                         break;
                     }
+                    a=j;
+                }
+                if(a==tienda.prod.tam){
+                    return false;
                 }
             }
+            
             searched=true;
+            
         }
+        return true;
     }
     
     /**

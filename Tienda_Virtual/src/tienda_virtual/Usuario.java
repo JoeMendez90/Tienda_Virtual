@@ -40,6 +40,10 @@ public class Usuario {
      * @param desc descripcion nueva
      */
     
+    public void searchGarage(Tienda tienda){
+        garage.searchGarage(tienda);
+    }
+    
    public Usuario(String username, String desc){
         this(username);
         this.desc=desc;
