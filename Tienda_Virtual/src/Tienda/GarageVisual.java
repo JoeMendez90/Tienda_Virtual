@@ -23,6 +23,11 @@ import tienda_virtual.Garage;
 public class GarageVisual extends JPanel{
     
     private Garage garage;
+
+    /**
+     *
+     */
+    
     
     
     public GarageVisual(){
@@ -67,7 +72,8 @@ public class GarageVisual extends JPanel{
     }
 
     private Component visualactualOption() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new JPanel();
     }
     
     

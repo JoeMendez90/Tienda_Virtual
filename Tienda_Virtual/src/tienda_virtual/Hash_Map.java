@@ -38,28 +38,53 @@ public class Hash_Map <K, V> {
 			//elements = new Pairs[capacity];
 			elements = new DinamicArray<>();
                         for(int i = 0; i < old.size(); i++){
-				while(old.get(i) != null) {
-					put(old.get(i).key, old.get(i).value);
-					//ob = ob.next;
-                                        old.get(i).next = old.get(i);
-				}
+                            Pairs<K,V> heye = old.get(i);
+                            while(old.get(i) != null) {
+                                    put(heye.key, heye.value);
+                                    //ob = ob.next;
+
+                                     heye = heye.next;
+                            }
 			}
 		}
 		
 		Pairs<K, V> pairs = new Pairs<> (key, value, null);
 		
 		int element = getHash(key) % getElementSize();
+                Pairs<K,V> heye = elements.get(element);
+                if(heye==null){
+                    heye = pairs;
+                    return;
+                }
+                
+                while(heye.next!= null){
+                    heye = heye.next;
+                }
+                heye.next = pairs;
+                
 	}
 	
-	private int getElementSize() {
-        return elements.size();
+    private int getElementSize() {
+    return elements.size();
     }
 
     private int getHash(K key) {
         return key == null ? 0 : Math.abs(key.hashCode());
     }
     
-    
+    public V get(K key){
+        V valee = null;
+        int element = getHash(key) % getElementSize();
+        Pairs<K,V> asd = elements.get(element);
+        while(asd.next!= null){
+            if(asd.getKey().equals(key)){
+                valee = asd.getValue();
+                break;
+            }
+        }
+        
+        return valee;
+    }
 
     @Override
     public String toString() {
@@ -67,13 +92,13 @@ public class Hash_Map <K, V> {
         for(int i = 0; i < elements.size(); i++){
         
             sb.append("[");
-            
-            while (elements.get(i) != null) {
-                sb.append(elements.get(i));
-                if (elements.get(i).next != null) {
+            Pairs<K,V> heye  = elements.get(i);
+            while (heye != null) {
+                sb.append(heye);
+                if (heye.next != null) {
                     sb.append(", ");
                 }
-                elements.get(i).next = elements.get(i);
+                heye = heye.next;
             }
             sb.append("]");
         }

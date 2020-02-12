@@ -40,8 +40,8 @@ public class Garage {
     }
     
     public void searchGarage(Tienda tienda){
-        for(int i = 0; i< garage.elements.tam;i++){
-            garage.elements.get(i).value.getCarr().search(tienda);
+        for(int i = 0; i< names.tam;i++){
+            garage.get(names.get(i)).getCarr().search(tienda);
         }
     }
     
