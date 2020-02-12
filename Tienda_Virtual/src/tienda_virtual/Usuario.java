@@ -174,8 +174,8 @@ public class Usuario {
         return carrito;
     }
 
-    public Hash_Map<String,GuardCarr> getGarage() {
-        return garage.getGarage();
+    public Garage getGarage() {
+        return garage;
     }
 
     public void setProductos(DinamicArray<String> productos) {

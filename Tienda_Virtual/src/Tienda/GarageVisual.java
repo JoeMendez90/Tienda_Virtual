@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import tienda_virtual.Garage;
+import tienda_virtual.Carrito;
+
 
 /**
  *
@@ -23,14 +25,15 @@ import tienda_virtual.Garage;
 public class GarageVisual extends JPanel{
     
     private Garage garage;
+    private String actualVen;
+    private Carrito actualCar;
 
-    /**
-     *
-     */
     
     
-    
-    public GarageVisual(){
+    public GarageVisual(Garage garage, Carrito actualCar){
+        this.garage = garage;
+        this.actualCar = actualCar;
+        actualVen= "actual";
         generateGarage();
         
     }

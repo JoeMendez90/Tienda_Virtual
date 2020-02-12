@@ -396,7 +396,7 @@ public class centerCuenta extends CenterPane{
 
 
     private Component Garage() {
-        Component Garage = new GarageVisual();
+        Component Garage = new GarageVisual(principal.tienda.actualUser.getGarage(),principal.tienda.actualUser.getCarrito());
         return Garage;
     }
 
