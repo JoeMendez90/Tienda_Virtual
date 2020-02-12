@@ -100,9 +100,7 @@ public class ProductoVisual extends JPanel {
                 System.out.println("existe");
             }else {
                 fdas.add(carro);
-                if(user.productos.exist(producto.getId())||user.producAdquire.exist(producto.getId())) {
-                    carro.setEnabled(false);
-                }
+                    carro.setEnabled(!(producto.getSeller().equals(user.getUsername()) /*|| user.producAdquire.exist(producto.getId())*/)); 
             }
             
             carro.addActionListener((e) -> {
