@@ -162,6 +162,7 @@ public class centerCarr extends CenterPane{
                 extra =  new ProductoVisual(proer, principal.tienda.actualUser, principal.tienda);
                 extra.setVisible(true);
                 centerPane.add(extra);
+                productoB = true;
             });
             
             JButton elimi = new JButton("X");
