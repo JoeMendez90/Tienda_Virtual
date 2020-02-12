@@ -249,7 +249,7 @@ public class centerSearch extends CenterPane{
             @Override
             public void actionPerformed(ActionEvent e) {
                 center.setVisible(false);
-                center = new ProductoVisual(producto,principal.tienda.actualUser);
+                center = new ProductoVisual(producto,principal.tienda.actualUser,principal.tienda);
                 center.setVisible(true);
                 centerPane.add(center);
                 centerPane.validate();
