@@ -43,7 +43,7 @@ public class Principal extends JFrame {
     }
     
     private  void init(){
-        center= new centerSearch(this, "");
+        center= new centerDefault(this, "");
         contentPane = new JPanel();
         contentPane.setBackground(Color.decode("#616161"));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,7 +100,14 @@ public class Principal extends JFrame {
             logotipo.setBounds(0, 5, 300, 100);
             
             logotipo.addActionListener((e) -> {
-                
+                if(!(center instanceof centerDefault) || center.productoB){
+                    center.getCenterPane().setVisible(false);
+                    center = new centerDefault(this, "");
+                    center.getCenterPane().setVisible(true);
+                    contentPane.add(center.getCenterPane());
+                }
+
+                contentPane.validate();
             });
             
             

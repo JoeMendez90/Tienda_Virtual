@@ -1,22 +1,19 @@
 
 package Tienda;
 
+import com.sun.scenario.effect.impl.state.RenderState;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.regex.Pattern;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import tienda_virtual.DinamicArray;
 import tienda_virtual.Producto;
-import tienda_virtual.ReturnAction;
-import tienda_virtual.Tienda;
 
 /**
  *
@@ -29,6 +26,7 @@ public class centerCarr extends CenterPane{
     private int save;
     private JLabel precio;
     private int precio2;
+    private JPanel extra;
     
     
     public centerCarr(Principal principal, String orden) {
@@ -37,38 +35,71 @@ public class centerCarr extends CenterPane{
 
     @Override
     protected void createButton() {
+        extra = new JPanel();
+        extra = new JPanel();
+        extra.setBounds(0, 0, 1265, 538);
+        extra.setBackground(Color.decode("#424242"));
+        extra.setLayout(null);
         Carr = principal.tienda.actualUser.getCarrito().getCarrito();
         centerPane.setLayout(null);
         scrollPane_1 = new JScrollPane();
         scrollPane_1.setBounds(20, 20, 600, 400);
         scrollPane_1.setBackground(Color.decode("#424242"));
         
-        centerPane.add(scrollPane_1);
+        extra.add(scrollPane_1);
         precio2 = 0;
         precio = new JLabel(precio2+"");
         JLabel total = new JLabel("Total:");
-        total.setBounds(400,400,200,100);
+        total.setBounds(370,400,200,100);
         total.setForeground(Color.WHITE);
         total.setFont(Principal.createFont(total, 20));
         
         scrollPane_1.setViewportView(reload());
         
         
-        precio.setBounds(450,400,200,100);
+        precio.setBounds(460,400,200,100);
         precio.setForeground(Color.WHITE);
         precio.setFont(Principal.createFont(precio, 20));
         
+        JButton comprar = new JButton("comprar");
+        comprar.setBounds(700,100,100,50);
         
-        centerPane.add(total);
-        centerPane.add(precio);
+        JButton vaciar = new JButton("vaciar carro");
+        vaciar.setBounds(700,300,100,50);
+        if(Carr.isEmpty()){
+            comprar.setEnabled(false);
+            vaciar.setEnabled(false);
+        }
+        
+        if(principal.tienda.actualUser.getUsername().length()<1){
+            comprar.setEnabled(false);
+        }
+        
+        comprar.addActionListener((e) -> {
+            for(int i=0; i< Carr.tam;i++){
+                principal.tienda.actualUser.producAdquire.addBack(Carr.get(i).getNombre());
+            }
+            principal.tienda.actualUser.getCarrito().vaciar();
+            scrollPane_1.setViewportView(reload());
+            scrollPane_1.validate();
+        });
+        
+        vaciar.addActionListener((e) -> {
+            principal.tienda.actualUser.getCarrito().vaciar();
+            scrollPane_1.setViewportView(reload());
+            scrollPane_1.validate();
+        });
+        
+        extra.add(comprar);
+        extra.add(vaciar);
+        
+        extra.add(total);
+        extra.add(precio);
         
         
-              
+        centerPane.add(extra);
         //scrollPane_1.setViewportView(/*createListSet()*/);
         
-        if(Carr.isEmpty()){
-            
-        }
         
     }
     
@@ -88,9 +119,9 @@ public class centerCarr extends CenterPane{
             */
             JButton produ = new JButton();
             
+            Producto proer = principal.tienda.actualUser.getCarrito().getCarrito().get(i);
             
-            
-            String Mane = principal.tienda.actualUser.getCarrito().getCarrito().get(i).getNombre();
+            String Mane = proer.getNombre();
             
             String valor = "$"+(int)principal.tienda.actualUser.getCarrito().getCarrito().get(i).getValor();
             
@@ -126,6 +157,12 @@ public class centerCarr extends CenterPane{
             
             
             produ.add(pordu);
+            produ.addActionListener((e) -> {
+                extra.setVisible(false);
+                extra =  new ProductoVisual(proer, principal.tienda.actualUser, principal.tienda);
+                extra.setVisible(true);
+                centerPane.add(extra);
+            });
             
             JButton elimi = new JButton("X");
             

@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import tienda_virtual.Producto;
+import tienda_virtual.Tienda;
 import tienda_virtual.Usuario;
 
 /**
@@ -27,10 +28,12 @@ public class ProductoVisual extends JPanel {
     private JPanel extra;
     private Producto producto;
     private Usuario user;
+    private Tienda tienda;
     
-    public ProductoVisual(Producto producto,Usuario Actualuser){
+    public ProductoVisual(Producto producto,Usuario Actualuser,Tienda tienda){
         this.producto = producto;
         user = Actualuser;
+       this.tienda = tienda;
         generate();
     }
     
@@ -63,15 +66,18 @@ public class ProductoVisual extends JPanel {
         
         JButton Seller = new JButton(producto.getSeller());
         
-        if(producto.getSeller().equals(user.username)){
-            Seller.setEnabled(false);
-        }
-        
-        JButton Sd  = new JButton(producto.getSeller());
         
         if(producto.getSeller().equals(user.username)){
             Seller.setEnabled(false);
         }
+        
+        Seller.addActionListener((e) -> {
+            extra.setVisible(false);
+            extra = new UsuarioVisual(tienda.User(producto) , tienda);
+            extra.setVisible(true);
+            add(extra);
+        });
+        
         
         JPanel bottom = new JPanel();
         bottom.setLayout(new BoxLayout(bottom, BoxLayout.X_AXIS));
@@ -87,13 +93,16 @@ public class ProductoVisual extends JPanel {
             JPanel fdas = new JPanel();
             
             JButton carro = new JButton("Añadir al carro");
-            JButton eliCarro = new JButton("eliminar del carro");
+            JButton eliCarro = new JButton("Eliminar del carro");
             
             if(user.getCarrito().exists(producto.getId())){
                 fdas.add(eliCarro);
                 System.out.println("existe");
-            }else{
+            }else {
                 fdas.add(carro);
+                if(user.productos.exist(producto.getId())||user.producAdquire.exist(producto.getId())) {
+                    carro.setEnabled(false);
+                }
             }
             
             carro.addActionListener((e) -> {
