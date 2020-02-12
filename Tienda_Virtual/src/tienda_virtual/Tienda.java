@@ -194,6 +194,18 @@ public class Tienda{
                     result=true;
                     Carrito carr= actualUser.getCarrito();
                     actualUser = users.get(i);
+                    for(int j = 0; j < actualUser.productos.size(); j++){
+                        carr.sacar(actualUser.productos.get(j));
+                    }
+                    for(int j = 0; j < actualUser.producAdquire.size(); j++){
+                        //carr.sacar(actualUser.producAdquire.get(j));
+                        String holiwis = actualUser.producAdquire.get(j);
+                        System.out.println(holiwis);
+                        for(int k = 0; k < carr.; k++){
+                            System.out.println(carr.getCarrito().get(k));
+                        }
+                        carr.sacar(holiwis);
+                    }
                     actualUser.setCarrito(carr);
                     break;
                 }
