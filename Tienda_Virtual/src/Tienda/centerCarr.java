@@ -77,7 +77,8 @@ public class centerCarr extends CenterPane{
         
         comprar.addActionListener((e) -> {
             for(int i=0; i< Carr.tam;i++){
-                principal.tienda.actualUser.producAdquire.addBack(Carr.get(i).getNombre());
+                principal.tienda.actualUser.producAdquire.addBack(Carr.get(i).getId());
+                System.out.println(Carr.get(i).getNombre());
             }
             principal.tienda.actualUser.getCarrito().vaciar();
             scrollPane_1.setViewportView(reload());

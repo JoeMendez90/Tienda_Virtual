@@ -54,10 +54,8 @@ public class centerCuenta extends CenterPane{
     
         pestanas.addTab("Cuenta", Cuenta());
         pestanas.addTab("Productos", Productos());
-        pestanas.addTab("Servicios", Servicios());
         pestanas.addTab("Garage", Garage());
         pestanas.addTab("Archivo", Archivo());
-        pestanas.addTab("Contratos", Contratos());
         centerPane.add(pestanas);
     }
     
@@ -166,7 +164,44 @@ public class centerCuenta extends CenterPane{
         
         return list;
     }
+    public JPanel createList2(DinamicArray<Producto> serch){
+        JPanel list = new JPanel();
+        list.setLayout(new BoxLayout(list, BoxLayout.X_AXIS));
+        list.setBackground(Color.decode("#424242"));
+        list.setBounds(0, 0,1000, 400);
+        
+        if(serch.tam%2==0){
+            for (int i = 0; i < serch.tam; i+=2) {
+                list.add(createDoubleProd2(serch.get(i),serch.get(i+1)));
+            }
+        }else{
+            for (int i = 0; i < serch.tam-1; i+=2) {
+                list.add(createDoubleProd2(serch.get(i),serch.get(i+1)));
+            }
+            list.add(createProd2(serch.get(serch.tam-1)));
+        }
+        
+        return list;
+    }
 
+    public JPanel createDoubleProd2(Producto producto, Producto producto2){
+        JPanel pan = new JPanel();
+        pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
+        pan.setBounds(0, 0, 250, 500);
+        pan.add(createGenProduct2(producto));
+        pan.add(createGenProduct2(producto2));
+        return pan;
+    }
+    
+    public JPanel createProd2(Producto producto2){
+        JPanel pan = new JPanel();
+        pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
+        pan.setBounds(0, 0, 250, 500);
+        pan.add(createGenProduct2(producto2));
+        pan.add(Box.createRigidArea(new Dimension(250, 250)));
+        return pan;
+    }
+    
     public JPanel createDoubleProd(Producto producto, Producto producto2){
         JPanel pan = new JPanel();
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
@@ -188,6 +223,11 @@ public class centerCuenta extends CenterPane{
     public JPanel createListSet(JComboBox box, int div, DinamicArray<Producto> search){
         DinamicArray<Producto> serch = search2(box,div,search);
         return createList(serch);
+    }
+    
+    public JPanel createListSet2(JComboBox box, int div, DinamicArray<Producto> search){
+        DinamicArray<Producto> serch = search2(box,div,search);
+        return createList2(serch);
     }
     
     
@@ -246,6 +286,33 @@ public class centerCuenta extends CenterPane{
         prod2.add(Prod);
         prod2.add(Prod3);
         prod2.add(Prod4);
+        return prod2;
+    }
+    public JPanel createGenProduct2(Producto producto){
+        JLabel label1 = new JLabel(producto.getNombre());
+        JLabel label2 = new JLabel(producto.getSeller());
+        JLabel label3 = new JLabel(producto.getValor()+"");
+        JPanel label = new JPanel();
+        label.setLayout(new BoxLayout(label, BoxLayout.Y_AXIS));
+        label.setBounds(0,0,250,250);
+        label.add(label1);
+        label.add(label2);
+        label.add(label3);
+        
+        JButton Prod = new JButton();
+        Prod.add(label);
+        Prod.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //StackAction("select|"+producto.getId());
+            }
+            
+        });
+        
+        
+        JPanel prod2 = new JPanel();
+        prod2.setLayout(new BoxLayout(prod2, BoxLayout.Y_AXIS));
+        prod2.add(Prod);
         return prod2;
     }
 
@@ -327,14 +394,6 @@ public class centerCuenta extends CenterPane{
         return Cuenta1;
     }
 
-    private Component Servicios() {
-        JPanel Contrat = new  JPanel();
-        Contrat.setBounds(0, 0, 1000, 500);
-        JLabel text = new JLabel("No hay Servicios");
-        text.setFont(Principal.createFont(text,100));
-        Contrat.add(text);
-        return Contrat;
-    }
 
     private Component Garage() {
         Component Garage = new GarageVisual();
@@ -344,18 +403,57 @@ public class centerCuenta extends CenterPane{
     private Component Archivo() {
         JPanel Contrat = new  JPanel();
         Contrat.setBounds(0, 0, 1000, 500);
-        JLabel text = new JLabel("No hay Archivo");
-        text.setFont(Principal.createFont(text,100));
-        Contrat.add(text);
-        return Contrat;
-    }
+        Contrat.setBackground(Color.red);
+        Contrat.setLayout(null);
+        DinamicArray<Producto> search = principal.tienda.actualsProductsAdquir();
+        System.out.println(search.tam);
+        if(search.isEmpty()){
+            return Error("Productos");
+        }
+        
+        int div=search.tam/50; 
+        System.out.println(div + "div");
+        
+        String[] numbers = new String[div+1];
+        for (int i = 1; i < div+2; i++) {
+            numbers[i-1]=i+"";
+        }
+        int save=-1;
+        JComboBox box = new JComboBox<>(numbers);
+        box.setBounds(1150, 120, 60, 27);
+        JScrollPane scrollPane_1 = new JScrollPane();
+        scrollPane_1.setBounds(20, 20, 1000, 500);
+        scrollPane_1.setBackground(Color.decode("#424242"));
 
-    private Component Contratos() {
-        JPanel Contrat = new  JPanel();
-        Contrat.setBounds(0, 0, 1000, 500);
-        JLabel text = new JLabel("No hay Contratos");
-        text.setFont(Principal.createFont(text,100));
-        Contrat.add(text);
+        JLabel busqueda = new JLabel("Productos en");
+        busqueda.setBounds(1050, 200, 300,50);
+        busqueda.setForeground(Color.white);
+        busqueda.setFont(Principal.createFont(busqueda, 20));
+        JLabel busqueda2 = new JLabel("Venta: " + principal.tienda.actualUser.productos.tam);
+        busqueda2.setBounds(1050, 300, 200,50);
+        busqueda2.setForeground(Color.white);
+        busqueda2.setFont(Principal.createFont(busqueda2, 20));
+
+        Contrat.add(busqueda);
+        Contrat.add(busqueda2);
+
+
+        box.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(save!=box.getSelectedIndex()){
+                    //StackAction("set|"+box.getSelectedIndex());
+                }
+            }
+        });
+        box.setSelectedIndex(0);
+        Contrat.add(box);
+        
+        Contrat.add(scrollPane_1);
+
+
+        scrollPane_1.setViewportView(createListSet2(box,div,search));
+        
         return Contrat;
     }
     

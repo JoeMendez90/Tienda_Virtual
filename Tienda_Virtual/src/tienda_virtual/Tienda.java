@@ -274,6 +274,22 @@ public class Tienda{
         return productos;
     }
     
+    public DinamicArray<Producto> actualsProductsAdquir() {
+        DinamicArray<Producto> productos =  new DinamicArray<>();
+        
+        for(int i = 0; i< actualUser.producAdquire.tam;i++){
+            String id =  actualUser.producAdquire.get(i);
+            for(int j=0; j < prod.tam;j++){
+                Producto prods = prod.get(j);
+                if(prods.getId().equals(id)){
+                    productos.addBack(prods);
+                    break;
+                }
+            }
+        }
+        return productos;
+    }
+    
     /**
      * realiza una busqueda del usuario por medio del nombre, y devuelve su indice en lista, 
      * esta funcion tambien es util para saber si ese nombre existe
