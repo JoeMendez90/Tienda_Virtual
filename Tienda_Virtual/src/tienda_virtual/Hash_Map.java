@@ -12,7 +12,7 @@ package tienda_virtual;
 public class Hash_Map <K, V> {
 	
 	//private Pairs<K, V>[] elements;
-        private DinamicArray<Pairs<K, V>> elements;
+        public DinamicArray<Pairs<K, V>> elements;
 	private int capacity;
 	private int size = 0;
 	private double lf = 0.80;

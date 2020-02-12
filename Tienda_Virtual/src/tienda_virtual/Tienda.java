@@ -201,7 +201,7 @@ public class Tienda{
                         //carr.sacar(actualUser.producAdquire.get(j));
                         String holiwis = actualUser.producAdquire.get(j);
                         System.out.println(holiwis);
-                        for(int k = 0; k < carr.; k++){
+                        for(int k = 0; k < carr.getCarrito().tam; k++){
                             System.out.println(carr.getCarrito().get(k));
                         }
                         carr.sacar(holiwis);
